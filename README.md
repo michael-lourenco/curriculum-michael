@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Currículo Pessoal em Next.js
 
-## Getting Started
+Este repositório contém o código-fonte do meu currículo, desenvolvido utilizando **Next.js**. O objetivo deste projeto é apresentar minhas informações profissionais e experiências de forma interativa e acessível. 
 
-First, run the development server:
+## Tecnologias Utilizadas
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Next.js**: Framework React para aplicações web modernas com renderização no lado do servidor e funcionalidades avançadas de roteamento.
+- **TypeScript**: Linguagem com tipagem estática opcional que melhora a segurança e a produtividade no desenvolvimento.
+- **Tailwind CSS**: Framework CSS que facilita a criação de layouts responsivos e modernos.
+- **PostCSS**: Ferramenta para transformar o CSS com plugins, usada para otimizar o estilo final.
+
+## Estrutura do Projeto
+
+Este projeto segue a estrutura recomendada pelo Next.js, utilizando o **App Router** e **TypeScript**:
+
+```
+src/
+├── app/
+│   ├── components/    # Componentes reutilizáveis do currículo
+│   ├── layout.tsx     # Layout base para todas as páginas
+│   ├── page.tsx       # Página inicial do currículo
+│   ├── pages/         # Outras páginas e seções do currículo
+│   └── styles/        # Estilos globais
+├── public/            # Arquivos estáticos
+├── types/             # Definições de tipos TypeScript
+└── utils/             # Funções utilitárias
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Funcionalidades
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Apresentação de informações profissionais como experiência, formação acadêmica, habilidades técnicas e projetos pessoais.
+- Layout totalmente responsivo para diferentes dispositivos, desde smartphones até desktops.
+- Links interativos para GitHub, LinkedIn e contato por email.
+- Organização modular do código com componentes reutilizáveis.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## Como Executar Localmente
 
-To learn more about Next.js, take a look at the following resources:
+Siga os passos abaixo para rodar este projeto localmente:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Clone este repositório:
+```
+   git clone https://github.com/seu-usuario/meu-curriculo-nextjs.git
+```
+2. Acesse o diretório do projeto:
+```
+   cd meu-curriculo-nextjs
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. Instale as dependências:
+```
+   yarn install
+```
 
-## Deploy on Vercel
+4. Execute o projeto em modo de desenvolvimento:
+```
+   yarn dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5. Acesse no navegador:
+```
+   http://localhost:3000
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Como Personalizar
+
+Se você deseja criar seu próprio currículo a partir deste projeto, você pode personalizar facilmente o conteúdo em:
+
+- `src/app/components`: Componentes reutilizáveis do currículo.
+- `src/app/page.tsx`: Página principal que carrega as seções do currículo.
+- `src/app/pages`: Outras páginas e seções adicionais.
+
+Sinta-se à vontade para modificar o design, conteúdo e estrutura conforme necessário.
+
+## Contribuindo
+
+Sugestões e contribuições são bem-vindas! Sinta-se à vontade para abrir uma Issue ou enviar um Pull Request com melhorias ou correções.
+
+## Licença
+
+Este projeto está licenciado sob a licença MIT. Consulte o arquivo LICENSE para mais informações.
