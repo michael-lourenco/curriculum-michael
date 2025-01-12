@@ -55,7 +55,7 @@ const Skills: React.FC = () => {
           <div
             key={category}
             onClick={() => handleCategoryChange(category as keyof typeof skillsData)}
-            className={`inline-flex items-center rounded-md border px-2.5 py-0.5 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 border-transparent ${
+            className={`inline-flex items-center rounded-md border px-2.5 py-0.5 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 border-transparent ${
               selectedCategory === category
                 ? 'bg-black text-white hover:bg-gray-800'
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -65,6 +65,7 @@ const Skills: React.FC = () => {
           </div>
         ))}
       </div>
+
 
       {/* Skills List */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
