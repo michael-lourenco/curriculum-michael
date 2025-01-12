@@ -12,9 +12,9 @@ const Home: React.FC = () => {
     <div className="max-w-4xl mx-auto p-6 font-sans">
       <Header />
       <ProfessionalSummary />
+      <Skills />
       <Experience />
       <Education />
-      <Skills />
       <Languages />
       <PersonalProjects />
     </div>

@@ -50,21 +50,22 @@ const Skills: React.FC = () => {
       <h3 className="text-3xl font-bold text-center mb-6">Skills</h3>
 
       {/* Filters */}
-      <div className="flex justify-center mb-4 space-x-4">
+      <div className="mb-8 flex flex-wrap gap-2 justify-center">
         {Object.keys(skillsData).map((category) => (
-          <button
+          <div
             key={category}
             onClick={() => handleCategoryChange(category as keyof typeof skillsData)}
-            className={`px-4 py-2 rounded-lg ${
+            className={`inline-flex items-center rounded-md border px-2.5 py-0.5 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 border-transparent ${
               selectedCategory === category
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-200 hover:bg-gray-300'
-            }`}
+                ? 'bg-blue-500 text-white hover:bg-blue-400'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            } text-sm cursor-pointer`}
           >
             {category}
-          </button>
+          </div>
         ))}
       </div>
+
 
       {/* Skills List */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
