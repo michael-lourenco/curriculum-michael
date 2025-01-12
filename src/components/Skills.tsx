@@ -55,9 +55,9 @@ const Skills: React.FC = () => {
           <div
             key={category}
             onClick={() => handleCategoryChange(category as keyof typeof skillsData)}
-            className={`inline-flex items-center rounded-md border px-2.5 py-0.5 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 border-transparent ${
+            className={`inline-flex items-center rounded-md border px-2.5 py-0.5 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 border-transparent ${
               selectedCategory === category
-                ? 'bg-blue-500 text-white hover:bg-blue-400'
+                ? 'bg-black text-white hover:bg-gray-800'
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
             } text-sm cursor-pointer`}
           >
@@ -65,7 +65,6 @@ const Skills: React.FC = () => {
           </div>
         ))}
       </div>
-
 
       {/* Skills List */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -80,7 +79,7 @@ const Skills: React.FC = () => {
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2.5">
               <div
-                className="bg-blue-500 h-2.5 rounded-full"
+                className="bg-black h-2.5 rounded-full"
                 style={{ width: `${skill.percentage}%` }}
               ></div>
             </div>
@@ -94,7 +93,7 @@ const Skills: React.FC = () => {
         <div className="flex justify-center mt-6">
           <button
             onClick={() => setShowAll(!showAll)}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
           >
             {showAll ? 'Mostrar menos' : 'Mostrar mais'}
           </button>
