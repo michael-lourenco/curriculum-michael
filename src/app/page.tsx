@@ -6,10 +6,11 @@ import Education from '../components/Education';
 import Skills from '../components/Skills';
 import Languages from '../components/Languages';
 import PersonalProjects from '../components/PersonalProjects';
+import { ScrollToTop } from '@/components/ScrollToTop';
 
 const Home: React.FC = () => {
   return (
-    <div className="max-w-4xl mx-auto p-6 font-sans">
+    <main className="max-w-4xl mx-auto p-6 font-sans">
       <Header />
       <ProfessionalSummary />
       <Skills />
@@ -17,7 +18,8 @@ const Home: React.FC = () => {
       <Education />
       <Languages />
       <PersonalProjects />
-    </div>
+      <ScrollToTop />
+    </main>
   );
 };
 
