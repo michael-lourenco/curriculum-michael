@@ -8,7 +8,7 @@ const ContactInfo: React.FC = () => {
         📧{' '}
         <a
           href="mailto:kontempler@gmail.com"
-          className="text-blue-500 hover:underline"
+          className="text-black-500 hover:underline"
         >
           kontempler@gmail.com
         </a>
