@@ -4,7 +4,13 @@ import React, { useState } from 'react';
 import { FaClipboard, FaJs, FaPython, FaPhp, FaAws, FaGoogle, FaServer, FaGit, FaJira, FaCogs, FaClipboardList } from 'react-icons/fa';
 import { SiTypescript, SiDart, SiNotion, SiScrumalliance } from 'react-icons/si';
 
-const skillsData = {
+interface SkillData {
+  name: string;
+  icon: React.ReactNode;
+  percentage: number;
+}
+
+const skillsData: { [category: string]: SkillData[] } = {
   Linguagens: [
     { name: 'JavaScript', icon: <FaJs />, percentage: 90 },
     { name: 'TypeScript', icon: <SiTypescript />, percentage: 85 },
