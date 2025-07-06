@@ -6,6 +6,7 @@ import Education from '../components/Education';
 import Skills from '../components/Skills';
 import Languages from '../components/Languages';
 import PersonalProjects from '../components/PersonalProjects';
+import ActualPersonalProjects from '../components/ActualPersonalProjects';
 import { ScrollToTop } from '@/components/ScrollToTop';
 
 const Home: React.FC = () => {
@@ -17,6 +18,7 @@ const Home: React.FC = () => {
       <Experience />
       <Education />
       <Languages />
+      <ActualPersonalProjects />
       <PersonalProjects />
       <ScrollToTop />
     </main>

@@ -1,81 +1,117 @@
-# Currículo Pessoal em Next.js
+# Portfólio Pessoal - Michael Lourenço
 
-Este repositório contém o código-fonte do meu currículo, desenvolvido utilizando **Next.js**. O objetivo deste projeto é apresentar minhas informações profissionais e experiências de forma interativa e acessível. 
+Este repositório contém o código-fonte do meu portfólio profissional, desenvolvido utilizando **Next.js 14** com App Router. O objetivo deste projeto é apresentar minhas informações profissionais, experiências e habilidades de forma interativa e acessível.
 
-## Tecnologias Utilizadas
+## 🚀 Tecnologias Utilizadas
 
-- **Next.js**: Framework React para aplicações web modernas com renderização no lado do servidor e funcionalidades avançadas de roteamento.
-- **TypeScript**: Linguagem com tipagem estática opcional que melhora a segurança e a produtividade no desenvolvimento.
-- **Tailwind CSS**: Framework CSS que facilita a criação de layouts responsivos e modernos.
-- **PostCSS**: Ferramenta para transformar o CSS com plugins, usada para otimizar o estilo final.
+- **Next.js 14**: Framework React com App Router para aplicações web modernas
+- **TypeScript**: Linguagem com tipagem estática para maior segurança e produtividade
+- **Tailwind CSS**: Framework CSS utilitário para design responsivo e moderno
+- **React Icons**: Biblioteca de ícones para React
+- **ts-pattern**: Biblioteca para pattern matching em TypeScript
+- **PostCSS**: Ferramenta para transformar CSS com plugins
 
-## Estrutura do Projeto
+## 📁 Estrutura do Projeto
 
-Este projeto segue a estrutura recomendada pelo Next.js, utilizando o **App Router** e **TypeScript**:
+O projeto segue a estrutura do Next.js 14 com App Router:
 
 ```
 src/
 ├── app/
-│   ├── components/    # Componentes reutilizáveis do currículo
-│   ├── layout.tsx     # Layout base para todas as páginas
-│   ├── page.tsx       # Página inicial do currículo
-│   ├── pages/         # Outras páginas e seções do currículo
-│   └── styles/        # Estilos globais
-├── public/            # Arquivos estáticos
-├── types/             # Definições de tipos TypeScript
-└── utils/             # Funções utilitárias
+│   ├── layout.tsx          # Layout base com metadados e fontes
+│   ├── page.tsx            # Página principal do portfólio
+│   ├── globals.css         # Estilos globais
+│   └── fonts/              # Fontes personalizadas (Geist)
+├── components/             # Componentes reutilizáveis
+│   ├── Header.tsx          # Cabeçalho com foto e informações básicas
+│   ├── ContactInfo.tsx     # Informações de contato e redes sociais
+│   ├── ProfessionalSummary.tsx # Resumo profissional
+│   ├── Skills.tsx          # Habilidades técnicas
+│   ├── Experience.tsx      # Experiência profissional
+│   ├── Education.tsx       # Formação acadêmica
+│   ├── Languages.tsx       # Idiomas
+│   ├── PersonalProjects.tsx # Projetos pessoais
+│   ├── ScrollToTop.tsx     # Botão de voltar ao topo
+│   └── Icon.tsx            # Componente de ícone reutilizável
+└── public/
+    └── profile.jpg         # Foto de perfil
 ```
 
-## Funcionalidades
+## ✨ Funcionalidades
 
-- Apresentação de informações profissionais como experiência, formação acadêmica, habilidades técnicas e projetos pessoais.
-- Layout totalmente responsivo para diferentes dispositivos, desde smartphones até desktops.
-- Links interativos para GitHub, LinkedIn e contato por email.
-- Organização modular do código com componentes reutilizáveis.
+- **Design Responsivo**: Layout adaptável para diferentes dispositivos
+- **Navegação Suave**: Botão de voltar ao topo para melhor experiência
+- **SEO Otimizado**: Metadados completos para melhor indexação
+- **Fontes Personalizadas**: Uso das fontes Geist para tipografia moderna
+- **Ícones Interativos**: Links para GitHub e LinkedIn com hover effects
+- **Informações Profissionais**: Seções organizadas para experiência, educação, habilidades e projetos
 
+## 🛠️ Como Executar Localmente
 
-## Como Executar Localmente
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/michael-lourenco/curriculum-michael-cursor.git
+   ```
 
-Siga os passos abaixo para rodar este projeto localmente:
+2. **Acesse o diretório:**
+   ```bash
+   cd curriculum-michael-cursor
+   ```
 
-1. Clone este repositório:
-```
-   git clone https://github.com/seu-usuario/meu-curriculo-nextjs.git
-```
-2. Acesse o diretório do projeto:
-```
-   cd meu-curriculo-nextjs
-```
-
-3. Instale as dependências:
-```
+3. **Instale as dependências:**
+   ```bash
+   npm install
+   # ou
    yarn install
-```
+   ```
 
-4. Execute o projeto em modo de desenvolvimento:
-```
+4. **Execute em modo de desenvolvimento:**
+   ```bash
+   npm run dev
+   # ou
    yarn dev
-```
+   ```
 
-5. Acesse no navegador:
-```
+5. **Acesse no navegador:**
+   ```
    http://localhost:3000
-```
+   ```
 
-## Como Personalizar
+## 📦 Scripts Disponíveis
 
-Se você deseja criar seu próprio currículo a partir deste projeto, você pode personalizar facilmente o conteúdo em:
+- `npm run dev` - Executa o servidor de desenvolvimento com Turbo
+- `npm run build` - Gera a build de produção
+- `npm run start` - Inicia o servidor de produção
+- `npm run lint` - Executa o linter
 
-- `src/app/components`: Componentes reutilizáveis do currículo.
-- `src/app/page.tsx`: Página principal que carrega as seções do currículo.
-- `src/app/pages`: Outras páginas e seções adicionais.
+## 🎨 Personalização
 
-Sinta-se à vontade para modificar o design, conteúdo e estrutura conforme necessário.
+Para personalizar este portfólio para seu uso:
 
-## Contribuindo
+1. **Informações Pessoais**: Atualize os dados em `src/components/`
+2. **Foto de Perfil**: Substitua `public/profile.jpg`
+3. **Cores e Estilos**: Modifique `tailwind.config.ts` e `src/app/globals.css`
+4. **Metadados**: Atualize as informações em `src/app/layout.tsx`
 
-Sugestões e contribuições são bem-vindas! Sinta-se à vontade para abrir uma Issue ou enviar um Pull Request com melhorias ou correções.
+## 📱 Responsividade
 
-## Licença
+O projeto é totalmente responsivo e otimizado para:
+- Dispositivos móveis
+- Tablets
+- Desktops
+- Diferentes resoluções de tela
 
-Este projeto está licenciado sob a licença MIT. Consulte o arquivo LICENSE para mais informações.
+## 🔗 Links
+
+- **Site**: [michaellourenco.com](https://michaellourenco.com)
+- **GitHub**: [michael-lourenco](https://github.com/michael-lourenco)
+- **LinkedIn**: [michael-lourenco](https://www.linkedin.com/in/michael-lourenco/)
+- **Email**: kontempler@gmail.com
+
+## 📄 Licença
+
+Este projeto está licenciado sob a licença MIT. Sinta-se à vontade para usar como base para seu próprio portfólio.
+
+---
+
+Desenvolvido com ❤️ por Michael Lourenço
