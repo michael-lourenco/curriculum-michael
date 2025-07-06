@@ -52,7 +52,7 @@ const Skills: React.FC = () => {
   const skillsToDisplay = skillsData[selectedCategory].slice(0, showAll ? undefined : 10);
 
   return (
-    <section className="mb-8">
+    <section id="skills" className="mb-8">
       <h3 className="text-3xl font-bold text-center mb-6">Skills</h3>
 
       {/* Filters */}

@@ -14,7 +14,13 @@ const ContactInfo: React.FC = () => {
   return (
     <div className="mt-4 text-gray-800">
       <div className="flex justify-center space-x-4">
-
+        <button
+          onClick={handleEmailClick}
+          className="text-gray-800 hover:text-blue-500 transition-colors"
+          title="Enviar email"
+        >
+          <FaEnvelope size={24} />
+        </button>
         <a
           href="https://wa.me/5515920006629"
           target="_blank"
@@ -42,13 +48,6 @@ const ContactInfo: React.FC = () => {
         >
           <FaLinkedin size={24} />
         </a>
-        <button
-          onClick={handleEmailClick}
-          className="text-gray-800 hover:text-blue-500 transition-colors"
-          title="Enviar email"
-        >
-          <FaEnvelope size={24} />
-        </button>
       </div>
 
       {/* Email Modal */}
