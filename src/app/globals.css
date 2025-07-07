@@ -4,46 +4,46 @@
 
 :root {
   /* Sistema de cores moderno - Light Mode */
-  --primary: #2563eb;
-  --primary-dark: #1d4ed8;
-  --secondary: #7c3aed;
-  --secondary-dark: #6d28d9;
-  --accent: #10b981;
-  --accent-dark: #059669;
-  --neutral: #1f2937;
-  --neutral-light: #6b7280;
+  --primary: #313c43;
+  --primary-dark: #1b2126;
+  --secondary: #5d6b74;
+  --secondary-dark: #2c383f;
+  --accent: #21b6bf;
+  --accent-dark: #1a9ba3;
+  --neutral: #1b2126;
+  --neutral-light: #7d8d96;
   --background: #ffffff;
-  --surface: #f9fafb;
-  --surface-hover: #f3f4f6;
-  --border: #e5e7eb;
-  --text-primary: #111827;
-  --text-secondary: #4b5563;
-  --text-muted: #9ca3af;
+  --surface: #f8f9fa;
+  --surface-hover: #e9ecef;
+  --border: #a4b3ba;
+  --text-primary: #1b2126;
+  --text-secondary: #5d6b74;
+  --text-muted: #7d8d96;
   
   /* Sombras - Light Mode */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-sm: 0 1px 2px 0 rgb(27 33 38 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(27 33 38 / 0.1), 0 2px 4px -2px rgb(27 33 38 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(27 33 38 / 0.1), 0 4px 6px -4px rgb(27 33 38 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(27 33 38 / 0.1), 0 8px 10px -6px rgb(27 33 38 / 0.1);
 }
 
 .dark {
   /* Sistema de cores moderno - Dark Mode */
-  --primary: #3b82f6;
-  --primary-dark: #2563eb;
-  --secondary: #8b5cf6;
-  --secondary-dark: #7c3aed;
-  --accent: #10b981;
-  --accent-dark: #059669;
-  --neutral: #f8fafc;
-  --neutral-light: #cbd5e1;
-  --background: #0f172a;
-  --surface: #1e293b;
-  --surface-hover: #334155;
-  --border: #334155;
+  --primary: #a4b3ba;
+  --primary-dark: #7d8d96;
+  --secondary: #5d6b74;
+  --secondary-dark: #313c43;
+  --accent: #21b6bf;
+  --accent-dark: #1a9ba3;
+  --neutral: #f8f9fa;
+  --neutral-light: #a4b3ba;
+  --background: #1b2126;
+  --surface: #2c383f;
+  --surface-hover: #313c43;
+  --border: #5d6b74;
   --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --text-muted: #64748b;
+  --text-secondary: #a4b3ba;
+  --text-muted: #7d8d96;
   
   /* Sombras - Dark Mode */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
@@ -166,7 +166,7 @@ html {
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  background: linear-gradient(135deg, var(--primary), var(--accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -202,7 +202,7 @@ html {
   left: 50%;
   width: 0;
   height: 2px;
-  background: var(--primary);
+  background: var(--accent);
   transition: all 0.3s ease;
   transform: translateX(-50%);
 }

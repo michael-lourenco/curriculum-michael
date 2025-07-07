@@ -59,7 +59,7 @@ const projectsData: Project[] = [
       case 'active': return 'bg-accent/10 text-accent';
       case 'completed': return 'bg-primary/10 text-primary';
       case 'maintenance': return 'bg-secondary/10 text-secondary';
-      default: return 'bg-gray-100 text-gray-600';
+      default: return 'bg-surface-hover text-text-secondary';
     }
   };
 
@@ -82,12 +82,12 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose }:
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-surface rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-border">
         <div className="relative">
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-surface-hover transition-colors"
+            className="absolute top-4 right-4 z-10 bg-surface rounded-full p-2 shadow-lg hover:bg-surface-hover transition-colors border border-border"
           >
             <FaTimes className="text-text-secondary" />
           </button>
@@ -104,7 +104,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose }:
           
           {/* Project content */}
           <div className="p-6">
-            <h3 className="text-2xl font-bold mb-4">{project.name}</h3>
+            <h3 className="text-2xl font-bold mb-4 text-text-primary">{project.name}</h3>
             
             <div className="mb-4">
               <h4 className="text-lg font-semibold mb-2 text-text-primary">Sobre o projeto:</h4>
@@ -132,7 +132,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose }:
                   href={project.externalLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent-dark transition-colors"
                 >
                   <FaExternalLinkAlt />
                   Visitar projeto
@@ -172,8 +172,8 @@ const Portifolio: React.FC = () => {
   return (
     <section id="portifolio" className="section-card fade-in-up">
       <div className="text-center mb-8">
-        <h3 className="text-3xl font-bold mb-4">Portifólio</h3>
-        <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+        <h3 className="text-3xl font-bold mb-4 text-text-primary">Portifólio</h3>
+        <div className="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -195,7 +195,7 @@ const Portifolio: React.FC = () => {
                 <div className="flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <button
                     onClick={() => handleProjectClick(project)}
-                    className="flex items-center gap-2 px-4 py-2 bg-white text-text-primary rounded-lg hover:bg-surface-hover transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 bg-surface text-text-primary rounded-lg hover:bg-surface-hover transition-colors border border-border"
                   >
                     <FaEye />
                     Detalhes
@@ -206,7 +206,7 @@ const Portifolio: React.FC = () => {
                       href={project.externalLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent-dark transition-colors"
                     >
                       <FaExternalLinkAlt />
                       Visitar
@@ -216,7 +216,7 @@ const Portifolio: React.FC = () => {
                   {project.internalRoute && (
                     <a
                       href={project.internalRoute}
-                      className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent-dark transition-colors"
                     >
                       <FaEye />
                       Ver
