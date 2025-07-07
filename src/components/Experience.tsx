@@ -34,19 +34,19 @@ const Experience: React.FC = () => {
   return (
     <section className="section-card fade-in-up" id="experience">
       <div className="text-center mb-8">
-        <h3 className="text-3xl font-bold mb-4">Experiência Profissional</h3>
-        <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+        <h3 className="text-3xl font-bold mb-4 text-text-primary">Experiência Profissional</h3>
+        <div className="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
       </div>
 
       <div className="relative">
         {/* Timeline line */}
-        <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary to-secondary hidden md:block"></div>
+        <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary to-accent hidden md:block"></div>
 
         <div className="space-y-8">
           {experiences.map((exp, index) => (
             <div key={index} className="relative">
               {/* Timeline dot */}
-              <div className="absolute left-6 top-6 w-4 h-4 bg-primary rounded-full border-4 border-white shadow-lg hidden md:block"></div>
+              <div className="absolute left-6 top-6 w-4 h-4 bg-primary rounded-full border-4 border-surface shadow-lg hidden md:block"></div>
 
               <div className="md:ml-16">
                 <div className="card hover:shadow-xl transition-all duration-300">

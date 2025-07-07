@@ -30,7 +30,7 @@ const Header: React.FC = () => {
       {/* Foto de perfil com efeito moderno */}
       <div className="flex justify-center mb-8">
         <div className="relative">
-          <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-white shadow-xl ring-4 ring-primary/20">
+          <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-surface shadow-xl ring-4 ring-primary/20">
             <Image
               src="/profile.jpg"
               alt="Foto de Michael Gomes da Cunha Lourenço"
@@ -41,13 +41,13 @@ const Header: React.FC = () => {
             />
           </div>
           {/* Indicador de status online */}
-          <div className="absolute bottom-2 right-2 w-6 h-6 bg-accent rounded-full border-4 border-white shadow-lg"></div>
+          <div className="absolute bottom-2 right-2 w-6 h-6 bg-accent rounded-full border-4 border-surface shadow-lg"></div>
         </div>
       </div>
 
       {/* Informações principais */}
       <div className="mb-8">
-        <h1 className="text-5xl font-bold mb-4">
+        <h1 className="text-5xl font-bold mb-4 text-text-primary">
           Michael <span className="gradient-text">Lourenço</span>
         </h1>
         <h2 className="text-2xl text-text-secondary mb-2">Desenvolvedor Backend Senior</h2>

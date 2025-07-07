@@ -41,8 +41,8 @@ const Education: React.FC = () => {
   return (
     <section id="education" className="section-card fade-in-up">
       <div className="text-center mb-8">
-        <h3 className="text-3xl font-bold mb-4">Formação Acadêmica</h3>
-        <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+        <h3 className="text-3xl font-bold mb-4 text-text-primary">Formação Acadêmica</h3>
+        <div className="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
       </div>
 
       <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-6">

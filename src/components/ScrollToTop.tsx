@@ -32,9 +32,9 @@ export const ScrollToTop = () => {
       {isVisible && (
         <div
           onClick={scrollToTop}
-          className="fixed bottom-7 right-7 cursor-pointer bg-background shadow-lg shadow-neutral-200 dark:shadow-neutral-700  p-2 rounded-full"
+          className="fixed bottom-7 right-7 cursor-pointer bg-surface border border-border shadow-lg p-2 rounded-full hover:bg-surface-hover transition-colors"
         >
-          <Icon name="PiCaretUp" className="animate-pulse" />
+          <Icon name="PiCaretUp" className="animate-pulse text-text-primary" />
         </div>
       )}
     </>

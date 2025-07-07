@@ -12,8 +12,8 @@ const ProfessionalSummary: React.FC = () => {
   return (
     <section id="about" className="section-card fade-in-up">
       <div className="text-center mb-8">
-        <h3 className="text-3xl font-bold mb-4">Resumo Profissional</h3>
-        <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+        <h3 className="text-3xl font-bold mb-4 text-text-primary">Resumo Profissional</h3>
+        <div className="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
       </div>
 
       {/* Métricas destacadas */}

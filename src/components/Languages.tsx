@@ -38,7 +38,7 @@ const Languages: React.FC = () => {
     return Array.from({ length: 5 }, (_, i) => (
       <FaStar 
         key={i} 
-        className={`text-sm ${i < stars ? 'text-yellow-400' : 'text-gray-300'}`} 
+        className={`text-sm ${i < stars ? 'text-accent' : 'text-text-muted'}`} 
       />
     ));
   };
@@ -46,8 +46,8 @@ const Languages: React.FC = () => {
   return (
     <section id="languages" className="section-card fade-in-up">
       <div className="text-center mb-8">
-        <h3 className="text-3xl font-bold mb-4">Idiomas</h3>
-        <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+        <h3 className="text-3xl font-bold mb-4 text-text-primary">Idiomas</h3>
+        <div className="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
@@ -76,7 +76,7 @@ const Languages: React.FC = () => {
                 <span className="text-sm font-medium text-text-secondary">Proficiência</span>
                 <span className="text-sm font-bold text-text-primary">{language.proficiency}%</span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-3">
+              <div className="w-full bg-surface-hover rounded-full h-3">
                 <div
                   className={`h-3 rounded-full transition-all duration-1000 ease-out ${getProficiencyColor(language.proficiency)}`}
                   style={{ width: `${language.proficiency}%` }}

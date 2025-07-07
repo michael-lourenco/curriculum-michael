@@ -52,8 +52,11 @@ const Skills: React.FC = () => {
   const skillsToDisplay = skillsData[selectedCategory].slice(0, showAll ? undefined : 10);
 
   return (
-    <section id="skills" className="mb-8">
-      <h3 className="text-3xl font-bold text-center mb-6">Skills</h3>
+    <section id="skills" className="section-card fade-in-up">
+      <div className="text-center mb-8">
+        <h3 className="text-3xl font-bold mb-4 text-text-primary">Skills</h3>
+        <div className="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
+      </div>
 
       {/* Filters */}
       <div className="mb-8 flex flex-wrap gap-2 justify-center">
@@ -61,10 +64,10 @@ const Skills: React.FC = () => {
           <div
             key={category}
             onClick={() => handleCategoryChange(category as keyof typeof skillsData)}
-            className={`inline-flex items-center rounded-md border px-2.5 py-0.5 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 border-transparent ${
+            className={`inline-flex items-center rounded-md border px-2.5 py-0.5 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 border-transparent ${
               selectedCategory === category
-                ? 'bg-black text-white hover:bg-gray-800'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                ? 'bg-primary text-white hover:bg-primary-dark'
+                : 'bg-surface-hover text-text-secondary hover:bg-border'
             } text-sm cursor-pointer`}
           >
             {category}
@@ -72,25 +75,24 @@ const Skills: React.FC = () => {
         ))}
       </div>
 
-
       {/* Skills List */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {skillsToDisplay.map((skill) => (
           <div
             key={skill.name}
-            className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow"
+            className="p-4 border border-border rounded-lg shadow-sm hover:shadow-md transition-shadow bg-surface"
           >
             <div className="flex items-center space-x-2 mb-2">
-              <span className="text-2xl">{skill.icon}</span>
-              <h4 className="text-lg font-semibold">{skill.name}</h4>
+              <span className="text-2xl text-primary">{skill.icon}</span>
+              <h4 className="text-lg font-semibold text-text-primary">{skill.name}</h4>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2.5">
+            <div className="w-full bg-surface-hover rounded-full h-2.5">
               <div
-                className="bg-black h-2.5 rounded-full"
+                className="bg-accent h-2.5 rounded-full"
                 style={{ width: `${skill.percentage}%` }}
               ></div>
             </div>
-            <p className="text-sm text-gray-600 mt-1">{skill.percentage}%</p>
+            <p className="text-sm text-text-secondary mt-1">{skill.percentage}%</p>
           </div>
         ))}
       </div>
@@ -100,7 +102,7 @@ const Skills: React.FC = () => {
         <div className="flex justify-center mt-6">
           <button
             onClick={() => setShowAll(!showAll)}
-            className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
           >
             {showAll ? 'Mostrar menos' : 'Mostrar mais'}
           </button>
