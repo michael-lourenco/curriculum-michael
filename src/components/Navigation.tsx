@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { FaBars, FaTimes, FaHome, FaUser, FaCode, FaBriefcase, FaGraduationCap, FaGlobe, FaRocket } from 'react-icons/fa';
+import ThemeToggle from './ThemeToggle';
 
 interface NavItem {
   id: string;
@@ -63,7 +64,7 @@ const Navigation: React.FC = () => {
   return (
     <>
       {/* Navigation Bar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-border shadow-sm">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-md border-b border-border shadow-sm">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex items-center justify-between h-16">
             {/* Logo/Nome */}
@@ -89,22 +90,30 @@ const Navigation: React.FC = () => {
                   <span>{item.label}</span>
                 </button>
               ))}
+              
+              {/* Theme Toggle */}
+              <div className="ml-4">
+                <ThemeToggle />
+              </div>
             </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={toggleMenu}
-              className="md:hidden p-2 rounded-lg text-text-secondary hover:text-primary hover:bg-surface-hover transition-colors"
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
-            </button>
+            {/* Mobile Menu Button and Theme Toggle */}
+            <div className="md:hidden flex items-center gap-2">
+              <ThemeToggle />
+              <button
+                onClick={toggleMenu}
+                className="p-2 rounded-lg text-text-secondary hover:text-primary hover:bg-surface-hover transition-colors"
+                aria-label="Toggle menu"
+              >
+                {isMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Mobile Menu Overlay */}
         {isMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-border shadow-lg">
+          <div className="md:hidden absolute top-full left-0 right-0 bg-surface border-b border-border shadow-lg">
             <div className="px-6 py-4 space-y-2">
               {navItems.map((item) => (
                 <button

@@ -1,10 +1,10 @@
-# Portfólio Pessoal - Michael Lourenço
+# Portfólio Profissional - Michael Lourenço
 
 Este repositório contém o código-fonte do meu portfólio profissional, desenvolvido utilizando **Next.js 14** com App Router. O objetivo deste projeto é apresentar minhas informações profissionais, experiências e habilidades de forma interativa e acessível.
 
 ## 🚀 Tecnologias Utilizadas
 
-- **Next.js 14**: Framework React com App Router para aplicações web modernas
+- **Next.js 14.2.14**: Framework React com App Router para aplicações web modernas
 - **TypeScript**: Linguagem com tipagem estática para maior segurança e produtividade
 - **Tailwind CSS**: Framework CSS utilitário para design responsivo e moderno
 - **React Icons**: Biblioteca de ícones para React
@@ -13,38 +13,62 @@ Este repositório contém o código-fonte do meu portfólio profissional, desenv
 
 ## 📁 Estrutura do Projeto
 
-O projeto segue a estrutura do Next.js 14 com App Router:
+O projeto segue a estrutura do Next.js 14 com App Router e componentes modernos:
 
 ```
 src/
 ├── app/
 │   ├── layout.tsx          # Layout base com metadados e fontes
 │   ├── page.tsx            # Página principal do portfólio
-│   ├── globals.css         # Estilos globais
+│   ├── globals.css         # Estilos globais e sistema de cores
 │   └── fonts/              # Fontes personalizadas (Geist)
 ├── components/             # Componentes reutilizáveis
-│   ├── Header.tsx          # Cabeçalho com foto e informações básicas
+│   ├── Navigation.tsx      # Menu de navegação fixo e responsivo
+│   ├── Header.tsx          # Seção hero com foto e CTA buttons
 │   ├── ContactInfo.tsx     # Informações de contato e redes sociais
-│   ├── ProfessionalSummary.tsx # Resumo profissional
-│   ├── Skills.tsx          # Habilidades técnicas
-│   ├── Experience.tsx      # Experiência profissional
-│   ├── Education.tsx       # Formação acadêmica
-│   ├── Languages.tsx       # Idiomas
-│   ├── PersonalProjects.tsx # Projetos pessoais
+│   ├── ProfessionalSummary.tsx # Resumo profissional com métricas
+│   ├── Skills.tsx          # Habilidades técnicas organizadas
+│   ├── Experience.tsx      # Experiência profissional com timeline
+│   ├── Education.tsx       # Formação acadêmica e certificações
+│   ├── Languages.tsx       # Idiomas com barras de progresso
+│   ├── Portifolio.tsx      # Portfólio de projetos com modal
 │   ├── ScrollToTop.tsx     # Botão de voltar ao topo
 │   └── Icon.tsx            # Componente de ícone reutilizável
 └── public/
-    └── profile.jpg         # Foto de perfil
+    ├── profile.jpg         # Foto de perfil
+    └── projects/           # Imagens dos projetos
 ```
 
 ## ✨ Funcionalidades
 
-- **Design Responsivo**: Layout adaptável para diferentes dispositivos
-- **Navegação Suave**: Botão de voltar ao topo para melhor experiência
-- **SEO Otimizado**: Metadados completos para melhor indexação
-- **Fontes Personalizadas**: Uso das fontes Geist para tipografia moderna
-- **Ícones Interativos**: Links para GitHub e LinkedIn com hover effects
-- **Informações Profissionais**: Seções organizadas para experiência, educação, habilidades e projetos
+### 🎨 Design e UX
+- **Sistema de Cores Moderno**: Paleta profissional com variáveis CSS
+- **Layout Responsivo**: Adaptável para todos os dispositivos
+- **Animações Suaves**: Transições e efeitos de hover
+- **Tipografia Melhorada**: Hierarquia visual clara
+- **Cards Interativos**: Efeitos de elevação e hover
+
+### 🧭 Navegação
+- **Menu Fixo**: Navegação sempre visível no topo
+- **Scroll Suave**: Navegação entre seções com offset
+- **Indicador Ativo**: Destaque da seção atual
+- **Menu Mobile**: Versão hamburger responsiva
+- **Navegação por Teclado**: Suporte completo para acessibilidade
+
+### 📱 Responsividade
+- **Mobile-First**: Design otimizado para dispositivos móveis
+- **Breakpoints Inteligentes**: Adaptação automática
+- **Touch-Friendly**: Interface otimizada para toque
+- **Performance**: Carregamento otimizado
+
+### 🎯 Seções Principais
+1. **Hero Section**: Apresentação com CTA buttons
+2. **Resumo Profissional**: Métricas e especializações
+3. **Skills**: Habilidades técnicas organizadas por categoria
+4. **Experiência**: Timeline profissional com projetos
+5. **Educação**: Formação acadêmica e certificações
+6. **Idiomas**: Proficiência com barras de progresso
+7. **Portfólio**: Projetos com modal interativo
 
 ## 🛠️ Como Executar Localmente
 
@@ -84,22 +108,27 @@ src/
 - `npm run start` - Inicia o servidor de produção
 - `npm run lint` - Executa o linter
 
-## 🎨 Personalização
+## 🎨 Sistema de Design
 
-Para personalizar este portfólio para seu uso:
+### Cores Principais
+- **Primary**: #2563eb (Azul profissional)
+- **Secondary**: #7c3aed (Roxo para destaque)
+- **Accent**: #10b981 (Verde para sucesso)
+- **Neutral**: #1f2937 (Cinza escuro)
 
-1. **Informações Pessoais**: Atualize os dados em `src/components/`
-2. **Foto de Perfil**: Substitua `public/profile.jpg`
-3. **Cores e Estilos**: Modifique `tailwind.config.ts` e `src/app/globals.css`
-4. **Metadados**: Atualize as informações em `src/app/layout.tsx`
+### Componentes Base
+- **Cards**: Wrapper com sombras e hover effects
+- **Botões**: Estilos primário, secundário e accent
+- **Animações**: fade-in-up, slide-up, fade-in
+- **Tipografia**: Hierarquia H1-H4 com espaçamentos
 
 ## 📱 Responsividade
 
 O projeto é totalmente responsivo e otimizado para:
-- Dispositivos móveis
-- Tablets
-- Desktops
-- Diferentes resoluções de tela
+- **Dispositivos móveis** (320px+)
+- **Tablets** (768px+)
+- **Desktops** (1024px+)
+- **Telas grandes** (1280px+)
 
 ## 🔗 Links
 
@@ -114,4 +143,4 @@ Este projeto está licenciado sob a licença MIT. Sinta-se à vontade para usar 
 
 ---
 
-Desenvolvido com ❤️ por Michael Lourenço
+Desenvolvido por Michael Lourenço

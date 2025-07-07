@@ -19,7 +19,7 @@ const projectsData: Project[] = [
   {
     id: 1,
     name: 'ContiGO',
-    image: '/projects/contigo.jpg',
+    image: '/projects/placeholder.jpg',
     description: 'Sistema completo de gestão empresarial desenvolvido com tecnologias modernas. Inclui módulos de vendas, estoque, financeiro e relatórios avançados. Interface intuitiva e responsiva para desktop e mobile.',
     technologies: ['React', 'Node.js', 'TypeScript', 'PostgreSQL', 'AWS'],
     externalLink: 'https://contigo.com.br',
@@ -28,7 +28,7 @@ const projectsData: Project[] = [
   {
     id: 2,
     name: 'Pegriam',
-    image: '/projects/pegriam.jpg',
+    image: '/projects/placeholder.jpg',
     description: 'Plataforma de e-commerce especializada em produtos premium. Sistema de pagamentos integrado, gestão de pedidos em tempo real e dashboard administrativo completo.',
     technologies: ['Vue.js', 'Laravel', 'MySQL', 'Redis', 'Stripe API'],
     externalLink: 'https://pegriam.com',
@@ -37,7 +37,7 @@ const projectsData: Project[] = [
   {
     id: 3,
     name: 'HoloSapiens AR',
-    image: '/projects/holosapiens.jpg',
+    image: '/projects/placeholder.jpg',
     description: 'Aplicativo de Realidade Aumentada para educação científica. Permite visualizar modelos 3D de anatomia humana e estruturas celulares em tempo real.',
     technologies: ['Unity', 'C#', 'ARKit', 'ARCore', 'Blender'],
     internalRoute: '/projects/holosapiens',
@@ -46,7 +46,7 @@ const projectsData: Project[] = [
   {
     id: 4,
     name: 'Grancardápio',
-    image: '/projects/grancardapio.jpg',
+    image: '/projects/placeholder.jpg',
     description: 'Sistema de cardápio digital para restaurantes. Interface touch-friendly, sincronização em tempo real entre dispositivos e integração com sistemas de pedidos.',
     technologies: ['Flutter', 'Firebase', 'Dart', 'Google Cloud', 'Real-time Database'],
     externalLink: 'https://grancardapio.com',

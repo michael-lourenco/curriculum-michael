@@ -1,5 +1,4 @@
 import React from 'react';
-import Navigation from '../components/Navigation';
 import Header from '../components/Header';
 import ProfessionalSummary from '../components/ProfessionalSummary';
 import Experience from '../components/Experience';
@@ -12,7 +11,6 @@ import { ScrollToTop } from '@/components/ScrollToTop';
 const Home: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-surface to-background">
-      <Navigation />
       <main className="max-w-6xl mx-auto p-6 font-sans">
         {/* Hero Section */}
         <div className="mb-12">
