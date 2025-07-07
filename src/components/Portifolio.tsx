@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import Image from 'next/image';
 import { FaExternalLinkAlt, FaEye, FaTimes } from 'react-icons/fa';
 
@@ -51,23 +52,24 @@ const projectsData: Project[] = [
   }
 ];
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'active': return 'bg-accent/10 text-accent';
-      case 'completed': return 'bg-primary/10 text-primary';
-      case 'maintenance': return 'bg-secondary/10 text-secondary';
-      default: return 'bg-surface-hover text-text-secondary';
-    }
-  };
+const getStatusColor = (status: string) => {
+  switch (status) {
+    case 'active': return 'bg-accent/10 text-accent';
+    case 'completed': return 'bg-primary/10 text-primary';
+    case 'maintenance': return 'bg-secondary/10 text-secondary';
+    default: return 'bg-surface-hover text-text-secondary';
+  }
+};
 
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'active': return 'Em Desenvolvimento';
-      case 'completed': return 'Concluído';
-      case 'maintenance': return 'Em Manutenção';
-      default: return 'Desconhecido';
-    }
-  };
+const getStatusText = (status: string) => {
+  switch (status) {
+    case 'active': return 'Em Desenvolvimento';
+    case 'completed': return 'Concluído';
+    case 'maintenance': return 'Em Manutenção';
+    default: return 'Desconhecido';
+  }
+};
+
 interface ProjectModalProps {
   project: Project | null;
   isOpen: boolean;
@@ -75,11 +77,17 @@ interface ProjectModalProps {
 }
 
 const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose }: ProjectModalProps) => {
-  if (!isOpen || !project) return null;
+  const [mounted, setMounted] = useState(false);
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-surface rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-border">
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!isOpen || !project || !mounted) return null;
+
+  const modalContent = (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
+      <div className="bg-surface rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-border shadow-2xl">
         <div className="relative">
           {/* Close button */}
           <button
@@ -150,6 +158,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose }:
       </div>
     </div>
   );
+
+  return ReactDOM.createPortal(modalContent, document.body);
 };
 
 const Portifolio: React.FC = () => {
@@ -219,7 +229,6 @@ const Portifolio: React.FC = () => {
                       Ver
                     </a>
                   )}
-  
                 </div>
               </div>
             </div>
@@ -261,7 +270,8 @@ const Portifolio: React.FC = () => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
       />
-            <div className="mt-8 pt-8 border-t border-border">
+      
+      <div className="mt-8 pt-8 border-t border-border">
         <div className="grid md:grid-cols-4 gap-6">
           <div className="text-center p-4 bg-surface-hover rounded-lg">
             <div className="text-2xl font-bold text-primary">5</div>
