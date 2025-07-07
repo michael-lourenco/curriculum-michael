@@ -15,7 +15,7 @@ const Education: React.FC = () => {
     {
       degree: "Graduação em Informática para a Gestão de Negócios",
       institution: "Fatec Itapetininga",
-      period: "2018 - 2021",
+      period: "2008 - 2011",
       location: "Itapetininga, SP",
       description: "Formação técnica em gestão de negócios com foco em tecnologia da informação, incluindo programação, banco de dados e gestão de projetos.",
       icon: <FaGraduationCap />
@@ -23,7 +23,7 @@ const Education: React.FC = () => {
     {
       degree: "Especialização em Tecnologias para Aplicações Web",
       institution: "Unopar",
-      period: "2019 - 2020",
+      period: "2013 - 2014",
       location: "Online",
       description: "Especialização em desenvolvimento web moderno, incluindo frameworks, APIs, e arquiteturas de aplicações web escaláveis.",
       icon: <FaUniversity />
@@ -31,7 +31,7 @@ const Education: React.FC = () => {
     {
       degree: "Especialização em Informática Aplicada à Educação",
       institution: "IFSP Itapetininga",
-      period: "2020 - 2021",
+      period: "2018 - 2019",
       location: "Itapetininga, SP",
       description: "Especialização focada na aplicação de tecnologias educacionais e desenvolvimento de soluções para o setor educacional.",
       icon: <FaUniversity />
@@ -93,23 +93,23 @@ const Education: React.FC = () => {
           <div className="p-4 bg-surface-hover rounded-lg">
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <span className="font-medium text-sm">AWS Certified Developer</span>
+              <span className="font-medium text-sm">Engenharia de requisitos</span>
             </div>
-            <p className="text-xs text-text-secondary">Amazon Web Services</p>
+            <p className="text-xs text-text-secondary">Alura</p>
           </div>
           <div className="p-4 bg-surface-hover rounded-lg">
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 bg-secondary rounded-full"></div>
-              <span className="font-medium text-sm">Google Cloud Professional</span>
+              <span className="font-medium text-sm">Aprender a aprender: técnicas para seu autodesenvolvimento</span>
             </div>
-            <p className="text-xs text-text-secondary">Google Cloud Platform</p>
+            <p className="text-xs text-text-secondary">Alura</p>
           </div>
           <div className="p-4 bg-surface-hover rounded-lg">
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 bg-accent rounded-full"></div>
-              <span className="font-medium text-sm">Scrum Master Certified</span>
+              <span className="font-medium text-sm">Microsserviços: padrões de projeto</span>
             </div>
-            <p className="text-xs text-text-secondary">Scrum Alliance</p>
+            <p className="text-xs text-text-secondary">Alura</p>
           </div>
         </div>
       </div>

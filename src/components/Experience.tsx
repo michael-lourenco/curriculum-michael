@@ -19,11 +19,11 @@ const Experience: React.FC = () => {
       location: "São Paulo – SP | Remoto",
       position: "Desenvolvedor Backend Pleno",
       period: "Agosto 2020 - Outubro 2024",
-      description: "Desenvolvimento de sistemas de alta escala para empresas Fortune 500, com foco em arquiteturas cloud-native e microsserviços.",
-      technologies: ["Node.js", "AWS", "GCP", "Python", "Docker", "Kubernetes"],
+      description: "Desenvolvimento de sistemas de alta escala para grandesempresas nacionais e internacionais, com foco em arquiteturas serverless e microsserviços.",
+      technologies: ["Node.js", "AWS", "GCP", "Python", "React", "Next.js"],
       achievements: [
-        "Redução de 60% na latência de APIs da Amazon",
-        "Implementação de sistema de streaming para 1M+ usuários",
+        "Automatização do cadastro de produtos da TecAlliance na Amazon",
+        "Implementação de sistema de streaming para alta escala de  usuários",
         "Migração de sistemas legados para cloud",
         "Desenvolvimento de interface mobile para controle de condomínios"
       ],

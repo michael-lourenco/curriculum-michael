@@ -123,7 +123,7 @@ const Languages: React.FC = () => {
       </div>
 
       {/* Additional language skills */}
-      <div className="mt-8 pt-8 border-t border-border">
+      {/* <div className="mt-8 pt-8 border-t border-border">
         <h4 className="text-xl font-bold text-text-primary mb-4">Habilidades Adicionais</h4>
         <div className="grid md:grid-cols-3 gap-4">
           <div className="p-4 bg-surface-hover rounded-lg text-center">
@@ -142,7 +142,7 @@ const Languages: React.FC = () => {
             <p className="text-xs text-text-secondary">Compreensão de documentação e tutoriais</p>
           </div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 };
