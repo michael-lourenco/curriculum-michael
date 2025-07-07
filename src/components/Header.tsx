@@ -52,7 +52,7 @@ const Header: React.FC = () => {
         </h1>
         <h2 className="text-2xl text-text-secondary mb-2">Desenvolvedor de Soluções</h2>
         <p className="text-text-muted text-lg max-w-2xl mx-auto">
-          Desenvolvo e entrego soluções de software a mais de 5 anos, unindo diferentes tecnologias com foco em performance, escalabilidade e valor ao negócio.
+          Desenvolvo e entrego soluções de software há mais de 5 anos, unindo diferentes tecnologias com foco em performance, escalabilidade e valor ao negócio.
         </p>
       </div>
 
