@@ -274,7 +274,7 @@ const Portifolio: React.FC = () => {
       <div className="mt-8 pt-8 border-t border-border">
         <div className="grid md:grid-cols-4 gap-6">
           <div className="text-center p-4 bg-surface-hover rounded-lg">
-            <div className="text-2xl font-bold text-primary">5</div>
+            <div className="text-2xl font-bold text-primary">5+</div>
             <div className="text-sm text-text-secondary">Projetos Desenvolvidos</div>
           </div>
           <div className="text-center p-4 bg-surface-hover rounded-lg">
@@ -282,11 +282,11 @@ const Portifolio: React.FC = () => {
             <div className="text-sm text-text-secondary">Projetos Ativos</div>
           </div>
           <div className="text-center p-4 bg-surface-hover rounded-lg">
-            <div className="text-2xl font-bold text-accent">15+</div>
+            <div className="text-2xl font-bold text-accent">10+</div>
             <div className="text-sm text-text-secondary">Tecnologias Utilizadas</div>
           </div>
           <div className="text-center p-4 bg-surface-hover rounded-lg">
-            <div className="text-2xl font-bold text-primary">10+</div>
+            <div className="text-2xl font-bold text-primary">15+</div>
             <div className="text-sm text-text-secondary">Anos de Experiência</div>
           </div>
         </div>
