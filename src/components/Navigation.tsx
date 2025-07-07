@@ -69,7 +69,7 @@ const Navigation: React.FC = () => {
           <div className="flex items-center justify-between h-16">
             {/* Logo/Nome */}
             <div className="flex items-center">
-              <h1 className="text-xl font-bold text-primary">
+              <h1 className="text-xl font-bold text-primary mt-6">
                 Michael <span className="gradient-text">Lourenço</span>
               </h1>
             </div>
