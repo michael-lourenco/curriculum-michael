@@ -35,6 +35,7 @@ const config: Config = {
         'md': 'var(--shadow-md)',
         'lg': 'var(--shadow-lg)',
         'xl': 'var(--shadow-xl)',
+        '3xl': 'var(--shadow-3xl)',
       },
       animation: {
         'fade-in-up': 'fadeInUp 0.6s ease-out',
