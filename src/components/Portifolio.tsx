@@ -19,6 +19,48 @@ interface Project {
 const projectsData: Project[] = [
   {
     id: 1,
+    name: 'Integração TecAlliance para SP-API Amazon',
+    image: '/projects/placeholder.jpg',
+    description: 'Criamos uma integração com o SP-API da Amazon, recebendo dados de uma API externa e enviando para o SP-API da Amazon, através de python utilizando diversos servicos da AWS para uma integração totalmente serverless.',
+    technologies: ["AWS","API TecAlliance","Python","Boto3", "API Amazon", "DynamoDB", "SNS", "SQS", "S3", "Cloudformation", "Lambda", "API Gateway"],
+    status:'completed',
+  },
+  {
+    id: 2,
+    name: 'Porto Seguro Faz',
+    image: '/projects/placeholder.jpg',
+    description: 'Criação de processamento de dados serverless utilizando a GCP e AWS,Criação de novos fluxos através de BPMN e a API do Wordpress. Manutenção e aperfeiçoamento do sistema legado',
+    technologies: ["AWS","GCP", "DynamoDB", "SNS", "SQS", "S3", "Cloud Functions", "API Gateway"],
+    status:'completed',
+  },
+  {
+    id: 3,
+    name: 'MultipierApp',
+    image: '/projects/placeholder.jpg',
+    description: 'Criamos uma API totalmente serverless que gera e trasmite lives e reels pre-gravados para quantos perfis vocé quer, em diversas redes sociais, simultaneamente. Criamos uma API totalmente serverless que gera e transmita lives, reels e vídeos pré-gravaos para quantos perfis você quiser, em diversas redes sociais, simultaneamente.',
+    technologies: ["Cloudflare", "AWS","DynamoDB", "SNS", "SQS", "S3", "API Gateway"],
+    status:'completed',
+  },
+  {
+    id: 4,
+    name: 'Jogo do Ano',
+    image: '/projects/placeholder.jpg',
+    description: 'O Jogo do Ano é uma iniciativa criada por entusiastas de games para celebrar a excelência e a inovação na indústria de jogos eletrônicos. Nosso objetivo é proporcionar uma plataforma onde os jogadores possam expressar suas opiniões e reconhecer os títulos que trouxeram as melhores experiências ao longo do ano.',
+    technologies: ['Next.js', 'TypeScript', 'Firebase'],
+    externalLink: 'https://jogodoano.vercel.app',
+    status:'active',
+  },
+  {
+    id: 5,
+    name: 'Marianna Lourenço',
+    image: '/projects/placeholder.jpg',
+    description: 'Site da professora e palestrante Marianna Lourenço. Graduada em Letras pela PUC-Rio e pós-graduada em Ensino da Língua Inglesa, também atua como mentora em programas de formação de professores promovidos pela Embaixada dos Estados Unidos.',
+    technologies: ['Next.js', 'TypeScript'],
+    externalLink: 'https://www.mariannalourenco.com.br/',
+    status:'active',
+  },
+  {
+    id: 6,
     name: 'ContiGO',
     image: '/projects/placeholder.jpg',
     description: 'É um jogo eletrizante que vai exigir noções de lógica, cálculos, agilidade e nervos controlados',
@@ -27,7 +69,15 @@ const projectsData: Project[] = [
     status:'active',
   },
   {
-    id: 2,
+    id: 7,
+    name: 'VNB Eventos',
+    image: '/projects/placeholder.jpg',
+    description: 'Site de publicidade de eventos de Itapetininga/SP e Região. Ficou ativo por 7 anos e virou referencia na região',
+    technologies: ['PHP', 'MySQL', 'Javascript', 'HTML', 'CSS'],
+    status:'completed',
+  },
+  {
+    id: 8,
     name: 'Realidade Aumentada para eventos',
     image: '/projects/placeholder.jpg',
     description: 'Desenvolvimento de 11 aplicativos em Realidade Aumentada para eventos individuais da empresa Click-Se',
@@ -35,7 +85,7 @@ const projectsData: Project[] = [
     status:'completed',
   },
   {
-    id: 3,
+    id: 9,
     name: 'HoloSapiens AR',
     image: '/projects/placeholder.jpg',
     description: 'Aplicativo de Realidade Aumentada para educação científica. Permitia visualizar modelos 3D de formas geométricas em tempo real.',
@@ -43,13 +93,15 @@ const projectsData: Project[] = [
     status:'completed',
   },
   {
-    id: 4,
+    id: 10,
     name: 'Grancardápio',
     image: '/projects/placeholder.jpg',
     description: 'Guia dos cardápios da cidade de Itapetininga-SP e Região. Exerci atividades de desenvolvedor fullstack, arquitetura de sistemas e demais áreas correlacionadas, pois era o único desenvolvedor. O aplicativo ficou disponível para Android e IOs',
     technologies: ["PHP","MySQL","JSON","Javascript","HTML","CSS"],
     status:'completed',
   }
+  ,
+
 ];
 
 const getStatusColor = (status: string) => {
