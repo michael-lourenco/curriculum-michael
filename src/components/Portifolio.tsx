@@ -99,12 +99,27 @@ const projectsData: Project[] = [
     id: 10,
     name: 'Grancardápio',
     image: '/projects/grancardapio.jpg',
-    description: 'Guia dos cardápios da cidade de Itapetininga-SP e Região. Exerci atividades de desenvolvedor fullstack, arquitetura de sistemas e demais áreas correlacionadas, pois era o único desenvolvedor. O aplicativo ficou disponível para Android e IOs',
+    description: 'Desenvolvimento e manutenção do Site da Câmara Municipal de Itapetininga durante 3 anos.',
     technologies: ["PHP","MySQL","JSON","Javascript","HTML","CSS"],
     status:'completed',
-  }
-  ,
-
+  },
+  {
+    id: 11,
+    name: 'Câmara de Itapetininga',
+    image: '/projects/placeholder.jpg',
+    description: 'Guia dos cardápios da cidade de Itapetininga-SP e Região. Exerci atividades de desenvolvedor fullstack, arquitetura de sistemas e demais áreas correlacionadas, pois era o único desenvolvedor. O aplicativo ficou disponível para Android e IOs',
+    technologies: ["PHP","MySQL","JSON","Javascript","HTML","CSS"],
+    externalLink: 'https://www.camaraitapetininga.sp.gov.br/',
+    status:'completed',
+  },
+  {
+    id: 12,
+    name: 'Site Epe Despachante',
+    image: '/projects/placeholder_4.jpg',
+    description: 'Site da Epe Despachante. Desenvolvimento e manutenção do Site da Epe Despachante durante 2 anos.',
+    technologies: ["PHP","MySQL","JSON","Javascript","HTML","CSS"],
+    status:'completed',
+  },
 ];
 
 const getStatusColor = (status: string) => {
