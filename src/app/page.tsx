@@ -29,6 +29,24 @@ const Home: React.FC = () => {
             <Languages />
             <Portifolio />
           </div>
+        {/* Chat Demo */}
+          {/* <div className="flex justify-center my-16">
+            <iframe
+              src="https://agent-michaellourenco.vercel.app/chat.html"
+              width="100%"
+              height="600"
+              style={{
+                border: "none",
+                borderRadius: 12,
+                boxShadow: "0 2px 8px #0001",
+                maxWidth: 400,
+                minWidth: 320,
+                background: "white"
+              }}
+              title="Chat com o agente Michael Lourenço"
+              allow="clipboard-write"
+            ></iframe>
+          </div> */}
 
           {/* Footer */}
           <footer className="mt-16 pt-8 border-t border-border text-center">
