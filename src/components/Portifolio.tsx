@@ -56,12 +56,11 @@ const projectsData: Project[] = [
   },
   {
     id: 5,
-    name: 'ContiGO',
-    image: '/projects/contigo.jpg',
-    description: 'É um jogo eletrizante que vai exigir noções de lógica, cálculos, agilidade e nervos controlados',
-    technologies: ['Next.js', 'TypeScript', 'Firebase', 'AWS'],
-    externalLink: 'https://contigo-math.vercel.app/',
-    status:'active',
+    name: 'Sistema de Monitoramento YouTube em Tempo Real',
+    image: '/projects/youtube_monitoring.jpg',
+    description: 'Desenvolvi uma arquitetura serverless completa para monitoramento e captura de mensagens de chat do YouTube em tempo real. O projeto envolveu a criação de um sistema robusto utilizando AWS Lambda para processamento assíncrono, SQS para gerenciamento de filas, e integração com a API do YouTube para coleta de dados de live streams. Principais desafios resolvidos: otimização de performance com redução de 57% do código base, solução de recursividade AWS implementando RecursiveLoop: Allow via CloudFormation, arquitetura escalável com padrões SQS → Lambda → SQS, e integração OAuth2 segura com Google.',
+    technologies: ["AWS", "Lambda", "SQS", "MongoDB", "Node.js", "Serverless Framework", "YouTube API", "OAuth2", "CloudFormation"],
+    status: 'completed',
   },
   {
     id: 6,
@@ -119,6 +118,15 @@ const projectsData: Project[] = [
     description: 'Site da Epe Despachante. Desenvolvimento e manutenção do Site da Epe Despachante durante 2 anos.',
     technologies: ["PHP","MySQL","JSON","Javascript","HTML","CSS"],
     status:'completed',
+  },
+    {
+    id: 5,
+    name: 'ContiGO',
+    image: '/projects/contigo.jpg',
+    description: 'É um jogo eletrizante que vai exigir noções de lógica, cálculos, agilidade e nervos controlados',
+    technologies: ['Next.js', 'TypeScript', 'Firebase', 'AWS'],
+    externalLink: 'https://contigo-math.vercel.app/',
+    status:'active',
   },
 ];
 
