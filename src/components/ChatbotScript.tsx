@@ -17,7 +17,7 @@ export default function ChatbotScript() {
         src="https://chatling.ai/js/embed.js"
       />
 
-      <Script
+      {/* <Script
         id="chatbot-config"
         strategy="beforeInteractive"
         dangerouslySetInnerHTML={{
@@ -29,7 +29,7 @@ export default function ChatbotScript() {
         strategy="afterInteractive"
         data-id="6835644195"
         src="https://chatling.ai/js/embed.js"
-      />
+      /> */}
     </>
   );
 } 
