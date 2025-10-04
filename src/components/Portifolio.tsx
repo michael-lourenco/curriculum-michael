@@ -38,7 +38,7 @@ const projectsData: Project[] = [
   },
   {
     id: 2,
-    name: "Sistema de Monitoramento Facebook em Tempo Real",
+    name: "Microsserviço de Monitoramento de comentários de live do Facebook",
     image: "/projects/multiplierapp.jpg",
     description:
       "Desenvolvi uma arquitetura serverless completa para monitoramento e captura de comentários de páginas do Facebook em tempo real. O projeto envolveu a criação de um sistema robusto utilizando AWS Lambda para processamento assíncrono, SQS FIFO para gerenciamento de filas, e integração com a Facebook Graph API para coleta de dados de páginas e posts. Principais desafios resolvidos: implementação de sistema de polling automático com SQS, gerenciamento seguro de tokens OAuth2 long-lived, arquitetura escalável com padrões SQS → Lambda → MongoDB, integração robusta com Facebook Graph API, e sistema de callbacks com retry automático para webhooks externos.",
@@ -99,7 +99,7 @@ const projectsData: Project[] = [
   },
   {
     id: 5,
-    name: "Sistema de Captura de Mensagens Twitch em Tempo Real",
+    name: "Microsserviço de Monitoramento de comentários de live da Twitch",
     image: "/projects/multiplierapp.jpg",
     description:
       "Desenvolvi uma arquitetura serverless robusta para captura e processamento de mensagens do chat da Twitch em tempo real. O projeto implementa um microsserviço completo utilizando AWS Lambda, EventSub webhooks, SQS para processamento assíncrono e integração completa com a API da Twitch. Principais conquistas: implementação de EventSub webhooks para zero perda de mensagens, arquitetura de filas SQS com Dead Letter Queue para garantia de entrega, sistema de validação HMAC-SHA256 para segurança dos webhooks, processamento assíncrono com callbacks para sistemas externos, e integração OAuth2 completa com gerenciamento automático de tokens. O sistema processa milhares de mensagens por minuto com alta disponibilidade e escalabilidade automática.",
@@ -121,7 +121,7 @@ const projectsData: Project[] = [
 
   {
     id: 6,
-    name: "Sistema de Monitoramento YouTube em Tempo Real",
+    name: "Microsserviço de Monitoramento de comentários de live do YouTube",
     image: "/projects/multiplierapp.jpg",
     description:
       "Desenvolvi uma arquitetura serverless completa para monitoramento e captura de mensagens de chat do YouTube em tempo real. O projeto envolveu a criação de um sistema robusto utilizando AWS Lambda para processamento assíncrono, SQS para gerenciamento de filas, e integração com a API do YouTube para coleta de dados de live streams. Principais desafios resolvidos: otimização de performance com redução de 57% do código base, solução de recursividade AWS implementando RecursiveLoop: Allow via CloudFormation, arquitetura escalável com padrões SQS → Lambda → SQS, e integração OAuth2 segura com Google.",
