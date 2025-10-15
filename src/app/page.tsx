@@ -50,6 +50,21 @@ const Home: React.FC = () => {
 
           {/* Footer */}
           <footer className="mt-16 pt-8 border-t border-border text-center">
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-4">
+              <a 
+                href="/terms" 
+                className="text-text-secondary hover:text-primary text-sm transition-colors duration-200"
+              >
+                Terms of Service
+              </a>
+              <span className="text-text-secondary text-sm hidden sm:block">|</span>
+              <a 
+                href="/privacy" 
+                className="text-text-secondary hover:text-primary text-sm transition-colors duration-200"
+              >
+                Privacy Policy
+              </a>
+            </div>
             <p className="text-text-secondary text-sm">
               © 2025 Michael Lourenço.
             </p>
