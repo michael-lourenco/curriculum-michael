@@ -95,15 +95,38 @@ A página inclui 11 seções detalhadas:
 - [x] SEO e metadados configurados
 - [x] Design responsivo implementado
 - [x] Conformidade com LGPD e GDPR
+- [x] Diretório de verificação criado (`/verify/`)
+- [x] Página de verificação implementada
+
+---
+
+## 🔍 Verificação de Domínio
+
+### URL Prefix para Verificação
+```
+https://michaellourenco.com/verify/
+```
+
+### Método de Verificação
+- **Tipo:** Signature file (arquivo de assinatura)
+- **Diretório:** `/public/verify/`
+- **Página:** `/verify/` (com instruções)
+
+### Instruções para Verificação
+1. **Baixe o arquivo** fornecido pelo TikTok for Developers
+2. **Coloque no diretório** `/public/verify/`
+3. **Teste a URL** `https://michaellourenco.com/verify/[nome-do-arquivo]`
+4. **Complete a verificação** no painel do TikTok
 
 ---
 
 ## 🚀 Próximos Passos
 
-1. **Configurar domínio de produção** para substituir "seudominio.com"
-2. **Testar as URLs** em ambiente de produção
-3. **Submeter no TikTok for Developers** usando estas URLs
-4. **Monitorar aprovação** e responder a eventuais solicitações
+1. **Colocar arquivo de verificação** no diretório `/public/verify/`
+2. **Completar verificação de domínio** no TikTok for Developers
+3. **Testar as URLs** em ambiente de produção
+4. **Submeter no TikTok for Developers** usando estas URLs
+5. **Monitorar aprovação** e responder a eventuais solicitações
 
 ---
 
