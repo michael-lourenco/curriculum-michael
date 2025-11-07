@@ -5,12 +5,9 @@ import Link from 'next/link';
 
 interface UserInfo {
   display_name?: string;
-  bio_description?: string;
+  open_id?: string;
+  union_id?: string;
   avatar_url?: string;
-  follower_count?: number;
-  following_count?: number;
-  likes_count?: number;
-  video_count?: number;
 }
 
 export default function UserInfoPage() {
@@ -27,7 +24,9 @@ export default function UserInfoPage() {
       setLoading(true);
       setError(null);
 
-      const response = await fetch('/tiktok/api/user/info?fields=display_name,bio_description,avatar_url,follower_count,following_count,likes_count,video_count', {
+      // Com user.info.basic, vamos solicitar apenas o campo mais básico: display_name
+      // Isso deve funcionar com o escopo básico
+      const response = await fetch('/tiktok/api/user/info?fields=display_name', {
         credentials: 'include', // Importante: incluir cookies na requisição
         headers: {
           'Content-Type': 'application/json',
@@ -43,12 +42,19 @@ export default function UserInfoPage() {
 
       const data = await response.json();
       
+      console.log('User info response data:', data);
+      
       if (data.error) {
         const errorDetails = data.details ? JSON.stringify(data.details, null, 2) : '';
         throw new Error(`${data.error.message || data.error || 'Erro ao buscar informações do usuário'}${errorDetails ? `\n\nDetalhes: ${errorDetails}` : ''}`);
       }
 
-      setUserInfo(data.data?.user || data.data || null);
+      // A resposta pode vir em diferentes formatos:
+      // - { data: { user: { ... } } }
+      // - { data: { display_name: "...", ... } }
+      // - { display_name: "...", ... }
+      const userData = data.data?.user || data.data || data;
+      setUserInfo(userData);
     } catch (err: any) {
       setError(err.message || 'Erro ao buscar informações do usuário');
       console.error('Error fetching user info:', err);
@@ -114,75 +120,92 @@ export default function UserInfoPage() {
 
           {userInfo && !loading && !error && (
             <div className="space-y-6">
-              {userInfo.avatar_url && (
-                <div className="flex justify-center">
-                  <img
-                    src={userInfo.avatar_url}
-                    alt="Avatar"
-                    className="h-32 w-32 rounded-full object-cover"
-                  />
-                </div>
-              )}
+              <div className="p-4 bg-green-50 border border-green-200 rounded">
+                <p className="text-sm text-green-800">
+                  <strong>✓ Sucesso!</strong> A conexão com a API do TikTok está funcionando!
+                </p>
+              </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {userInfo.display_name && (
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-500">Nome de Exibição</h3>
-                    <p className="mt-1 text-lg font-semibold text-gray-900">{userInfo.display_name}</p>
-                  </div>
-                )}
-
-                {userInfo.bio_description && (
+                {userInfo.display_name ? (
                   <div className="md:col-span-2">
-                    <h3 className="text-sm font-medium text-gray-500">Biografia</h3>
-                    <p className="mt-1 text-gray-900">{userInfo.bio_description}</p>
+                    <h3 className="text-sm font-medium text-gray-500">Nome de Exibição</h3>
+                    <p className="mt-1 text-2xl font-bold text-gray-900">{userInfo.display_name}</p>
                   </div>
-                )}
-
-                {userInfo.follower_count !== undefined && (
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-500">Seguidores</h3>
-                    <p className="mt-1 text-2xl font-bold text-gray-900">
-                      {userInfo.follower_count.toLocaleString('pt-BR')}
+                ) : (
+                  <div className="md:col-span-2 p-4 bg-yellow-50 border border-yellow-200 rounded">
+                    <p className="text-sm text-yellow-800">
+                      ⚠️ O campo <code className="bg-yellow-100 px-1 rounded">display_name</code> não foi retornado pela API.
                     </p>
                   </div>
                 )}
 
-                {userInfo.following_count !== undefined && (
+                {userInfo.open_id && (
                   <div>
-                    <h3 className="text-sm font-medium text-gray-500">Seguindo</h3>
-                    <p className="mt-1 text-2xl font-bold text-gray-900">
-                      {userInfo.following_count.toLocaleString('pt-BR')}
+                    <h3 className="text-sm font-medium text-gray-500">Open ID</h3>
+                    <p className="mt-1 text-sm text-gray-700 font-mono break-all bg-gray-50 p-2 rounded">
+                      {userInfo.open_id}
                     </p>
                   </div>
                 )}
 
-                {userInfo.likes_count !== undefined && (
+                {userInfo.union_id && (
                   <div>
-                    <h3 className="text-sm font-medium text-gray-500">Curtidas</h3>
-                    <p className="mt-1 text-2xl font-bold text-gray-900">
-                      {userInfo.likes_count.toLocaleString('pt-BR')}
+                    <h3 className="text-sm font-medium text-gray-500">Union ID</h3>
+                    <p className="mt-1 text-sm text-gray-700 font-mono break-all bg-gray-50 p-2 rounded">
+                      {userInfo.union_id}
                     </p>
                   </div>
                 )}
 
-                {userInfo.video_count !== undefined && (
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-500">Vídeos</h3>
-                    <p className="mt-1 text-2xl font-bold text-gray-900">
-                      {userInfo.video_count.toLocaleString('pt-BR')}
-                    </p>
+                {userInfo.avatar_url && (
+                  <div className="md:col-span-2">
+                    <h3 className="text-sm font-medium text-gray-500 mb-2">Avatar</h3>
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={userInfo.avatar_url}
+                        alt="Avatar"
+                        className="h-24 w-24 rounded-full object-cover border-2 border-gray-200"
+                      />
+                      <p className="text-xs text-gray-600 break-all font-mono flex-1 bg-gray-50 p-2 rounded">
+                        {userInfo.avatar_url}
+                      </p>
+                    </div>
                   </div>
                 )}
               </div>
 
-              <div className="mt-6 pt-6 border-t border-gray-200">
+              {/* Mostrar dados brutos para debug */}
+              <details className="mt-6">
+                <summary className="cursor-pointer text-sm font-medium text-gray-700 hover:text-gray-900">
+                  Ver dados completos da resposta (debug)
+                </summary>
+                <pre className="mt-2 p-4 bg-gray-50 rounded text-xs overflow-auto max-h-64">
+                  {JSON.stringify(userInfo, null, 2)}
+                </pre>
+              </details>
+
+              <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded">
+                <p className="text-sm text-blue-800">
+                  <strong>ℹ️ Informação:</strong> Com o escopo <code className="bg-blue-100 px-1 rounded">user.info.basic</code>, 
+                  apenas informações básicas estão disponíveis. Para acessar mais informações (bio, estatísticas, etc.), 
+                  você precisa autenticar com escopos adicionais: <code className="bg-blue-100 px-1 rounded">user.info.profile</code> e <code className="bg-blue-100 px-1 rounded">user.info.stats</code>.
+                </p>
+              </div>
+
+              <div className="mt-6 pt-6 border-t border-gray-200 flex gap-4">
                 <button
                   onClick={fetchUserInfo}
                   className="px-4 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700 transition"
                 >
                   Atualizar Informações
                 </button>
+                <Link
+                  href="/tiktok/home"
+                  className="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded hover:bg-gray-300 transition"
+                >
+                  Voltar para Home
+                </Link>
               </div>
             </div>
           )}
