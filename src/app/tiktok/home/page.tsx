@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -45,25 +47,25 @@ TIKTOK_REDIRECT_URI=http://localhost:3000/tiktok`}
                 </p>
                 <div className="space-y-3">
                   <div>
-                    <a
+                    <Link
                       href="/tiktok/api/auth/authorize?scope=user.info.basic"
                       className="inline-block bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded transition"
                       prefetch={false}
                     >
                       Autorizar com TikTok (Apenas user.info.basic)
-                    </a>
+                    </Link>
                     <p className="text-sm text-gray-600 mt-1">
                       Escopo básico - recomendado para começar
                     </p>
                   </div>
                   <div>
-                    <a
+                    <Link
                       href="/tiktok/api/auth/authorize?scope=user.info.basic,video.list"
                       className="inline-block bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded transition"
                       prefetch={false}
                     >
                       Autorizar com TikTok (user.info.basic + video.list)
-                    </a>
+                    </Link>
                     <p className="text-sm text-gray-600 mt-1">
                       Escopos completos - certifique-se de que estão habilitados no app
                     </p>
