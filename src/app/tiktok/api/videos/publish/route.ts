@@ -3,6 +3,7 @@ import { Post } from '@/lib/tiktok';
 import { promises as fs } from 'fs';
 import path from 'path';
 import os from 'os';
+import crypto from 'crypto';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,7 +29,9 @@ async function downloadVideoToTemp(videoUrl: string) {
 
   await fs.writeFile(tempFilePath, buffer);
 
-  return { tempFilePath, contentType, fileSize: buffer.length };
+  const hash = crypto.createHash('md5').update(buffer).digest('hex');
+
+  return { tempFilePath, contentType, fileSize: buffer.length, md5: hash };
 }
 
 function resolveAccessToken(request: NextRequest): string | null {
@@ -81,6 +84,7 @@ export async function POST(request: NextRequest) {
     let contentType = 'video/mp4';
     let fileSize = 0;
     let mode: 'draft' | 'direct' = 'draft';
+    let videoHash: string | null = null;
 
     if (isMultipart) {
       const formData = await request.formData();
@@ -121,11 +125,13 @@ export async function POST(request: NextRequest) {
         const extension = file.name.split('.').pop() || 'mp4';
         tempFilePath = path.join(os.tmpdir(), `tiktok-upload-${Date.now()}.${extension}`);
         await fs.writeFile(tempFilePath, buffer);
+        videoHash = crypto.createHash('md5').update(buffer).digest('hex');
       } else if (videoUrl) {
         const download = await downloadVideoToTemp(videoUrl);
         tempFilePath = download.tempFilePath;
         contentType = download.contentType;
         fileSize = download.fileSize;
+        videoHash = download.md5;
       } else {
         return NextResponse.json(
           {
@@ -164,6 +170,7 @@ export async function POST(request: NextRequest) {
       tempFilePath = download.tempFilePath;
       contentType = download.contentType;
       fileSize = download.fileSize;
+      videoHash = download.md5;
     }
 
     const post = new Post({
@@ -187,6 +194,7 @@ export async function POST(request: NextRequest) {
       video_type: contentType,
       chunk_size: fileSize,
       total_chunk_count: 1,
+      ...(videoHash ? { video_hash: videoHash } : {}),
     };
 
     let initResponse;
