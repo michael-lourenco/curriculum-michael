@@ -1,9 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Authentication } from '@/lib/tiktok';
 
+/**
+ * Esta rota processa o callback do TikTok quando o redirect URI é /tiktok
+ * Ela verifica se há parâmetros de callback (code ou error)
+ * Se houver, processa o callback. Caso contrário, redireciona para a página principal
+ */
 export async function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams;
+  const code = searchParams.get('code');
+  const error = searchParams.get('error');
+
+  // Se houver parâmetros de callback (code ou error), processa o callback
+  if (code || error) {
+    return handleCallback(request, searchParams);
+  }
+
+  // Se não for callback, fazer um redirect temporário (307) para /tiktok/home
+  // onde está a página principal. Isso mantém a URL limpa para o usuário final.
+  return NextResponse.redirect(new URL('/tiktok/home', request.nextUrl.origin), 307);
+}
+
+async function handleCallback(request: NextRequest, searchParams: URLSearchParams) {
   try {
-    const searchParams = request.nextUrl.searchParams;
     const code = searchParams.get('code');
     const state = searchParams.get('state');
     const error = searchParams.get('error');
@@ -45,12 +64,8 @@ export async function GET(request: NextRequest) {
       graph_version: 'v2',
     });
 
-    // O redirect URI deve corresponder exatamente ao usado na autorização
-    // IMPORTANTE: Se TIKTOK_REDIRECT_URI estiver configurada, ela DEVE corresponder
-    // exatamente ao usado na rota de autorização
-    const redirectUri = process.env.TIKTOK_REDIRECT_URI 
-      ? process.env.TIKTOK_REDIRECT_URI.replace('{origin}', request.nextUrl.origin)
-      : `${request.nextUrl.origin}/tiktok/api/auth/callback`;
+    const redirectUri = process.env.TIKTOK_REDIRECT_URI || 
+      `${request.nextUrl.origin}/tiktok`;
     
     const tokenResponse = await auth.getAccessTokenFromCode(code, redirectUri, codeVerifier);
 
@@ -72,7 +87,7 @@ export async function GET(request: NextRequest) {
       return errorResponse;
     }
 
-    // Sucesso - redirecionar para página de sucesso ou página principal
+    // Sucesso - redirecionar para página de sucesso
     const successPageUrl = new URL('/tiktok/auth/success', request.nextUrl.origin);
     successPageUrl.searchParams.set('access_token', tokenResponse.data?.access_token || '');
     if (tokenResponse.data?.scope) {
@@ -82,7 +97,7 @@ export async function GET(request: NextRequest) {
     const response = NextResponse.redirect(successPageUrl.toString());
     response.cookies.delete('tiktok_code_verifier');
     
-    // Opcionalmente, salvar o token em um cookie seguro
+    // Salvar o token em um cookie seguro
     if (tokenResponse.data?.access_token) {
       response.cookies.set('tiktok_access_token', tokenResponse.data.access_token, {
         httpOnly: true,
@@ -95,11 +110,11 @@ export async function GET(request: NextRequest) {
 
     return response;
   } catch (error: any) {
-    console.error('Error in auth callback:', error);
-    return NextResponse.json(
-      { error: 'Internal server error', message: error.message },
-      { status: 500 }
-    );
+    console.error('Error in TikTok callback:', error);
+    const errorPageUrl = new URL('/tiktok/auth/error', request.nextUrl.origin);
+    errorPageUrl.searchParams.set('error', 'internal_error');
+    errorPageUrl.searchParams.set('error_description', error.message || 'Erro interno do servidor');
+    return NextResponse.redirect(errorPageUrl.toString());
   }
 }
 

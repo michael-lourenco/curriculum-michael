@@ -5,7 +5,9 @@ import { PKCE } from '@/lib/tiktok/request/constants';
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const scope = searchParams.get('scope') || 'user.info.basic,video.list';
+    // Por padrão, usar apenas user.info.basic que é o escopo mais básico
+    // Você pode adicionar mais escopos separados por vírgula: user.info.basic,video.list
+    const scope = searchParams.get('scope') || 'user.info.basic';
     const state = searchParams.get('state') || '';
 
     const { codeVerifier, codeChallenge } = await PKCE.generatePair();
@@ -16,8 +18,13 @@ export async function GET(request: NextRequest) {
       graph_version: 'v2',
     });
 
-    const redirectUri = process.env.TIKTOK_REDIRECT_URI || 
-      `${request.nextUrl.origin}/tiktok`;
+    // Usar a variável de ambiente se configurada
+    // IMPORTANTE: Se você tem /tiktok cadastrado no TikTok for Developers,
+    // configure TIKTOK_REDIRECT_URI=https://michaellourenco.com/tiktok no .env
+    // Caso contrário, usa /tiktok/api/auth/callback como padrão
+    const redirectUri = process.env.TIKTOK_REDIRECT_URI 
+      ? process.env.TIKTOK_REDIRECT_URI.replace('{origin}', request.nextUrl.origin)
+      : `${request.nextUrl.origin}/tiktok/api/auth/callback`;
     
     const authUrl = auth.getAuthenticationUrl(redirectUri, scope, state, codeChallenge);
 

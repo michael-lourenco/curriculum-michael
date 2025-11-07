@@ -43,12 +43,36 @@ TIKTOK_REDIRECT_URI=http://localhost:3000/tiktok`}
                 <p className="text-gray-700 mb-4">
                   <strong>2. Iniciar autenticação:</strong>
                 </p>
-                <a
-                  href="/tiktok/api/auth/authorize"
-                  className="inline-block bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded transition"
-                >
-                  Autorizar com TikTok
-                </a>
+                <div className="space-y-3">
+                  <div>
+                    <a
+                      href="/tiktok/api/auth/authorize?scope=user.info.basic"
+                      className="inline-block bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded transition"
+                    >
+                      Autorizar com TikTok (Apenas user.info.basic)
+                    </a>
+                    <p className="text-sm text-gray-600 mt-1">
+                      Escopo básico - recomendado para começar
+                    </p>
+                  </div>
+                  <div>
+                    <a
+                      href="/tiktok/api/auth/authorize?scope=user.info.basic,video.list"
+                      className="inline-block bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded transition"
+                    >
+                      Autorizar com TikTok (user.info.basic + video.list)
+                    </a>
+                    <p className="text-sm text-gray-600 mt-1">
+                      Escopos completos - certifique-se de que estão habilitados no app
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded">
+                  <p className="text-sm text-yellow-800">
+                    <strong>⚠️ Importante:</strong> Se receber erro de "invalid_scope", você precisa habilitar os escopos no <a href="https://developers.tiktok.com/apps" target="_blank" rel="noopener noreferrer" className="underline">TikTok for Developers</a>. 
+                    Comece testando apenas com <code className="bg-yellow-100 px-1 rounded">user.info.basic</code>.
+                  </p>
+                </div>
               </div>
             </section>
 
