@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { User } from '@/lib/tiktok';
 
+// Esta rota é dinâmica porque usa headers, cookies e searchParams
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const authHeader = request.headers.get('Authorization');
@@ -59,7 +62,9 @@ export async function GET(request: NextRequest) {
     // Log da resposta para debug
     console.log('User info response:', JSON.stringify(userInfo, null, 2));
 
-    if (userInfo.error) {
+    // A API do TikTok pode retornar error.code === "ok" que significa sucesso, não erro
+    // Verificar se realmente é um erro (error existe E code não é "ok")
+    if (userInfo.error && userInfo.error.code !== 'ok') {
       console.error('Error from TikTok API:', userInfo.error);
       return NextResponse.json(
         { 
@@ -73,6 +78,8 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Se error.code === "ok", isso significa sucesso - retornar os dados normalmente
+    // A resposta pode estar em userInfo.data ou diretamente em userInfo
     return NextResponse.json(userInfo);
   } catch (error: any) {
     console.error('Error getting user info:', error);

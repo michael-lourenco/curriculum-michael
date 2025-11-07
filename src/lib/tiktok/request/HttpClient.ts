@@ -84,7 +84,16 @@ export class HttpClient {
         url,
         method,
         status: response.status,
+        rawResponse: rawResponse.substring(0, 500), // Limitar tamanho do log
       };
+
+      // Se o status HTTP não for 2xx, mas não houver erro no JSON, criar erro baseado no status
+      if (!response.ok && !jsonResponse.error) {
+        jsonResponse.error = {
+          code: `HTTP_${response.status}`,
+          message: `HTTP ${response.status}: ${response.statusText}`,
+        };
+      }
 
       return jsonResponse;
     } catch (error: any) {

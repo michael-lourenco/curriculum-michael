@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Video } from '@/lib/tiktok';
 
+// Esta rota é dinâmica porque usa headers, cookies e body
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const authHeader = request.headers.get('Authorization');

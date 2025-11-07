@@ -6,6 +6,10 @@ import { Authentication } from '@/lib/tiktok';
  * Ela verifica se há parâmetros de callback (code ou error)
  * Se houver, processa o callback. Caso contrário, redireciona para a página principal
  */
+
+// Esta rota é dinâmica porque usa searchParams e cookies
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const code = searchParams.get('code');

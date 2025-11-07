@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Webhooks } from '@/lib/tiktok';
 
+// Esta rota é dinâmica porque usa searchParams e body
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const webhooks = new Webhooks();

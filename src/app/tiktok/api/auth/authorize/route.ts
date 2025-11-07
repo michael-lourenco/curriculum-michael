@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Authentication } from '@/lib/tiktok';
 import { PKCE } from '@/lib/tiktok/request/constants';
 
+// Esta rota é dinâmica porque usa searchParams e cookies
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
