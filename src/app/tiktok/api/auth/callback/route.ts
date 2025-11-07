@@ -54,6 +54,9 @@ export async function GET(request: NextRequest) {
     
     const tokenResponse = await auth.getAccessTokenFromCode(code, redirectUri, codeVerifier);
 
+    // Debug: log da resposta para verificar estrutura
+    console.log('Token response structure:', JSON.stringify(tokenResponse, null, 2));
+
     if (tokenResponse.error) {
       const errorPageUrl = new URL('/tiktok/auth/error', request.nextUrl.origin);
       errorPageUrl.searchParams.set('error', 'token_error');
@@ -72,9 +75,23 @@ export async function GET(request: NextRequest) {
       return errorResponse;
     }
 
-    // Sucesso - redirecionar para página de sucesso ou página principal
+    // Sucesso - redirecionar para página de sucesso
+    // O token pode estar em diferentes lugares na resposta do TikTok
+    // Formato 1: { data: { access_token: "..." } }
+    // Formato 2: { access_token: "..." } (sem wrapper data)
+    const accessToken = tokenResponse.data?.access_token || 
+                       (tokenResponse as any).access_token ||
+                       null;
+    
     const successPageUrl = new URL('/tiktok/auth/success', request.nextUrl.origin);
-    successPageUrl.searchParams.set('access_token', tokenResponse.data?.access_token || '');
+    
+    // Não passar token na URL por segurança - ele já está no cookie
+    // Mas podemos passar um indicador de sucesso
+    if (accessToken) {
+      // Token encontrado - não passar na URL por segurança, apenas no cookie
+      successPageUrl.searchParams.set('authenticated', 'true');
+    }
+    
     if (tokenResponse.data?.scope) {
       successPageUrl.searchParams.set('scope', tokenResponse.data.scope);
     }
@@ -82,15 +99,18 @@ export async function GET(request: NextRequest) {
     const response = NextResponse.redirect(successPageUrl.toString());
     response.cookies.delete('tiktok_code_verifier');
     
-    // Opcionalmente, salvar o token em um cookie seguro
-    if (tokenResponse.data?.access_token) {
-      response.cookies.set('tiktok_access_token', tokenResponse.data.access_token, {
+    // Salvar o token em um cookie seguro
+    if (accessToken) {
+      response.cookies.set('tiktok_access_token', accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         maxAge: tokenResponse.data?.expires_in || 3600,
         path: '/',
       });
+      console.log('Token salvo no cookie com sucesso');
+    } else {
+      console.warn('Token não encontrado na resposta:', tokenResponse);
     }
 
     return response;

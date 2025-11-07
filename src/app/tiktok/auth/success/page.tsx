@@ -7,6 +7,7 @@ import { Suspense } from 'react';
 function AuthSuccessContent() {
   const searchParams = useSearchParams();
   const scope = searchParams.get('scope');
+  const authenticated = searchParams.get('authenticated');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -27,8 +28,16 @@ function AuthSuccessContent() {
 
           <div className="mb-6">
             <p className="text-lg text-gray-700 mb-4">
-              Você foi autenticado com sucesso no TikTok. Agora você pode usar os recursos da API do TikTok.
+              Você foi autenticado com sucesso no TikTok. O token de acesso foi salvo com segurança em um cookie HTTP-only.
             </p>
+            
+            {authenticated === 'true' && (
+              <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded">
+                <p className="text-sm text-green-800">
+                  <strong>✓ Token salvo com sucesso!</strong> Você pode agora acessar as informações do usuário e outros recursos da API.
+                </p>
+              </div>
+            )}
 
             {scope && (
               <div className="mt-4 p-4 bg-gray-50 rounded border border-gray-200">
