@@ -35,14 +35,17 @@ export default function UserInfoPage() {
       });
       
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || errorData.error || 'Erro ao buscar informações do usuário');
+        const errorData = await response.json().catch(() => ({ error: 'Erro desconhecido' }));
+        const errorMessage = errorData.message || errorData.error || `Erro ${response.status}: ${response.statusText}`;
+        const errorDetails = errorData.details ? JSON.stringify(errorData.details, null, 2) : '';
+        throw new Error(`${errorMessage}${errorDetails ? `\n\nDetalhes: ${errorDetails}` : ''}`);
       }
 
       const data = await response.json();
       
       if (data.error) {
-        throw new Error(data.error.message || 'Erro ao buscar informações do usuário');
+        const errorDetails = data.details ? JSON.stringify(data.details, null, 2) : '';
+        throw new Error(`${data.error.message || data.error || 'Erro ao buscar informações do usuário'}${errorDetails ? `\n\nDetalhes: ${errorDetails}` : ''}`);
       }
 
       setUserInfo(data.data?.user || data.data || null);
@@ -85,18 +88,24 @@ export default function UserInfoPage() {
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                   </svg>
                 </div>
-                <div className="ml-3">
+                <div className="ml-3 flex-1">
                   <h3 className="text-sm font-medium text-red-800">Erro</h3>
                   <div className="mt-2 text-sm text-red-700">
-                    <p>{error}</p>
+                    <pre className="whitespace-pre-wrap break-words">{error}</pre>
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-4 space-x-4">
                     <Link
                       href="/tiktok/api/auth/authorize?scope=user.info.basic"
                       className="text-sm font-medium text-red-800 hover:text-red-600 underline"
                     >
                       Autenticar novamente
                     </Link>
+                    <button
+                      onClick={fetchUserInfo}
+                      className="text-sm font-medium text-red-800 hover:text-red-600 underline"
+                    >
+                      Tentar novamente
+                    </button>
                   </div>
                 </div>
               </div>

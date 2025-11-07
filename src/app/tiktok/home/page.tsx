@@ -48,6 +48,7 @@ TIKTOK_REDIRECT_URI=http://localhost:3000/tiktok`}
                     <a
                       href="/tiktok/api/auth/authorize?scope=user.info.basic"
                       className="inline-block bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded transition"
+                      prefetch={false}
                     >
                       Autorizar com TikTok (Apenas user.info.basic)
                     </a>
@@ -59,6 +60,7 @@ TIKTOK_REDIRECT_URI=http://localhost:3000/tiktok`}
                     <a
                       href="/tiktok/api/auth/authorize?scope=user.info.basic,video.list"
                       className="inline-block bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded transition"
+                      prefetch={false}
                     >
                       Autorizar com TikTok (user.info.basic + video.list)
                     </a>

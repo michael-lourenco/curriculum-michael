@@ -39,15 +39,32 @@ export async function GET(request: NextRequest) {
 
     const searchParams = request.nextUrl.searchParams;
     const fieldsParam = searchParams.get('fields');
-    const fields = fieldsParam ? fieldsParam.split(',') : [];
+    const fields = fieldsParam ? fieldsParam.split(',').map(f => f.trim()).filter(f => f) : [];
 
-    const userInfo = await user.getSelf(
-      fields.length > 0 ? { fields } : {}
-    );
+    // Log para debug
+    console.log('Fetching user info with token:', accessToken ? `${accessToken.substring(0, 10)}...` : 'NOT FOUND');
+    console.log('Fields requested:', fields);
+
+    const params: Record<string, any> = {};
+    if (fields.length > 0) {
+      params.fields = fields.join(',');
+    }
+
+    const userInfo = await user.getSelf(params);
+
+    // Log da resposta para debug
+    console.log('User info response:', JSON.stringify(userInfo, null, 2));
 
     if (userInfo.error) {
+      console.error('Error from TikTok API:', userInfo.error);
       return NextResponse.json(
-        { error: 'Failed to get user info', details: userInfo.error },
+        { 
+          error: 'Failed to get user info', 
+          details: userInfo.error,
+          message: userInfo.error.message || 'Erro ao obter informações do usuário do TikTok',
+          code: userInfo.error.code,
+          log_id: userInfo.error.log_id,
+        },
         { status: 400 }
       );
     }
