@@ -193,13 +193,21 @@ export default function UserInfoPage() {
                 </p>
               </div>
 
-              <div className="mt-6 pt-6 border-t border-gray-200 flex gap-4">
+              <div className="mt-6 pt-6 border-t border-gray-200 flex gap-4 flex-wrap">
                 <button
                   onClick={fetchUserInfo}
                   className="px-4 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700 transition"
                 >
                   Atualizar Informações
                 </button>
+                <a
+                  href="/tiktok/api/auth/validate"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-green-600 text-white font-medium rounded hover:bg-green-700 transition"
+                >
+                  Validar Token
+                </a>
                 <Link
                   href="/tiktok/home"
                   className="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded hover:bg-gray-300 transition"
