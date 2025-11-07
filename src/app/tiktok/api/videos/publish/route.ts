@@ -178,6 +178,8 @@ export async function POST(request: NextRequest) {
         source: 'FILE_UPLOAD',
         video_size: fileSize,
         video_type: contentType,
+        chunk_size: fileSize,
+        total_chunk_count: 1,
       },
       video_post_info: videoPostInfo,
     });
