@@ -21,7 +21,7 @@ interface StatusResult {
 }
 
 const defaultVideoUrl =
-  'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+  'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4';
 
 export default function PublishPage() {
   const [videoUrl, setVideoUrl] = useState(defaultVideoUrl);

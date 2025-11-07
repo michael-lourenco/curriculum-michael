@@ -99,16 +99,11 @@ export async function POST(request: NextRequest) {
     if (schedule_time) videoPostInfo.schedule_time = schedule_time;
     if (cover_time !== undefined && cover_time !== '') videoPostInfo.cover_time = cover_time;
 
-    const videoFormat = contentType.split('/')[1]?.split(';')[0] || 'mp4';
-
     const initResponse = await post.publish({
       source_info: {
         source: 'FILE_UPLOAD',
-        upload_pattern: 'SINGLE',
-        video_format: videoFormat.toUpperCase(),
         video_size: fileSize,
-        chunk_size: fileSize,
-        total_chunk_count: 1,
+        video_type: contentType,
       },
       video_post_info: videoPostInfo,
     });
