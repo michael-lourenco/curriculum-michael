@@ -80,6 +80,7 @@ export async function POST(request: NextRequest) {
     let coverTime: number | undefined;
     let contentType = 'video/mp4';
     let fileSize = 0;
+    let mode: 'draft' | 'direct' = 'draft';
 
     if (isMultipart) {
       const formData = await request.formData();
@@ -91,6 +92,10 @@ export async function POST(request: NextRequest) {
       disableDuet = parseBoolean((formData.get('disable_duet') as string | null) ?? undefined);
       disableComment = parseBoolean((formData.get('disable_comment') as string | null) ?? undefined);
       allowStitch = parseBoolean((formData.get('allow_stitch') as string | null) ?? undefined);
+      const modeField = (formData.get('mode') as string | null)?.toString().toLowerCase();
+      if (modeField === 'direct') {
+        mode = 'direct';
+      }
 
       const scheduleRaw = (formData.get('schedule_time') as string | null)?.toString() ?? '';
       if (scheduleRaw) {
@@ -151,6 +156,9 @@ export async function POST(request: NextRequest) {
       allowStitch = typeof body.allow_stitch === 'boolean' ? body.allow_stitch : undefined;
       scheduleTime = typeof body.schedule_time === 'number' ? body.schedule_time : undefined;
       coverTime = typeof body.cover_time === 'number' ? body.cover_time : undefined;
+      if (typeof body.mode === 'string' && body.mode.toLowerCase() === 'direct') {
+        mode = 'direct';
+      }
 
       const download = await downloadVideoToTemp(videoUrl);
       tempFilePath = download.tempFilePath;
@@ -173,16 +181,29 @@ export async function POST(request: NextRequest) {
     if (typeof scheduleTime === 'number') videoPostInfo.schedule_time = scheduleTime;
     if (typeof coverTime === 'number') videoPostInfo.cover_time = coverTime;
 
-    const initResponse = await post.publish({
-      source_info: {
-        source: 'FILE_UPLOAD',
-        video_size: fileSize,
-        video_type: contentType,
-        chunk_size: fileSize,
-        total_chunk_count: 1,
-      },
-      video_post_info: videoPostInfo,
-    });
+    const sourceInfo = {
+      source: 'FILE_UPLOAD',
+      video_size: fileSize,
+      video_type: contentType,
+      chunk_size: fileSize,
+      total_chunk_count: 1,
+    };
+
+    let initResponse;
+    if (mode === 'direct') {
+      initResponse = await post.publish({
+        source_info: sourceInfo,
+        video_post_info: videoPostInfo,
+      });
+    } else {
+      const draftPayload: Record<string, any> = {
+        source_info: sourceInfo,
+      };
+      if (Object.keys(videoPostInfo).length > 0) {
+        draftPayload.post_info = videoPostInfo;
+      }
+      initResponse = await post.draft(draftPayload);
+    }
 
     if (initResponse.error && initResponse.error.code !== 'ok') {
       return NextResponse.json(
@@ -225,16 +246,26 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const statusResponse = await post.fetchStatus({
-      publish_id: publishId,
-    });
+    let statusResponse: Record<string, any> | null = null;
+    try {
+      statusResponse = await post.fetchStatus({
+        publish_id: publishId,
+      });
+    } catch (statusError) {
+      console.warn('Não foi possível obter status da publicação:', statusError);
+    }
 
     return NextResponse.json({
       success: true,
+      mode,
       publish_id: publishId,
       init_response: initResponse,
       upload_response: uploadResponse,
       status_response: statusResponse,
+      message:
+        mode === 'draft'
+          ? 'Vídeo enviado como rascunho. O criador deve finalizar a publicação no TikTok.'
+          : 'Vídeo enviado para publicação direta. Aguarde processamento do TikTok.',
     });
   } catch (error: any) {
     console.error('Error publishing video:', error);

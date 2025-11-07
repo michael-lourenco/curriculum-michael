@@ -39,6 +39,7 @@ export default function PublishPage() {
   const [publishResult, setPublishResult] = useState<PublishResult | null>(null);
   const [statusResult, setStatusResult] = useState<StatusResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleVideoFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -55,6 +56,7 @@ export default function PublishPage() {
       setError(null);
       setPublishResult(null);
       setStatusResult(null);
+      setSuccessMessage(null);
       if (!videoFile && !videoUrl.trim()) {
         throw new Error('Selecione um arquivo de vídeo ou informe uma URL.');
       }
@@ -81,6 +83,8 @@ export default function PublishPage() {
         formData.append('cover_time', String(coverTime));
       }
 
+      formData.append('mode', 'draft');
+
       const response = await fetch('/tiktok/api/videos/publish', {
         method: 'POST',
         body: formData,
@@ -94,6 +98,11 @@ export default function PublishPage() {
         const message = data.message || 'Falha ao publicar o vídeo.';
         throw new Error(message);
       }
+
+      setSuccessMessage(
+        data.message ||
+          'Rascunho criado com sucesso. Abra o TikTok para revisar e concluir a publicação.'
+      );
     } catch (err: any) {
       setError(err.message || 'Erro ao publicar o vídeo.');
     } finally {
@@ -151,8 +160,8 @@ export default function PublishPage() {
           <div className="space-y-6">
             <div className="p-4 bg-purple-50 border border-purple-200 rounded">
               <p className="text-sm text-purple-800">
-                Você pode publicar enviando um arquivo <strong>diretamente do computador</strong> ou informando uma URL pública do vídeo.
-                Se ambos forem fornecidos, o arquivo local terá prioridade.
+                Você pode enviar um arquivo <strong>diretamente do computador</strong> ou informar uma URL pública do vídeo.
+                Este fluxo cria um <strong>rascunho</strong> na conta TikTok: após o upload, o criador precisa abrir o app e concluir a publicação.
               </p>
             </div>
 
@@ -297,7 +306,7 @@ export default function PublishPage() {
                 disabled={loading}
                 className="px-6 py-3 bg-purple-600 text-white font-medium rounded shadow hover:bg-purple-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
               >
-                {loading ? 'Enviando...' : 'Publicar Vídeo'}
+                {loading ? 'Enviando...' : 'Enviar Rascunho'}
               </button>
               <button
                 onClick={handleStatusCheck}
@@ -328,6 +337,15 @@ export default function PublishPage() {
             {error && (
               <div className="p-4 bg-red-50 border border-red-200 rounded">
                 <p className="text-sm text-red-700">{error}</p>
+              </div>
+            )}
+
+            {successMessage && (
+              <div className="p-4 bg-green-50 border border-green-200 rounded">
+                <p className="text-sm text-green-700">{successMessage}</p>
+                <p className="text-xs text-green-700 mt-2">
+                  Dica: peça ao criador para abrir o TikTok, acessar a notificação de upload e finalizar a postagem.
+                </p>
               </div>
             )}
 
