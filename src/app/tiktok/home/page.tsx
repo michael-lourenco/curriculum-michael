@@ -60,14 +60,14 @@ TIKTOK_REDIRECT_URI=http://localhost:3000/tiktok`}
                   </div>
                   <div>
                     <Link
-                      href="/tiktok/api/auth/authorize?scope=user.info.basic,video.list"
+                      href="/tiktok/api/auth/authorize?scope=user.info.basic,user.info.profile,user.info.stats,video.upload,video.publish"
                       className="inline-block bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded transition"
                       prefetch={false}
                     >
-                      Autorizar com TikTok (user.info.basic + video.list)
+                      Autorizar com TikTok (Escopos completos + postagem)
                     </Link>
                     <p className="text-sm text-gray-600 mt-1">
-                      Escopos completos - certifique-se de que estão habilitados no app
+                      Inclui escopos para leitura de perfil, estatísticas e publicação de vídeos
                     </p>
                   </div>
                 </div>
@@ -77,6 +77,40 @@ TIKTOK_REDIRECT_URI=http://localhost:3000/tiktok`}
                     Comece testando apenas com <code className="bg-yellow-100 px-1 rounded">user.info.basic</code>.
                   </p>
                 </div>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+                Ferramentas Rápidas</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Link
+                  href="/tiktok/user-info"
+                  className="block p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+                >
+                  <h3 className="text-lg font-semibold text-gray-800">Informações do Usuário</h3>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Visualize dados básicos da conta autenticada.
+                  </p>
+                </Link>
+                <Link
+                  href="/tiktok/publish"
+                  className="block p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+                >
+                  <h3 className="text-lg font-semibold text-gray-800">Publicar Vídeo</h3>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Faça upload direto de vídeos usando video.upload e video.publish.
+                  </p>
+                </Link>
+                <Link
+                  href="/tiktok/validate"
+                  className="block p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+                >
+                  <h3 className="text-lg font-semibold text-gray-800">Validar Token</h3>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Confirme se o access_token está ativo e quais campos estão disponíveis.
+                  </p>
+                </Link>
               </div>
             </section>
 
@@ -100,6 +134,14 @@ TIKTOK_REDIRECT_URI=http://localhost:3000/tiktok`}
                 <div className="bg-gray-50 p-3 rounded">
                   <code className="text-blue-600">POST /tiktok/api/videos/list</code>
                   <span className="text-gray-600 ml-2">- Listar vídeos</span>
+                </div>
+                <div className="bg-gray-50 p-3 rounded">
+                  <code className="text-blue-600">POST /tiktok/api/videos/publish</code>
+                  <span className="text-gray-600 ml-2">- Publicar vídeo direto</span>
+                </div>
+                <div className="bg-gray-50 p-3 rounded">
+                  <code className="text-blue-600">POST /tiktok/api/videos/status</code>
+                  <span className="text-gray-600 ml-2">- Consultar status da publicação</span>
                 </div>
                 <div className="bg-gray-50 p-3 rounded">
                   <code className="text-blue-600">POST /tiktok/webhook</code>

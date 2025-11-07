@@ -17,6 +17,8 @@ interface UserInfo {
 
 export default function UserInfoPage() {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [availableFields, setAvailableFields] = useState<string[]>([]);
+  const [rawResponse, setRawResponse] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -28,35 +30,33 @@ export default function UserInfoPage() {
     try {
       setLoading(true);
       setError(null);
+      setRawResponse(null);
+      setAvailableFields([]);
 
-      // Usar a mesma lógica da validação que está funcionando
-      // Não passar campos específicos - a rota usará os campos padrão que funcionam
       const response = await fetch('/tiktok/api/user/info', {
-        credentials: 'include', // Importante: incluir cookies na requisição
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
       });
       
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ error: 'Erro desconhecido' }));
-        const errorMessage = errorData.message || errorData.error || `Erro ${response.status}: ${response.statusText}`;
-        const errorDetails = errorData.details ? JSON.stringify(errorData.details, null, 2) : '';
-        throw new Error(`${errorMessage}${errorDetails ? `\n\nDetalhes: ${errorDetails}` : ''}`);
-      }
-
       const data = await response.json();
-      
-      console.log('User info response data:', data);
-      
-      if (data.error && data.error.code !== 'ok') {
-        const errorDetails = data.details ? JSON.stringify(data.details, null, 2) : '';
-        throw new Error(`${data.error.message || data.error || 'Erro ao buscar informações do usuário'}${errorDetails ? `\n\nDetalhes: ${errorDetails}` : ''}`);
+      setRawResponse(data);
+
+      if (!response.ok) {
+        const message = data.message || data.error || `Erro ${response.status}: ${response.statusText}`;
+        const details = data.details ? `\n\nDetalhes: ${JSON.stringify(data.details, null, 2)}` : '';
+        throw new Error(`${message}${details}`);
       }
 
-      // Usar a mesma lógica da validação: user_info vem diretamente
+      if (data.error && data.error.code !== 'ok') {
+        const details = data.details ? `\n\nDetalhes: ${JSON.stringify(data.details, null, 2)}` : '';
+        throw new Error(`${data.error.message || data.error || 'Erro ao buscar informações do usuário'}${details}`);
+      }
+
       const userData = data.user_info || data.data?.user || data.data || data;
       setUserInfo(userData);
+      setAvailableFields(data.available_fields || Object.keys(userData));
     } catch (err: any) {
       setError(err.message || 'Erro ao buscar informações do usuário');
       console.error('Error fetching user info:', err);
@@ -129,7 +129,6 @@ export default function UserInfoPage() {
               </div>
 
               <div className="space-y-6">
-                {/* Avatar e Nome de Exibição - Destaque */}
                 <div className="flex items-center gap-6 pb-6 border-b border-gray-200">
                   {userInfo.avatar_url && (
                     <img
@@ -150,7 +149,6 @@ export default function UserInfoPage() {
                   </div>
                 </div>
 
-                {/* IDs - Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {userInfo.open_id && (
                     <div>
@@ -171,7 +169,6 @@ export default function UserInfoPage() {
                   )}
                 </div>
 
-                {/* Bio Description se disponível */}
                 {userInfo.bio_description && (
                   <div>
                     <h3 className="text-sm font-medium text-gray-500 mb-2">Biografia</h3>
@@ -179,10 +176,9 @@ export default function UserInfoPage() {
                   </div>
                 )}
 
-                {/* Estatísticas se disponíveis */}
-                {(userInfo.follower_count !== undefined || 
-                  userInfo.following_count !== undefined || 
-                  userInfo.likes_count !== undefined || 
+                {(userInfo.follower_count !== undefined ||
+                  userInfo.following_count !== undefined ||
+                  userInfo.likes_count !== undefined ||
                   userInfo.video_count !== undefined) && (
                   <div>
                     <h3 className="text-sm font-medium text-gray-500 mb-4">Estatísticas</h3>
@@ -224,13 +220,28 @@ export default function UserInfoPage() {
                 )}
               </div>
 
-              {/* Mostrar dados brutos para debug */}
-              <details className="mt-6">
+              {availableFields.length > 0 && (
+                <div className="p-4 bg-gray-50 border border-gray-200 rounded">
+                  <h3 className="text-sm font-medium text-gray-600 mb-2">Campos disponíveis</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {availableFields.map((field) => (
+                      <span
+                        key={field}
+                        className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"
+                      >
+                        {field}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <details className="p-4 bg-gray-50 border border-gray-200 rounded">
                 <summary className="cursor-pointer text-sm font-medium text-gray-700 hover:text-gray-900">
-                  Ver dados completos da resposta (debug)
+                  Ver resposta completa (debug)
                 </summary>
-                <pre className="mt-2 p-4 bg-gray-50 rounded text-xs overflow-auto max-h-64">
-                  {JSON.stringify(userInfo, null, 2)}
+                <pre className="mt-2 p-4 bg-white rounded text-xs overflow-auto max-h-96">
+                  {JSON.stringify(rawResponse ?? userInfo, null, 2)}
                 </pre>
               </details>
 
@@ -238,7 +249,7 @@ export default function UserInfoPage() {
                 <p className="text-sm text-blue-800">
                   <strong>ℹ️ Informação:</strong> Com o escopo <code className="bg-blue-100 px-1 rounded">user.info.basic</code>, 
                   apenas informações básicas estão disponíveis. Para acessar mais informações (bio, estatísticas, etc.), 
-                  você precisa autenticar com escopos adicionais: <code className="bg-blue-100 px-1 rounded">user.info.profile</code> e <code className="bg-blue-100 px-1 rounded">user.info.stats</code>.
+                  autentique também com <code className="bg-blue-100 px-1 rounded">user.info.profile</code> e <code className="bg-blue-100 px-1 rounded">user.info.stats</code>.
                 </p>
               </div>
 
@@ -249,14 +260,13 @@ export default function UserInfoPage() {
                 >
                   Atualizar Informações
                 </button>
-                <a
+                <Link
                   href="/tiktok/api/auth/validate"
                   target="_blank"
-                  rel="noopener noreferrer"
                   className="px-4 py-2 bg-green-600 text-white font-medium rounded hover:bg-green-700 transition"
                 >
                   Validar Token
-                </a>
+                </Link>
                 <Link
                   href="/tiktok/home"
                   className="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded hover:bg-gray-300 transition"
