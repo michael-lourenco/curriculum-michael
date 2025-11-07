@@ -62,7 +62,7 @@ export default function ValidateTokenPage() {
                 value={token}
                 onChange={(e) => setToken(e.target.value)}
                 placeholder="Cole o access_token aqui (ex: act.SmuxT7Y6GoKurXecCxD3XkHjqRBenh28tzkVeqyeVnIWsoCeCmVsCshGokXj!4524.va)"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-900 placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm"
                 rows={3}
               />
             </div>
