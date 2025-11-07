@@ -6,13 +6,23 @@ export async function POST(request: NextRequest) {
     const authHeader = request.headers.get('Authorization');
     let accessToken = '';
 
+    // Tentar obter token do header Authorization
     if (authHeader && authHeader.startsWith('Bearer ')) {
       accessToken = authHeader.substring(7);
+    }
+    
+    // Tentar obter token do cookie (salvo durante autenticação)
+    if (!accessToken) {
+      accessToken = request.cookies.get('tiktok_access_token')?.value || '';
     }
 
     if (!accessToken) {
       return NextResponse.json(
-        { error: 'Access token required' },
+        { 
+          error: 'Access token required',
+          message: 'Você precisa autenticar primeiro. Acesse /tiktok/api/auth/authorize para obter um token de acesso.',
+          hint: 'O token pode ser fornecido via: 1) Header Authorization: Bearer <token>, ou 2) Cookie tiktok_access_token (salvo após autenticação)'
+        },
         { status: 401 }
       );
     }

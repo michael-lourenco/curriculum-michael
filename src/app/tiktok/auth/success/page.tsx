@@ -60,12 +60,12 @@ function AuthSuccessContent() {
             >
               Voltar para a página inicial
             </Link>
-            <Link
-              href="/tiktok/api/user/info"
+            <a
+              href="/tiktok/user-info"
               className="inline-flex items-center px-4 py-2 bg-green-600 text-white font-medium rounded hover:bg-green-700 transition"
             >
               Ver informações do usuário
-            </Link>
+            </a>
           </div>
         </div>
       </div>
