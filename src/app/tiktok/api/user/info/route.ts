@@ -42,19 +42,20 @@ export async function GET(request: NextRequest) {
 
     const searchParams = request.nextUrl.searchParams;
     const fieldsParam = searchParams.get('fields');
-    const fields = fieldsParam ? fieldsParam.split(',').map(f => f.trim()).filter(f => f) : [];
-
+    
+    // Se não houver campos especificados, usar os mesmos campos da validação que funcionam
+    // Isso garante que obtemos as informações básicas disponíveis com user.info.basic
+    const defaultFields = 'open_id,display_name,union_id,avatar_url';
+    const fields = fieldsParam ? fieldsParam.split(',').map(f => f.trim()).filter(f => f) : defaultFields.split(',');
+    
     // Log para debug
-    console.log('Fetching user info with token:', accessToken ? `${accessToken.substring(0, 10)}...` : 'NOT FOUND');
+    console.log('Fetching user info with token:', accessToken ? `${accessToken.substring(0, 15)}...` : 'NOT FOUND');
     console.log('Fields requested:', fields);
 
-    // Se não houver campos especificados, não passar parâmetro fields
-    // Isso fará a API retornar os campos básicos por padrão
-    const params: Record<string, any> = {};
-    if (fields.length > 0) {
-      params.fields = fields.join(',');
-    }
-    // Se não houver campos, deixar vazio para pegar campos padrão do user.info.basic
+    // Sempre passar os campos - usar os mesmos que funcionam na validação
+    const params: Record<string, any> = {
+      fields: fields.join(',')
+    };
 
     console.log('Calling user.getSelf with params:', params);
     const userInfo = await user.getSelf(params);
@@ -78,9 +79,16 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Se error.code === "ok", isso significa sucesso - retornar os dados normalmente
-    // A resposta pode estar em userInfo.data ou diretamente em userInfo
-    return NextResponse.json(userInfo);
+    // Extrair informações do usuário usando a mesma lógica da validação
+    const userData = userInfo.data?.user || userInfo.data || {};
+    
+    // Retornar no mesmo formato da validação para consistência
+    return NextResponse.json({
+      valid: true,
+      user_info: userData,
+      available_fields: Object.keys(userData),
+      data: userInfo.data, // Manter compatibilidade com formato original
+    });
   } catch (error: any) {
     console.error('Error getting user info:', error);
     return NextResponse.json(

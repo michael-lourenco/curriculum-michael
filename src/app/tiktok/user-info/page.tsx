@@ -8,6 +8,11 @@ interface UserInfo {
   open_id?: string;
   union_id?: string;
   avatar_url?: string;
+  bio_description?: string;
+  follower_count?: number;
+  following_count?: number;
+  likes_count?: number;
+  video_count?: number;
 }
 
 export default function UserInfoPage() {
@@ -24,9 +29,9 @@ export default function UserInfoPage() {
       setLoading(true);
       setError(null);
 
-      // Com user.info.basic, vamos solicitar apenas o campo mais básico: display_name
-      // Isso deve funcionar com o escopo básico
-      const response = await fetch('/tiktok/api/user/info?fields=display_name', {
+      // Usar a mesma lógica da validação que está funcionando
+      // Não passar campos específicos - a rota usará os campos padrão que funcionam
+      const response = await fetch('/tiktok/api/user/info', {
         credentials: 'include', // Importante: incluir cookies na requisição
         headers: {
           'Content-Type': 'application/json',
@@ -44,16 +49,13 @@ export default function UserInfoPage() {
       
       console.log('User info response data:', data);
       
-      if (data.error) {
+      if (data.error && data.error.code !== 'ok') {
         const errorDetails = data.details ? JSON.stringify(data.details, null, 2) : '';
         throw new Error(`${data.error.message || data.error || 'Erro ao buscar informações do usuário'}${errorDetails ? `\n\nDetalhes: ${errorDetails}` : ''}`);
       }
 
-      // A resposta pode vir em diferentes formatos:
-      // - { data: { user: { ... } } }
-      // - { data: { display_name: "...", ... } }
-      // - { display_name: "...", ... }
-      const userData = data.data?.user || data.data || data;
+      // Usar a mesma lógica da validação: user_info vem diretamente
+      const userData = data.user_info || data.data?.user || data.data || data;
       setUserInfo(userData);
     } catch (err: any) {
       setError(err.message || 'Erro ao buscar informações do usuário');
@@ -126,50 +128,97 @@ export default function UserInfoPage() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {userInfo.display_name ? (
-                  <div className="md:col-span-2">
-                    <h3 className="text-sm font-medium text-gray-500">Nome de Exibição</h3>
-                    <p className="mt-1 text-2xl font-bold text-gray-900">{userInfo.display_name}</p>
+              <div className="space-y-6">
+                {/* Avatar e Nome de Exibição - Destaque */}
+                <div className="flex items-center gap-6 pb-6 border-b border-gray-200">
+                  {userInfo.avatar_url && (
+                    <img
+                      src={userInfo.avatar_url}
+                      alt="Avatar"
+                      className="h-24 w-24 rounded-full object-cover border-4 border-gray-200 shadow-lg"
+                    />
+                  )}
+                  <div className="flex-1">
+                    {userInfo.display_name ? (
+                      <>
+                        <h3 className="text-sm font-medium text-gray-500">Nome de Exibição</h3>
+                        <p className="mt-1 text-3xl font-bold text-gray-900">{userInfo.display_name}</p>
+                      </>
+                    ) : (
+                      <p className="text-sm text-gray-500">Nome não disponível</p>
+                    )}
                   </div>
-                ) : (
-                  <div className="md:col-span-2 p-4 bg-yellow-50 border border-yellow-200 rounded">
-                    <p className="text-sm text-yellow-800">
-                      ⚠️ O campo <code className="bg-yellow-100 px-1 rounded">display_name</code> não foi retornado pela API.
-                    </p>
-                  </div>
-                )}
+                </div>
 
-                {userInfo.open_id && (
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-500">Open ID</h3>
-                    <p className="mt-1 text-sm text-gray-700 font-mono break-all bg-gray-50 p-2 rounded">
-                      {userInfo.open_id}
-                    </p>
-                  </div>
-                )}
-
-                {userInfo.union_id && (
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-500">Union ID</h3>
-                    <p className="mt-1 text-sm text-gray-700 font-mono break-all bg-gray-50 p-2 rounded">
-                      {userInfo.union_id}
-                    </p>
-                  </div>
-                )}
-
-                {userInfo.avatar_url && (
-                  <div className="md:col-span-2">
-                    <h3 className="text-sm font-medium text-gray-500 mb-2">Avatar</h3>
-                    <div className="flex items-center gap-4">
-                      <img
-                        src={userInfo.avatar_url}
-                        alt="Avatar"
-                        className="h-24 w-24 rounded-full object-cover border-2 border-gray-200"
-                      />
-                      <p className="text-xs text-gray-600 break-all font-mono flex-1 bg-gray-50 p-2 rounded">
-                        {userInfo.avatar_url}
+                {/* IDs - Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {userInfo.open_id && (
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 mb-2">Open ID</h3>
+                      <p className="text-sm text-gray-700 font-mono break-all bg-gray-50 p-3 rounded border">
+                        {userInfo.open_id}
                       </p>
+                    </div>
+                  )}
+
+                  {userInfo.union_id && (
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 mb-2">Union ID</h3>
+                      <p className="text-sm text-gray-700 font-mono break-all bg-gray-50 p-3 rounded border">
+                        {userInfo.union_id}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Bio Description se disponível */}
+                {userInfo.bio_description && (
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-500 mb-2">Biografia</h3>
+                    <p className="text-gray-900 bg-gray-50 p-3 rounded border">{userInfo.bio_description}</p>
+                  </div>
+                )}
+
+                {/* Estatísticas se disponíveis */}
+                {(userInfo.follower_count !== undefined || 
+                  userInfo.following_count !== undefined || 
+                  userInfo.likes_count !== undefined || 
+                  userInfo.video_count !== undefined) && (
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-500 mb-4">Estatísticas</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {userInfo.follower_count !== undefined && (
+                        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                          <p className="text-xs text-blue-600 font-medium">Seguidores</p>
+                          <p className="text-2xl font-bold text-blue-900 mt-1">
+                            {userInfo.follower_count.toLocaleString('pt-BR')}
+                          </p>
+                        </div>
+                      )}
+                      {userInfo.following_count !== undefined && (
+                        <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                          <p className="text-xs text-green-600 font-medium">Seguindo</p>
+                          <p className="text-2xl font-bold text-green-900 mt-1">
+                            {userInfo.following_count.toLocaleString('pt-BR')}
+                          </p>
+                        </div>
+                      )}
+                      {userInfo.likes_count !== undefined && (
+                        <div className="bg-red-50 p-4 rounded-lg border border-red-200">
+                          <p className="text-xs text-red-600 font-medium">Curtidas</p>
+                          <p className="text-2xl font-bold text-red-900 mt-1">
+                            {userInfo.likes_count.toLocaleString('pt-BR')}
+                          </p>
+                        </div>
+                      )}
+                      {userInfo.video_count !== undefined && (
+                        <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                          <p className="text-xs text-purple-600 font-medium">Vídeos</p>
+                          <p className="text-2xl font-bold text-purple-900 mt-1">
+                            {userInfo.video_count.toLocaleString('pt-BR')}
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
