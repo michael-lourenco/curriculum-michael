@@ -87,6 +87,7 @@ TIKTOK_REDIRECT_URI=http://localhost:3000/tiktok`}
                 <Link
                   href="/tiktok/user-info"
                   className="block p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+                  prefetch={false}
                 >
                   <h3 className="text-lg font-semibold text-gray-800">Informações do Usuário</h3>
                   <p className="text-sm text-gray-600 mt-1">
@@ -96,6 +97,7 @@ TIKTOK_REDIRECT_URI=http://localhost:3000/tiktok`}
                 <Link
                   href="/tiktok/publish"
                   className="block p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+                  prefetch={false}
                 >
                   <h3 className="text-lg font-semibold text-gray-800">Publicar Vídeo</h3>
                   <p className="text-sm text-gray-600 mt-1">
@@ -105,6 +107,7 @@ TIKTOK_REDIRECT_URI=http://localhost:3000/tiktok`}
                 <Link
                   href="/tiktok/validate"
                   className="block p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+                  prefetch={false}
                 >
                   <h3 className="text-lg font-semibold text-gray-800">Validar Token</h3>
                   <p className="text-sm text-gray-600 mt-1">

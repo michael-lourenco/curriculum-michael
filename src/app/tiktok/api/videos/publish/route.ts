@@ -6,6 +6,14 @@ import os from 'os';
 
 export const dynamic = 'force-dynamic';
 
+function parseBoolean(value: string | null | undefined): boolean | undefined {
+  if (value === null || value === undefined) return undefined;
+  const normalized = value.toString().toLowerCase();
+  if (['true', '1', 'on', 'yes'].includes(normalized)) return true;
+  if (['false', '0', 'off', 'no'].includes(normalized)) return false;
+  return undefined;
+}
+
 async function downloadVideoToTemp(videoUrl: string) {
   const response = await fetch(videoUrl);
   if (!response.ok) {
@@ -58,31 +66,97 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await request.json().catch(() => null);
-    if (!body || !body.video_url) {
-      return NextResponse.json(
-        {
-          error: 'Invalid request',
-          message: 'Informe "video_url" no corpo da requisição.',
-        },
-        { status: 400 }
-      );
+    const contentTypeHeader = request.headers.get('content-type') || '';
+    const isMultipart = contentTypeHeader.includes('multipart/form-data');
+
+    let videoUrl = '';
+    let title: string | undefined;
+    let description: string | undefined;
+    let visibility: string | undefined = 'PUBLIC';
+    let disableDuet: boolean | undefined;
+    let disableComment: boolean | undefined;
+    let allowStitch: boolean | undefined;
+    let scheduleTime: number | undefined;
+    let coverTime: number | undefined;
+    let contentType = 'video/mp4';
+    let fileSize = 0;
+
+    if (isMultipart) {
+      const formData = await request.formData();
+      const file = formData.get('video') as File | null;
+      videoUrl = (formData.get('video_url') as string | null)?.toString().trim() || '';
+      title = (formData.get('title') as string | null)?.toString();
+      description = (formData.get('description') as string | null)?.toString();
+      visibility = (formData.get('visibility') as string | null)?.toString() || 'PUBLIC';
+      disableDuet = parseBoolean((formData.get('disable_duet') as string | null) ?? undefined);
+      disableComment = parseBoolean((formData.get('disable_comment') as string | null) ?? undefined);
+      allowStitch = parseBoolean((formData.get('allow_stitch') as string | null) ?? undefined);
+
+      const scheduleRaw = (formData.get('schedule_time') as string | null)?.toString() ?? '';
+      if (scheduleRaw) {
+        const parsedSchedule = Number(scheduleRaw);
+        if (!Number.isNaN(parsedSchedule)) {
+          scheduleTime = parsedSchedule;
+        }
+      }
+
+      const coverRaw = (formData.get('cover_time') as string | null)?.toString() ?? '';
+      if (coverRaw !== '') {
+        const parsedCover = Number(coverRaw);
+        if (!Number.isNaN(parsedCover)) {
+          coverTime = parsedCover;
+        }
+      }
+
+      if (file && file.size > 0) {
+        const arrayBuffer = await file.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        contentType = file.type || contentType;
+        fileSize = buffer.length;
+        const extension = file.name.split('.').pop() || 'mp4';
+        tempFilePath = path.join(os.tmpdir(), `tiktok-upload-${Date.now()}.${extension}`);
+        await fs.writeFile(tempFilePath, buffer);
+      } else if (videoUrl) {
+        const download = await downloadVideoToTemp(videoUrl);
+        tempFilePath = download.tempFilePath;
+        contentType = download.contentType;
+        fileSize = download.fileSize;
+      } else {
+        return NextResponse.json(
+          {
+            error: 'Invalid request',
+            message: 'Envie um arquivo de vídeo (campo "video") ou informe "video_url".',
+          },
+          { status: 400 }
+        );
+      }
+    } else {
+      const body = await request.json().catch(() => null);
+      if (!body || !body.video_url) {
+        return NextResponse.json(
+          {
+            error: 'Invalid request',
+            message: 'Informe "video_url" no corpo da requisição ou envie um arquivo via multipart/form-data.',
+          },
+          { status: 400 }
+        );
+      }
+
+      videoUrl = body.video_url;
+      title = body.title;
+      description = body.description;
+      visibility = body.visibility || 'PUBLIC';
+      disableDuet = typeof body.disable_duet === 'boolean' ? body.disable_duet : undefined;
+      disableComment = typeof body.disable_comment === 'boolean' ? body.disable_comment : undefined;
+      allowStitch = typeof body.allow_stitch === 'boolean' ? body.allow_stitch : undefined;
+      scheduleTime = typeof body.schedule_time === 'number' ? body.schedule_time : undefined;
+      coverTime = typeof body.cover_time === 'number' ? body.cover_time : undefined;
+
+      const download = await downloadVideoToTemp(videoUrl);
+      tempFilePath = download.tempFilePath;
+      contentType = download.contentType;
+      fileSize = download.fileSize;
     }
-
-    const {
-      video_url: videoUrl,
-      title,
-      description,
-      visibility = 'PUBLIC',
-      disable_duet,
-      disable_comment,
-      allow_stitch,
-      schedule_time,
-      cover_time,
-    } = body;
-
-    const { tempFilePath: downloadedPath, contentType, fileSize } = await downloadVideoToTemp(videoUrl);
-    tempFilePath = downloadedPath;
 
     const post = new Post({
       access_token: accessToken,
@@ -90,14 +164,14 @@ export async function POST(request: NextRequest) {
     });
 
     const videoPostInfo: Record<string, any> = {};
-    if (title) videoPostInfo.title = title;
-    if (description) videoPostInfo.description = description;
+    if (title?.trim()) videoPostInfo.title = title.trim();
+    if (description?.trim()) videoPostInfo.description = description.trim();
     if (visibility) videoPostInfo.privacy_level = visibility;
-    if (disable_duet !== undefined) videoPostInfo.disable_duet = disable_duet;
-    if (disable_comment !== undefined) videoPostInfo.disable_comment = disable_comment;
-    if (allow_stitch !== undefined) videoPostInfo.allow_stitch = allow_stitch;
-    if (schedule_time) videoPostInfo.schedule_time = schedule_time;
-    if (cover_time !== undefined && cover_time !== '') videoPostInfo.cover_time = cover_time;
+    if (typeof disableDuet === 'boolean') videoPostInfo.disable_duet = disableDuet;
+    if (typeof disableComment === 'boolean') videoPostInfo.disable_comment = disableComment;
+    if (typeof allowStitch === 'boolean') videoPostInfo.allow_stitch = allowStitch;
+    if (typeof scheduleTime === 'number') videoPostInfo.schedule_time = scheduleTime;
+    if (typeof coverTime === 'number') videoPostInfo.cover_time = coverTime;
 
     const initResponse = await post.publish({
       source_info: {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import Link from 'next/link';
 
 interface PublishResult {
@@ -25,6 +25,7 @@ const defaultVideoUrl =
 
 export default function PublishPage() {
   const [videoUrl, setVideoUrl] = useState(defaultVideoUrl);
+  const [videoFile, setVideoFile] = useState<File | null>(null);
   const [title, setTitle] = useState('Vídeo de teste via API');
   const [description, setDescription] = useState('Publicado diretamente pela API TikTok');
   const [visibility, setVisibility] = useState('PUBLIC');
@@ -39,36 +40,51 @@ export default function PublishPage() {
   const [statusResult, setStatusResult] = useState<StatusResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const handleVideoFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setVideoFile(file);
+    } else {
+      setVideoFile(null);
+    }
+  };
+
   async function handlePublish() {
     try {
       setLoading(true);
       setError(null);
       setPublishResult(null);
       setStatusResult(null);
+      if (!videoFile && !videoUrl.trim()) {
+        throw new Error('Selecione um arquivo de vídeo ou informe uma URL.');
+      }
 
-      const body: Record<string, any> = {
-        video_url: videoUrl,
-        title,
-        description,
-        visibility,
-        disable_duet: disableDuet,
-        disable_comment: disableComment,
-        allow_stitch: allowStitch,
-      };
+      const formData = new FormData();
+      if (videoFile) {
+        formData.append('video', videoFile);
+      }
+      if (videoUrl.trim()) {
+        formData.append('video_url', videoUrl.trim());
+      }
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('visibility', visibility);
+      formData.append('disable_duet', String(disableDuet));
+      formData.append('disable_comment', String(disableComment));
+      formData.append('allow_stitch', String(allowStitch));
 
       if (scheduleTime) {
-        body.schedule_time = Number(scheduleTime);
+        formData.append('schedule_time', scheduleTime);
       }
+
       if (coverTime !== '') {
-        body.cover_time = Number(coverTime);
+        formData.append('cover_time', String(coverTime));
       }
 
       const response = await fetch('/tiktok/api/videos/publish', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
+        body: formData,
+        credentials: 'include',
       });
 
       const data = (await response.json()) as PublishResult;
@@ -133,6 +149,30 @@ export default function PublishPage() {
           </div>
 
           <div className="space-y-6">
+            <div className="p-4 bg-purple-50 border border-purple-200 rounded">
+              <p className="text-sm text-purple-800">
+                Você pode publicar enviando um arquivo <strong>diretamente do computador</strong> ou informando uma URL pública do vídeo.
+                Se ambos forem fornecidos, o arquivo local terá prioridade.
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Arquivo de Vídeo (opcional)
+              </label>
+              <input
+                type="file"
+                accept="video/*"
+                onChange={handleVideoFileChange}
+                className="w-full text-sm text-gray-900 bg-white border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+              />
+              {videoFile && (
+                <p className="mt-2 text-sm text-gray-600">
+                  Selecionado: <strong>{videoFile.name}</strong> ({Math.round(videoFile.size / 1024)} KB)
+                </p>
+              )}
+            </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 URL do Vídeo
@@ -144,6 +184,9 @@ export default function PublishPage() {
                 className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-900 placeholder:text-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                 placeholder="https://...mp4"
               />
+              <p className="mt-1 text-xs text-gray-500">
+                Se enviar um arquivo local, esta URL é opcional e usada apenas como fallback.
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -270,6 +313,15 @@ export default function PublishPage() {
                     {publishResult.publish_id}
                   </code>
                 </div>
+              )}
+              {videoFile && (
+                <button
+                  onClick={() => setVideoFile(null)}
+                  type="button"
+                  className="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded hover:bg-gray-300 transition"
+                >
+                  Remover arquivo
+                </button>
               )}
             </div>
 
