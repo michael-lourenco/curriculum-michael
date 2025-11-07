@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
       cover_time,
     } = body;
 
-    const { tempFilePath: downloadedPath, contentType } = await downloadVideoToTemp(videoUrl);
+    const { tempFilePath: downloadedPath, contentType, fileSize } = await downloadVideoToTemp(videoUrl);
     tempFilePath = downloadedPath;
 
     const post = new Post({
@@ -97,11 +97,18 @@ export async function POST(request: NextRequest) {
     if (disable_comment !== undefined) videoPostInfo.disable_comment = disable_comment;
     if (allow_stitch !== undefined) videoPostInfo.allow_stitch = allow_stitch;
     if (schedule_time) videoPostInfo.schedule_time = schedule_time;
-    if (cover_time !== undefined) videoPostInfo.cover_time = cover_time;
+    if (cover_time !== undefined && cover_time !== '') videoPostInfo.cover_time = cover_time;
+
+    const videoFormat = contentType.split('/')[1]?.split(';')[0] || 'mp4';
 
     const initResponse = await post.publish({
       source_info: {
         source: 'FILE_UPLOAD',
+        upload_pattern: 'SINGLE',
+        video_format: videoFormat.toUpperCase(),
+        video_size: fileSize,
+        chunk_size: fileSize,
+        total_chunk_count: 1,
       },
       video_post_info: videoPostInfo,
     });
