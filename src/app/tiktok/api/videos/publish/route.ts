@@ -342,14 +342,16 @@ export async function POST(request: NextRequest) {
       videoPostInfo.commercial_content_branded = commercialBrandedContent;
     }
 
-    const sourceInfo = {
+    const sourceInfo: Record<string, any> = {
       source: 'FILE_UPLOAD',
       video_size: fileSize,
-      video_type: contentType,
       chunk_size: fileSize,
       total_chunk_count: 1,
-      ...(videoHash ? { video_hash: videoHash } : {}),
     };
+
+    if (videoHash) {
+      sourceInfo.video_hash = videoHash;
+    }
 
     let initResponse;
     if (mode === 'direct') {
