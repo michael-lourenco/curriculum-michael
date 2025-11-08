@@ -96,7 +96,10 @@ export async function POST(request: NextRequest) {
       videoUrl = (formData.get('video_url') as string | null)?.toString().trim() || '';
       title = (formData.get('title') as string | null)?.toString();
       description = (formData.get('description') as string | null)?.toString();
-      visibility = (formData.get('visibility') as string | null)?.toString() || undefined;
+      visibility =
+        (formData.get('privacy_level') as string | null)?.toString() ||
+        (formData.get('visibility') as string | null)?.toString() ||
+        undefined;
       allowComment = parseBoolean((formData.get('allow_comment') as string | null) ?? undefined);
       allowDuet = parseBoolean((formData.get('allow_duet') as string | null) ?? undefined);
       allowStitch = parseBoolean((formData.get('allow_stitch') as string | null) ?? undefined);
@@ -170,7 +173,7 @@ export async function POST(request: NextRequest) {
       videoUrl = body.video_url;
       title = body.title;
       description = body.description;
-      visibility = body.visibility || body.privacy_level;
+      visibility = body.privacy_level || body.visibility;
       if (typeof body.allow_comment === 'boolean') allowComment = body.allow_comment;
       if (typeof body.allow_duet === 'boolean') allowDuet = body.allow_duet;
       if (typeof body.allow_stitch === 'boolean') allowStitch = body.allow_stitch;
