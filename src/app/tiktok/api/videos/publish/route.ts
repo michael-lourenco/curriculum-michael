@@ -344,6 +344,7 @@ export async function POST(request: NextRequest) {
 
     const sourceInfo: Record<string, any> = {
       source: 'FILE_UPLOAD',
+      upload_pattern: 'SINGLE',
       video_size: fileSize,
       chunk_size: fileSize,
       total_chunk_count: 1,
