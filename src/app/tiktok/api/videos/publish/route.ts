@@ -75,9 +75,9 @@ export async function POST(request: NextRequest) {
     let videoUrl = '';
     let title: string | undefined;
     let description: string | undefined;
-    let visibility: string | undefined = 'PUBLIC';
-    let disableDuet: boolean | undefined;
-    let disableComment: boolean | undefined;
+    let visibility: string | undefined;
+    let allowComment: boolean | undefined;
+    let allowDuet: boolean | undefined;
     let allowStitch: boolean | undefined;
     let scheduleTime: number | undefined;
     let coverTime: number | undefined;
@@ -85,6 +85,10 @@ export async function POST(request: NextRequest) {
     let fileSize = 0;
     let mode: 'draft' | 'direct' = 'draft';
     let videoHash: string | null = null;
+    let videoDuration: number | undefined;
+    let commercialToggle = false;
+    let commercialYourBrand = false;
+    let commercialBrandedContent = false;
 
     if (isMultipart) {
       const formData = await request.formData();
@@ -92,14 +96,24 @@ export async function POST(request: NextRequest) {
       videoUrl = (formData.get('video_url') as string | null)?.toString().trim() || '';
       title = (formData.get('title') as string | null)?.toString();
       description = (formData.get('description') as string | null)?.toString();
-      visibility = (formData.get('visibility') as string | null)?.toString() || 'PUBLIC';
-      disableDuet = parseBoolean((formData.get('disable_duet') as string | null) ?? undefined);
-      disableComment = parseBoolean((formData.get('disable_comment') as string | null) ?? undefined);
+      visibility = (formData.get('visibility') as string | null)?.toString() || undefined;
+      allowComment = parseBoolean((formData.get('allow_comment') as string | null) ?? undefined);
+      allowDuet = parseBoolean((formData.get('allow_duet') as string | null) ?? undefined);
       allowStitch = parseBoolean((formData.get('allow_stitch') as string | null) ?? undefined);
       const modeField = (formData.get('mode') as string | null)?.toString().toLowerCase();
       if (modeField === 'direct') {
         mode = 'direct';
       }
+      const durationRaw = (formData.get('video_duration') as string | null)?.toString() ?? '';
+      if (durationRaw) {
+        const parsedDuration = Number(durationRaw);
+        if (!Number.isNaN(parsedDuration)) {
+          videoDuration = parsedDuration;
+        }
+      }
+      commercialToggle = parseBoolean((formData.get('commercial_toggle') as string | null) ?? undefined) ?? false;
+      commercialYourBrand = parseBoolean((formData.get('commercial_your_brand') as string | null) ?? undefined) ?? false;
+      commercialBrandedContent = parseBoolean((formData.get('commercial_branded_content') as string | null) ?? undefined) ?? false;
 
       const scheduleRaw = (formData.get('schedule_time') as string | null)?.toString() ?? '';
       if (scheduleRaw) {
@@ -156,15 +170,24 @@ export async function POST(request: NextRequest) {
       videoUrl = body.video_url;
       title = body.title;
       description = body.description;
-      visibility = body.visibility || 'PUBLIC';
-      disableDuet = typeof body.disable_duet === 'boolean' ? body.disable_duet : undefined;
-      disableComment = typeof body.disable_comment === 'boolean' ? body.disable_comment : undefined;
-      allowStitch = typeof body.allow_stitch === 'boolean' ? body.allow_stitch : undefined;
+      visibility = body.visibility || body.privacy_level;
+      if (typeof body.allow_comment === 'boolean') allowComment = body.allow_comment;
+      if (typeof body.allow_duet === 'boolean') allowDuet = body.allow_duet;
+      if (typeof body.allow_stitch === 'boolean') allowStitch = body.allow_stitch;
+      if (typeof body.disable_duet === 'boolean') allowDuet = !body.disable_duet;
+      if (typeof body.disable_comment === 'boolean') allowComment = !body.disable_comment;
+      if (typeof body.disable_stitch === 'boolean') allowStitch = !body.disable_stitch;
       scheduleTime = typeof body.schedule_time === 'number' ? body.schedule_time : undefined;
       coverTime = typeof body.cover_time === 'number' ? body.cover_time : undefined;
       if (typeof body.mode === 'string' && body.mode.toLowerCase() === 'direct') {
         mode = 'direct';
       }
+      if (typeof body.video_duration === 'number') {
+        videoDuration = body.video_duration;
+      }
+      commercialToggle = Boolean(body.commercial_toggle);
+      commercialYourBrand = Boolean(body.commercial_your_brand);
+      commercialBrandedContent = Boolean(body.commercial_branded_content);
 
       const download = await downloadVideoToTemp(videoUrl);
       tempFilePath = download.tempFilePath;
@@ -178,15 +201,143 @@ export async function POST(request: NextRequest) {
       graph_version: 'v2',
     });
 
+    const creatorInfoResponse = await post.queryCreatorInfo({});
+    if (creatorInfoResponse.error && creatorInfoResponse.error.code !== 'ok') {
+      return NextResponse.json(
+        {
+          error: 'creator_info_error',
+          message: creatorInfoResponse.error.message || 'Não foi possível validar limites de publicação.',
+          details: creatorInfoResponse,
+        },
+        { status: 400 }
+      );
+    }
+
+    const creatorData = creatorInfoResponse.data?.creator_info || creatorInfoResponse.data || {};
+    const canPost = creatorData.can_post ?? creatorData.can_publish ?? creatorData?.post_capabilities?.can_post ?? true;
+    if (!canPost) {
+      return NextResponse.json(
+        {
+          error: 'creator_cap_reached',
+          message: 'O criador atingiu o limite de publicações. Tente novamente mais tarde.',
+          creator_info: creatorData,
+        },
+        { status: 403 }
+      );
+    }
+
+    if (!visibility) {
+      return NextResponse.json(
+        {
+          error: 'privacy_required',
+          message: 'Selecione um nível de privacidade antes de enviar o vídeo.',
+        },
+        { status: 400 }
+      );
+    }
+
+    const privacyOptionsSource =
+      creatorData.privacy_level_options ||
+      creatorData.privacy_options ||
+      creatorData.post_capabilities?.privacy_level_options ||
+      [];
+
+    const normalizedPrivacyOptions = Array.isArray(privacyOptionsSource)
+      ? privacyOptionsSource
+          .map((option: any) => {
+            if (!option) return null;
+            if (typeof option === 'string') return option;
+            if (typeof option?.value === 'string') return option.value;
+            if (typeof option?.code === 'string') return option.code;
+            return null;
+          })
+          .filter((value: string | null): value is string => Boolean(value))
+      : [];
+
+    if (normalizedPrivacyOptions.length > 0 && !normalizedPrivacyOptions.includes(visibility)) {
+      return NextResponse.json(
+        {
+          error: 'privacy_not_allowed',
+          message: `O nível de privacidade selecionado (${visibility}) não está disponível para este criador.`,
+          allowed_privacy_levels: normalizedPrivacyOptions,
+        },
+        { status: 400 }
+      );
+    }
+
+    const maxDuration =
+      creatorData.max_video_post_duration_sec ||
+      creatorData.video_upload_limit?.max_video_post_duration_sec ||
+      creatorData.post_capabilities?.max_video_post_duration_sec;
+
+    if (typeof maxDuration === 'number' && typeof videoDuration === 'number' && videoDuration > maxDuration) {
+      return NextResponse.json(
+        {
+          error: 'duration_exceeded',
+          message: `O vídeo excede a duração máxima permitida de ${maxDuration} segundos.`,
+          max_duration: maxDuration,
+          video_duration: videoDuration,
+        },
+        { status: 400 }
+      );
+    }
+
+    const interactionAbility =
+      creatorData.interaction_settings ||
+      creatorData.interaction_ability ||
+      creatorData.post_capabilities?.interaction_settings ||
+      {};
+
+    const duetAllowed = interactionAbility.allow_duet ?? interactionAbility.duet ?? true;
+    const stitchAllowed = interactionAbility.allow_stitch ?? interactionAbility.stitch ?? true;
+    const commentAllowed = interactionAbility.allow_comment ?? interactionAbility.comment ?? true;
+
+    if (allowDuet && duetAllowed === false) {
+      return NextResponse.json(
+        {
+          error: 'duet_not_allowed',
+          message: 'O criador desativou duet para publicações.',
+        },
+        { status: 400 }
+      );
+    }
+
+    if (allowStitch && stitchAllowed === false) {
+      return NextResponse.json(
+        {
+          error: 'stitch_not_allowed',
+          message: 'O criador desativou stitch para publicações.',
+        },
+        { status: 400 }
+      );
+    }
+
+    if (allowComment && commentAllowed === false) {
+      return NextResponse.json(
+        {
+          error: 'comment_not_allowed',
+          message: 'O criador desativou comentários para publicações.',
+        },
+        { status: 400 }
+      );
+    }
+
     const videoPostInfo: Record<string, any> = {};
     if (title?.trim()) videoPostInfo.title = title.trim();
     if (description?.trim()) videoPostInfo.description = description.trim();
-    if (visibility) videoPostInfo.privacy_level = visibility;
-    if (typeof disableDuet === 'boolean') videoPostInfo.disable_duet = disableDuet;
-    if (typeof disableComment === 'boolean') videoPostInfo.disable_comment = disableComment;
-    if (typeof allowStitch === 'boolean') videoPostInfo.allow_stitch = allowStitch;
+    videoPostInfo.privacy_level = visibility;
+    if (typeof allowDuet === 'boolean') videoPostInfo.disable_duet = !allowDuet;
+    if (typeof allowComment === 'boolean') videoPostInfo.disable_comment = !allowComment;
+    if (typeof allowStitch === 'boolean') videoPostInfo.disable_stitch = !allowStitch;
     if (typeof scheduleTime === 'number') videoPostInfo.schedule_time = scheduleTime;
     if (typeof coverTime === 'number') videoPostInfo.cover_time = coverTime;
+    if (typeof videoDuration === 'number') videoPostInfo.video_duration = videoDuration;
+
+    if (commercialToggle) {
+      videoPostInfo.commercial_content_toggle = true;
+      videoPostInfo.commercial_content_self = commercialYourBrand;
+      videoPostInfo.commercial_content_branded = commercialBrandedContent;
+    }
 
     const sourceInfo = {
       source: 'FILE_UPLOAD',
@@ -270,6 +421,7 @@ export async function POST(request: NextRequest) {
       init_response: initResponse,
       upload_response: uploadResponse,
       status_response: statusResponse,
+      creator_info: creatorData,
       message:
         mode === 'draft'
           ? 'Vídeo enviado como rascunho. O criador deve finalizar a publicação no TikTok.'
