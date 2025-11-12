@@ -10,7 +10,15 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     // Por padrão, usar apenas user.info.basic que é o escopo mais básico
     // Você pode adicionar mais escopos separados por vírgula: user.info.basic,video.list
-    const scope = searchParams.get('scope') || 'user.info.basic';
+    let scope = searchParams.get('scope') || 'user.info.basic';
+    
+    // Limpar e normalizar escopos: remover espaços extras e garantir formato correto
+    scope = scope
+      .split(',')
+      .map(s => s.trim())
+      .filter(s => s.length > 0)
+      .join(',');
+    
     const state = searchParams.get('state') || '';
 
     const { codeVerifier, codeChallenge } = await PKCE.generatePair();
@@ -29,7 +37,18 @@ export async function GET(request: NextRequest) {
       ? process.env.TIKTOK_REDIRECT_URI.replace('{origin}', request.nextUrl.origin)
       : `${request.nextUrl.origin}/tiktok/api/auth/callback`;
     
+    // Log para diagnóstico dos escopos solicitados
+    console.log('=== AUTHORIZATION REQUEST DEBUG ===');
+    console.log('Scopes requested:', scope);
+    console.log('Scopes type:', typeof scope);
+    console.log('Scopes split:', scope.split(','));
+    console.log('Redirect URI:', redirectUri);
+    
     const authUrl = auth.getAuthenticationUrl(redirectUri, scope, state, codeChallenge);
+    
+    // Log da URL gerada para verificar formato
+    console.log('Generated auth URL:', authUrl);
+    console.log('URL contains scopes:', authUrl.includes('scope='));
 
     const response = NextResponse.redirect(authUrl);
 
