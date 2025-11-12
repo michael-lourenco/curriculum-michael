@@ -151,12 +151,12 @@ function AuthErrorContent() {
             >
               Voltar para a página inicial
             </Link>
-            <Link
+            <a
               href="/tiktok/api/auth/authorize"
               className="inline-flex items-center px-4 py-2 bg-gray-200 text-gray-800 font-medium rounded hover:bg-gray-300 transition"
             >
               Tentar novamente
-            </Link>
+            </a>
           </div>
 
           <div className="mt-8 pt-6 border-t border-gray-200">

@@ -90,6 +90,9 @@ export async function GET(request: NextRequest) {
     // Extrair informações do usuário
     const userData = userInfo.data?.user || userInfo.data || {};
     
+    // Tentar obter escopos do cookie (salvos durante autenticação)
+    const scopesFromCookie = request.cookies.get('tiktok_scopes')?.value || '';
+    
     // Determinar escopos disponíveis baseado nos campos retornados
     const availableFields = Object.keys(userData);
     let inferredScopes = 'user.info.basic'; // Sempre presente
@@ -100,6 +103,21 @@ export async function GET(request: NextRequest) {
       inferredScopes += ', user.info.stats';
     }
 
+    // Escopos esperados para upload/publish
+    const expectedScopes = [
+      'user.info.basic',
+      'user.info.profile',
+      'user.info.stats',
+      'video.upload',
+      'video.publish',
+    ];
+
+    // Análise de escopos
+    const scopesArray = scopesFromCookie ? scopesFromCookie.split(',').map(s => s.trim()) : [];
+    const missingScopes = expectedScopes.filter(scope => !scopesArray.includes(scope));
+    const hasUploadScope = scopesArray.includes('video.upload');
+    const hasPublishScope = scopesArray.includes('video.publish');
+
     // Token é válido se chegou aqui
     return NextResponse.json({
       valid: true,
@@ -108,7 +126,19 @@ export async function GET(request: NextRequest) {
       user_info: userData,
       available_fields: availableFields,
       inferred_scopes: inferredScopes,
-      note: 'Scopes e expires_in só estão disponíveis na resposta inicial do token. Estes são escopos inferidos baseados nos campos disponíveis.',
+      // Escopos reais retornados pelo TikTok (do cookie)
+      scopes_from_token: scopesFromCookie || null,
+      scopes_array: scopesArray,
+      scope_analysis: {
+        has_upload_scope: hasUploadScope,
+        has_publish_scope: hasPublishScope,
+        missing_scopes: missingScopes,
+        total_scopes: scopesArray.length,
+        expected_count: expectedScopes.length,
+      },
+      note: scopesFromCookie 
+        ? 'Escopos retornados pelo TikTok na resposta inicial do token (salvos no cookie).'
+        : 'Scopes e expires_in só estão disponíveis na resposta inicial do token. Estes são escopos inferidos baseados nos campos disponíveis. Faça uma nova autenticação para capturar os escopos reais.',
       debug: userInfo.debug,
     });
 

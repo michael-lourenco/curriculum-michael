@@ -47,25 +47,23 @@ TIKTOK_REDIRECT_URI=http://localhost:3000/tiktok`}
                 </p>
                 <div className="space-y-3">
                   <div>
-                    <Link
+                    <a
                       href="/tiktok/api/auth/authorize?scope=user.info.basic"
                       className="inline-block bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded transition"
-                      prefetch={false}
                     >
                       Autorizar com TikTok (Apenas user.info.basic)
-                    </Link>
+                    </a>
                     <p className="text-sm text-gray-600 mt-1">
                       Escopo básico - recomendado para começar
                     </p>
                   </div>
                   <div>
-                    <Link
+                    <a
                       href="/tiktok/api/auth/authorize?scope=user.info.basic,user.info.profile,user.info.stats,video.upload,video.publish"
                       className="inline-block bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded transition"
-                      prefetch={false}
                     >
                       Autorizar com TikTok (Escopos completos + postagem)
-                    </Link>
+                    </a>
                     <p className="text-sm text-gray-600 mt-1">
                       Inclui escopos para leitura de perfil, estatísticas e publicação de vídeos
                     </p>

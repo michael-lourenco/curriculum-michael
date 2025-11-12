@@ -67,13 +67,37 @@ export default function ValidateTokenPage() {
               />
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex gap-4 items-center">
               <button
                 onClick={validateToken}
                 disabled={loading || !token.trim()}
                 className="px-6 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
               >
                 {loading ? 'Validando...' : 'Validar Token'}
+              </button>
+              <button
+                onClick={async () => {
+                  // Validar usando cookie (se disponível)
+                  try {
+                    setLoading(true);
+                    setError(null);
+                    setResult(null);
+                    const response = await fetch('/tiktok/api/auth/validate', {
+                      credentials: 'include',
+                      headers: { 'Content-Type': 'application/json' },
+                    });
+                    const data = await response.json();
+                    setResult(data);
+                  } catch (err: any) {
+                    setError(err.message || 'Erro ao validar token do cookie');
+                  } finally {
+                    setLoading(false);
+                  }
+                }}
+                className="px-6 py-2 bg-green-600 text-white font-medium rounded hover:bg-green-700 transition"
+                title="Validar token do cookie (se disponível)"
+              >
+                Validar do Cookie
               </button>
               <button
                 onClick={() => {
@@ -85,6 +109,13 @@ export default function ValidateTokenPage() {
               >
                 Limpar
               </button>
+              <Link
+                href="/tiktok/api/auth/debug"
+                className="ml-auto text-sm text-purple-600 hover:text-purple-800 underline"
+                target="_blank"
+              >
+                🔍 Ver Diagnóstico Completo
+              </Link>
             </div>
 
             {error && (
@@ -125,13 +156,97 @@ export default function ValidateTokenPage() {
                   </div>
                 )}
 
-                {result.inferred_scopes && (
-                  <div className="p-4 bg-blue-50 rounded">
-                    <p className="text-sm font-medium text-blue-700 mb-1">Escopos Inferidos:</p>
+                {/* Escopos reais do token */}
+                {result.scopes_from_token && (
+                  <div className="p-4 bg-green-50 rounded border border-green-200">
+                    <p className="text-sm font-semibold text-green-800 mb-2">
+                      ✅ Escopos Retornados pelo TikTok:
+                    </p>
+                    <div className="space-y-2 mb-2">
+                      {result.scopes_array && result.scopes_array.map((scope: string, idx: number) => {
+                        const isUpload = scope.includes('video.upload');
+                        const isPublish = scope.includes('video.publish');
+                        const isImportant = isUpload || isPublish;
+                        
+                        return (
+                          <div
+                            key={idx}
+                            className={`flex items-center p-2 rounded ${
+                              isImportant ? 'bg-green-100 border border-green-300' : 'bg-white border border-green-200'
+                            }`}
+                          >
+                            {isImportant && (
+                              <svg className="h-4 w-4 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                              </svg>
+                            )}
+                            <code className={`text-xs ${isImportant ? 'text-green-800 font-semibold' : 'text-green-700'}`}>
+                              {scope}
+                            </code>
+                            {isImportant && (
+                              <span className="ml-2 text-xs text-green-700 font-medium">
+                                (Upload/Publish)
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                    
+                    {/* Análise de escopos */}
+                    {result.scope_analysis && (
+                      <div className="mt-3 pt-3 border-t border-green-200">
+                        <p className="text-xs font-semibold text-green-800 mb-2">Análise:</p>
+                        <div className="space-y-1 text-xs">
+                          <div className="flex items-center gap-2">
+                            {result.scope_analysis.has_upload_scope ? (
+                              <span className="text-green-700">✅ video.upload disponível</span>
+                            ) : (
+                              <span className="text-red-700">❌ video.upload não encontrado</span>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-2">
+                            {result.scope_analysis.has_publish_scope ? (
+                              <span className="text-green-700">✅ video.publish disponível</span>
+                            ) : (
+                              <span className="text-red-700">❌ video.publish não encontrado</span>
+                            )}
+                          </div>
+                          {result.scope_analysis.missing_scopes && result.scope_analysis.missing_scopes.length > 0 && (
+                            <div className="mt-2 pt-2 border-t border-green-200">
+                              <p className="text-yellow-700 font-medium">Escopos faltantes:</p>
+                              <div className="flex flex-wrap gap-1 mt-1">
+                                {result.scope_analysis.missing_scopes.map((scope: string) => (
+                                  <span key={scope} className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
+                                    {scope}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {result.note && (
+                      <p className="text-xs text-green-600 mt-2 italic">{result.note}</p>
+                    )}
+                  </div>
+                )}
+
+                {/* Escopos inferidos (fallback) */}
+                {result.inferred_scopes && !result.scopes_from_token && (
+                  <div className="p-4 bg-blue-50 rounded border border-blue-200">
+                    <p className="text-sm font-medium text-blue-700 mb-1">Escopos Inferidos (baseado nos campos):</p>
                     <p className="text-sm text-blue-600">{result.inferred_scopes}</p>
                     {result.note && (
                       <p className="text-xs text-blue-500 mt-2 italic">{result.note}</p>
                     )}
+                    <div className="mt-3 p-2 bg-yellow-50 border border-yellow-200 rounded">
+                      <p className="text-xs text-yellow-800">
+                        💡 <strong>Dica:</strong> Faça uma nova autenticação para capturar os escopos reais retornados pelo TikTok.
+                      </p>
+                    </div>
                   </div>
                 )}
 
