@@ -62,7 +62,11 @@ export class TikTok {
     }
 
     const response = await this.client.send(this.request);
-    response.debug = this;
+    
+    // Garantir que response não seja null/undefined antes de adicionar debug
+    if (response) {
+      response.debug = this;
+    }
 
     return response;
   }
@@ -84,8 +88,12 @@ export class TikTok {
     );
 
     const response = await this.client.send(this.request);
-    this.setCursors(response);
-    response.debug = this;
+    
+    // Garantir que response não seja null/undefined
+    if (response) {
+      this.setCursors(response);
+      response.debug = this;
+    }
 
     return response;
   }

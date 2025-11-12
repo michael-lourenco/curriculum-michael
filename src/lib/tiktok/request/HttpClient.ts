@@ -82,16 +82,64 @@ export class HttpClient {
       const response = await fetch(url, options);
       const rawResponse = await response.text();
       
-      // Parse JSON response
+      // Para requisições PUT (upload de arquivos), a resposta pode ser vazia ou não-JSON
+      // Uploads bem-sucedidos geralmente retornam 200/201 com corpo vazio
+      if (method === HttpMethod.PUT) {
+        const jsonResponse: ApiResponse = {
+          data: response.ok ? { success: true } : undefined,
+          error: response.ok ? undefined : {
+            code: `HTTP_${response.status}`,
+            message: `HTTP ${response.status}: ${response.statusText}`,
+          },
+          debug: {
+            url,
+            method,
+            status: response.status,
+            rawResponse: rawResponse.substring(0, 500),
+          },
+        };
+        return jsonResponse;
+      }
+      
+      // Para outras requisições, tentar parsear como JSON
       let jsonResponse: ApiResponse;
-      try {
-        jsonResponse = JSON.parse(rawResponse);
-      } catch (e) {
-        // If response is not JSON, return error
-        return {
-          error: {
-            code: 'INVALID_JSON',
-            message: 'Invalid JSON response from API',
+      
+      // Se a resposta estiver vazia, criar resposta padrão
+      if (!rawResponse || rawResponse.trim() === '') {
+        jsonResponse = {
+          data: response.ok ? {} : undefined,
+          error: response.ok ? undefined : {
+            code: `HTTP_${response.status}`,
+            message: `HTTP ${response.status}: ${response.statusText}`,
+          },
+        };
+      } else {
+        try {
+          jsonResponse = JSON.parse(rawResponse);
+        } catch (e) {
+          // Se não for JSON válido, retornar erro
+          return {
+            error: {
+              code: 'INVALID_JSON',
+              message: 'Invalid JSON response from API',
+            },
+            debug: {
+              url,
+              method,
+              status: response.status,
+              rawResponse: rawResponse.substring(0, 500),
+            },
+          };
+        }
+      }
+
+      // Garantir que jsonResponse não seja null/undefined antes de adicionar debug
+      if (!jsonResponse) {
+        jsonResponse = {
+          data: response.ok ? {} : undefined,
+          error: response.ok ? undefined : {
+            code: `HTTP_${response.status}`,
+            message: `HTTP ${response.status}: ${response.statusText}`,
           },
         };
       }

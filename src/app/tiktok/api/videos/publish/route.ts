@@ -405,7 +405,13 @@ export async function POST(request: NextRequest) {
       mime_type: contentType,
     });
 
-    if (uploadResponse.error && uploadResponse.error.code !== 'ok') {
+    // Uploads bem-sucedidos geralmente retornam 200/201 com corpo vazio
+    // Verificar status HTTP para determinar sucesso
+    const uploadStatus = uploadResponse.debug?.status;
+    const isUploadSuccess = uploadStatus === 200 || uploadStatus === 201;
+    
+    // Se não foi sucesso E há erro, retornar erro
+    if (!isUploadSuccess && uploadResponse.error) {
       return NextResponse.json(
         {
           error: 'upload_failed',
