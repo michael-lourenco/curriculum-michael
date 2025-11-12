@@ -333,7 +333,10 @@ export async function POST(request: NextRequest) {
     if (typeof allowComment === 'boolean') videoPostInfo.disable_comment = !allowComment;
     if (typeof allowStitch === 'boolean') videoPostInfo.disable_stitch = !allowStitch;
     if (typeof scheduleTime === 'number') videoPostInfo.schedule_time = scheduleTime;
-    if (typeof coverTime === 'number') videoPostInfo.cover_time = coverTime;
+    // video_cover_timestamp_ms deve estar em milissegundos (exemplo Python usa 1000)
+    if (typeof coverTime === 'number') {
+      videoPostInfo.video_cover_timestamp_ms = coverTime * 1000; // Converter segundos para milissegundos
+    }
     if (typeof videoDuration === 'number') videoPostInfo.video_duration = videoDuration;
 
     if (commercialToggle) {
@@ -342,17 +345,19 @@ export async function POST(request: NextRequest) {
       videoPostInfo.commercial_content_branded = commercialBrandedContent;
     }
 
+    // source_info seguindo exatamente o exemplo Python
+    // Removido upload_pattern e video_hash que não estão no exemplo básico
     const sourceInfo: Record<string, any> = {
       source: 'FILE_UPLOAD',
-      upload_pattern: 'SINGLE',
       video_size: fileSize,
       chunk_size: fileSize,
       total_chunk_count: 1,
     };
 
-    if (videoHash) {
-      sourceInfo.video_hash = videoHash;
-    }
+    // video_hash pode ser adicionado depois se necessário, mas não está no exemplo Python básico
+    // if (videoHash) {
+    //   sourceInfo.video_hash = videoHash;
+    // }
 
     let initResponse;
     if (mode === 'direct') {

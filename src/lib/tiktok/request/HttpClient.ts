@@ -34,20 +34,37 @@ export class HttpClient {
     if (method === HttpMethod.POST) {
       const postParams = request.getPostParams();
       
-      // Set Content-Type for form data
-      if (!headers['Content-Type']) {
-        headers['Content-Type'] = 'application/x-www-form-urlencoded';
-      }
+      // Verificar se há objetos aninhados (como source_info, post_info, etc.)
+      // Se houver, usar JSON em vez de form-urlencoded
+      const hasNestedObjects = Object.values(postParams).some(value => 
+        value !== null && 
+        value !== undefined && 
+        typeof value === 'object' && 
+        !Array.isArray(value) && 
+        !(value instanceof Date) &&
+        !(value instanceof Buffer)
+      );
 
-      // Build form data
-      const formData = new URLSearchParams();
-      Object.entries(postParams).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) {
-          formData.append(key, String(value));
+      if (hasNestedObjects) {
+        // Usar JSON para objetos aninhados (exemplo Python usa json=payload)
+        headers['Content-Type'] = 'application/json; charset=UTF-8';
+        options.body = JSON.stringify(postParams);
+      } else {
+        // Usar form-urlencoded para dados simples
+        if (!headers['Content-Type']) {
+          headers['Content-Type'] = 'application/x-www-form-urlencoded';
         }
-      });
 
-      options.body = formData.toString();
+        // Build form data
+        const formData = new URLSearchParams();
+        Object.entries(postParams).forEach(([key, value]) => {
+          if (value !== undefined && value !== null) {
+            formData.append(key, String(value));
+          }
+        });
+
+        options.body = formData.toString();
+      }
     }
 
     // Handle PUT requests (for file uploads)
