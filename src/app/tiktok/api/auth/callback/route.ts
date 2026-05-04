@@ -110,6 +110,11 @@ export async function GET(request: NextRequest) {
                    (tokenResponse as any).scope || 
                    null;
     
+    // Extrair refresh_token da resposta
+    const refreshToken = tokenResponse.data?.refresh_token || 
+                        (tokenResponse as any).refresh_token || 
+                        null;
+    
     // Log dos escopos para diagnóstico
     console.log('=== SCOPES ANALYSIS ===');
     console.log('Scopes returned by TikTok:', scopes);
@@ -150,6 +155,22 @@ export async function GET(request: NextRequest) {
       console.log('Token salvo no cookie com sucesso');
     } else {
       console.warn('Token não encontrado na resposta:', tokenResponse);
+    }
+    
+    // Salvar refresh_token em cookie seguro (se fornecido)
+    if (refreshToken) {
+      const expiresIn = tokenResponse.data?.expires_in || 3600;
+      // Refresh tokens geralmente duram mais tempo (30 dias)
+      response.cookies.set('tiktok_refresh_token', refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: expiresIn * 24 * 30, // 30 dias
+        path: '/',
+      });
+      console.log('Refresh token salvo no cookie com sucesso');
+    } else {
+      console.warn('⚠️ Nenhum refresh_token retornado na resposta do token');
     }
     
     // Salvar escopos em cookie separado para referência futura
