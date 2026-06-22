@@ -2,48 +2,36 @@
 
 import React, { useState, useEffect } from 'react';
 import { FaSun, FaMoon } from 'react-icons/fa';
+import { useTheme } from '../contexts/ThemeContext';
 
 const ThemeSelectionScreen: React.FC = () => {
+  const { setTheme } = useTheme();
   const [hasVisited, setHasVisited] = useState<boolean | null>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Verificar se o usuário já visitou a página
     const visited = localStorage.getItem('hasVisitedBefore');
     setHasVisited(!!visited);
     setMounted(true);
   }, []);
 
   const handleThemeSelection = (theme: 'light' | 'dark') => {
-    // Salvar que o usuário já visitou
     localStorage.setItem('hasVisitedBefore', 'true');
-    localStorage.setItem('theme', theme);
-    
-    // Aplicar o tema diretamente ao documento
-    const root = document.documentElement;
-    root.classList.remove('light', 'dark');
-    root.classList.add(theme);
-    
-    // Marcar como visitado
+    setTheme(theme);
     setHasVisited(true);
   };
 
-
-
-  // Se ainda está carregando, não mostrar nada
   if (hasVisited === null || !mounted) {
     return null;
   }
 
-  // Se já visitou, não mostrar a tela de seleção
   if (hasVisited) {
     return null;
   }
 
   return (
     <div className="fixed inset-0 z-[9999] flex">
-      {/* Lado Esquerdo - Tema Light */}
-      <div 
+      <div
         className="flex-1 bg-white flex items-center justify-center cursor-pointer transition-all duration-500 hover:bg-gray-50 group"
         onClick={() => handleThemeSelection('light')}
       >
@@ -52,15 +40,15 @@ const ThemeSelectionScreen: React.FC = () => {
             <FaSun className="text-white text-3xl md:text-5xl group-hover:rotate-12 transition-transform duration-300" />
           </div>
           <h2 className="text-xl md:text-3xl font-bold text-gray-800 mb-2 md:mb-3">Modo Claro</h2>
-          <p className="text-gray-600 text-sm md:text-lg px-4 md:px-0">Para uma experiência mais brilhante e energética</p>
+          <p className="text-gray-600 text-sm md:text-lg px-4 md:px-0">
+            Para uma experiência mais brilhante e energética
+          </p>
         </div>
       </div>
 
-      {/* Divisor Central */}
-      <div className="w-0.5 bg-gradient-to-b from-transparent via-gray-300 to-transparent"></div>
+      <div className="w-0.5 bg-gradient-to-b from-transparent via-gray-300 to-transparent" />
 
-      {/* Lado Direito - Tema Dark */}
-      <div 
+      <div
         className="flex-1 bg-gray-900 flex items-center justify-center cursor-pointer transition-all duration-500 hover:bg-gray-800 group"
         onClick={() => handleThemeSelection('dark')}
       >
@@ -69,11 +57,13 @@ const ThemeSelectionScreen: React.FC = () => {
             <FaMoon className="text-white text-3xl md:text-5xl group-hover:-rotate-12 transition-transform duration-300" />
           </div>
           <h2 className="text-xl md:text-3xl font-bold text-white mb-2 md:mb-3">Modo Escuro</h2>
-          <p className="text-gray-300 text-sm md:text-lg px-4 md:px-0">Para uma experiência mais suave e relaxante</p>
+          <p className="text-gray-300 text-sm md:text-lg px-4 md:px-0">
+            Para uma experiência mais suave e relaxante
+          </p>
         </div>
       </div>
     </div>
   );
 };
 
-export default ThemeSelectionScreen; 
+export default ThemeSelectionScreen;

@@ -37,16 +37,16 @@ export default function ValidateTokenPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="page-shell">
       <div className="max-w-3xl mx-auto">
-        <div className="bg-white rounded-lg shadow-xl p-8">
+        <div className="page-card shadow-xl">
           <div className="flex items-center justify-between mb-6">
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-text-primary">
               Validar Access Token
             </h1>
             <Link
               href="/tiktok/home"
-              className="text-blue-600 hover:underline"
+              className="text-accent hover:text-accent-dark hover:underline"
             >
               Voltar
             </Link>
@@ -54,7 +54,7 @@ export default function ValidateTokenPage() {
 
           <div className="space-y-6">
             <div>
-              <label htmlFor="token" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="token" className="block text-sm font-medium text-text-secondary mb-2">
                 Access Token
               </label>
               <textarea
@@ -62,7 +62,7 @@ export default function ValidateTokenPage() {
                 value={token}
                 onChange={(e) => setToken(e.target.value)}
                 placeholder="Cole o access_token aqui (ex: act.SmuxT7Y6GoKurXecCxD3XkHjqRBenh28tzkVeqyeVnIWsoCeCmVsCshGokXj!4524.va)"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-900 placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm"
+                className="w-full px-4 py-2 border border-border rounded-md bg-surface text-text-primary placeholder:text-text-muted focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm"
                 rows={3}
               />
             </div>
@@ -71,7 +71,7 @@ export default function ValidateTokenPage() {
               <button
                 onClick={validateToken}
                 disabled={loading || !token.trim()}
-                className="px-6 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="px-6 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700 transition disabled:bg-surface-hover disabled:cursor-not-allowed"
               >
                 {loading ? 'Validando...' : 'Validar Token'}
               </button>
@@ -105,7 +105,7 @@ export default function ValidateTokenPage() {
                   setResult(null);
                   setError(null);
                 }}
-                className="px-6 py-2 bg-gray-200 text-gray-700 font-medium rounded hover:bg-gray-300 transition"
+                className="px-6 py-2 bg-surface-hover text-text-secondary font-medium rounded hover:bg-surface transition"
               >
                 Limpar
               </button>
@@ -119,14 +119,14 @@ export default function ValidateTokenPage() {
             </div>
 
             {error && (
-              <div className="p-4 bg-red-50 border border-red-200 rounded">
+              <div className="alert-error p-4">
                 <p className="text-red-800 text-sm">{error}</p>
               </div>
             )}
 
             {result && (
               <div className="space-y-4">
-                <div className={`p-4 border-2 rounded ${result.valid ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
+                <div className={`p-4 border-2 rounded ${result.valid ? 'alert-success border' : 'alert-error border'}`}>
                   <div className="flex items-center gap-2 mb-2">
                     {result.valid ? (
                       <>
@@ -150,15 +150,15 @@ export default function ValidateTokenPage() {
                 </div>
 
                 {result.token_preview && (
-                  <div className="p-4 bg-gray-50 rounded">
-                    <p className="text-sm font-medium text-gray-700 mb-1">Token Preview:</p>
-                    <p className="text-xs font-mono text-gray-600 break-all">{result.token_preview}</p>
+                  <div className="p-4 bg-surface-hover rounded">
+                    <p className="text-sm font-medium text-text-secondary mb-1">Token Preview:</p>
+                    <p className="text-xs font-mono text-text-muted break-all">{result.token_preview}</p>
                   </div>
                 )}
 
                 {/* Escopos reais do token */}
                 {result.scopes_from_token && (
-                  <div className="p-4 bg-green-50 rounded border border-green-200">
+                  <div className="alert-success p-4">
                     <p className="text-sm font-semibold text-green-800 mb-2">
                       ✅ Escopos Retornados pelo TikTok:
                     </p>
@@ -172,7 +172,7 @@ export default function ValidateTokenPage() {
                           <div
                             key={idx}
                             className={`flex items-center p-2 rounded ${
-                              isImportant ? 'bg-green-100 border border-green-300' : 'bg-white border border-green-200'
+                              isImportant ? 'alert-success-subtle' : 'bg-surface border border-border'
                             }`}
                           >
                             {isImportant && (
@@ -217,7 +217,7 @@ export default function ValidateTokenPage() {
                               <p className="text-yellow-700 font-medium">Escopos faltantes:</p>
                               <div className="flex flex-wrap gap-1 mt-1">
                                 {result.scope_analysis.missing_scopes.map((scope: string) => (
-                                  <span key={scope} className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
+                                  <span key={scope} className="text-xs bg-yellow-100 text-inherit px-2 py-1 rounded">
                                     {scope}
                                   </span>
                                 ))}
@@ -236,14 +236,14 @@ export default function ValidateTokenPage() {
 
                 {/* Escopos inferidos (fallback) */}
                 {result.inferred_scopes && !result.scopes_from_token && (
-                  <div className="p-4 bg-blue-50 rounded border border-blue-200">
+                  <div className="alert-info p-4">
                     <p className="text-sm font-medium text-blue-700 mb-1">Escopos Inferidos (baseado nos campos):</p>
                     <p className="text-sm text-blue-600">{result.inferred_scopes}</p>
                     {result.note && (
                       <p className="text-xs text-blue-500 mt-2 italic">{result.note}</p>
                     )}
-                    <div className="mt-3 p-2 bg-yellow-50 border border-yellow-200 rounded">
-                      <p className="text-xs text-yellow-800">
+                    <div className="mt-3 p-2 alert-warning">
+                      <p className="text-xs text-inherit">
                         💡 <strong>Dica:</strong> Faça uma nova autenticação para capturar os escopos reais retornados pelo TikTok.
                       </p>
                     </div>
@@ -264,16 +264,16 @@ export default function ValidateTokenPage() {
                 )}
 
                 {result.user_info && (
-                  <div className="p-4 bg-gray-50 rounded">
-                    <p className="text-sm font-medium text-gray-700 mb-2">Informações do Usuário:</p>
-                    <pre className="text-xs bg-white p-3 rounded border overflow-auto max-h-64">
+                  <div className="p-4 bg-surface-hover rounded">
+                    <p className="text-sm font-medium text-text-secondary mb-2">Informações do Usuário:</p>
+                    <pre className="text-xs json-pre overflow-auto max-h-64">
                       {JSON.stringify(result.user_info, null, 2)}
                     </pre>
                   </div>
                 )}
 
                 {result.error && (
-                  <div className="p-4 bg-red-50 rounded">
+                  <div className="alert-error p-4">
                     <p className="text-sm font-medium text-red-700 mb-1">Erro:</p>
                     <p className="text-sm text-red-600">{result.error}</p>
                     {result.log_id && (
@@ -282,11 +282,11 @@ export default function ValidateTokenPage() {
                   </div>
                 )}
 
-                <details className="p-4 bg-gray-50 rounded">
-                  <summary className="cursor-pointer text-sm font-medium text-gray-700 hover:text-gray-900">
+                <details className="p-4 bg-surface-hover rounded">
+                  <summary className="cursor-pointer text-sm font-medium text-text-secondary hover:text-text-primary">
                     Ver resposta completa (debug)
                   </summary>
-                  <pre className="mt-2 text-xs bg-white p-3 rounded border overflow-auto max-h-96">
+                  <pre className="mt-2 text-xs json-pre overflow-auto max-h-96">
                     {JSON.stringify(result, null, 2)}
                   </pre>
                 </details>

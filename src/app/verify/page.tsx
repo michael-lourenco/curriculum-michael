@@ -9,24 +9,24 @@ export const metadata: Metadata = {
 
 export default function VerifyPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="page-shell">
       <div className="max-w-2xl mx-auto">
-        <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-6">
+        <div className="page-card text-center">
+          <h1 className="text-3xl font-bold text-text-primary mb-6">
             Verificação de Domínio
           </h1>
           
-          <div className="space-y-4 text-gray-700">
+          <div className="space-y-4 text-text-secondary">
             <p className="text-lg">
               Esta página é utilizada para verificação de domínio do TikTok for Developers.
             </p>
             
-            <p className="text-sm text-gray-600">
-              O arquivo de verificação deve ser colocado no diretório <code className="bg-gray-100 px-2 py-1 rounded">/public/verify/</code>
+            <p className="text-sm text-text-muted">
+              O arquivo de verificação deve ser colocado no diretório <code className="bg-surface-hover px-2 py-1 rounded">/public/verify/</code>
             </p>
             
-            <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <h2 className="text-lg font-semibold text-blue-900 mb-2">
+            <div className="mt-8 p-4 alert-info">
+              <h2 className="text-lg font-semibold text-text-primary mb-2">
                 Instruções para Verificação
               </h2>
               <ol className="text-left text-blue-800 space-y-2">
@@ -37,7 +37,7 @@ export default function VerifyPage() {
               </ol>
             </div>
 
-            <div className="mt-6 text-sm text-gray-500">
+            <div className="mt-6 text-sm text-text-muted">
               <p>
                 Esta página será removida após a verificação ser concluída.
               </p>

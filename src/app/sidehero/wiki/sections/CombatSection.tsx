@@ -1,0 +1,149 @@
+import { WikiSection, WikiTable, FormulaBlock, InfoCard } from '../components/WikiUi';
+import { DAMAGE_ELEMENTS, STAGE_SCALING_CURVE_MAX } from '../wiki-data';
+
+export function CombatSection() {
+  return (
+    <WikiSection id="combate" title="Combate e fórmulas">
+      <p className="text-text-secondary mb-4">
+        O combate segue timers de ação com pipeline de dano por{' '}
+        <strong>elementos</strong>, resistências, armadura física e camadas defensivas
+        (esquiva, bloqueio e redução de dano).
+      </p>
+
+      <h3 className="text-lg font-semibold text-text-primary mb-3">Loop de combate</h3>
+      <ol className="list-decimal pl-6 mb-4 text-text-secondary space-y-2">
+        <li>Timers avançam a cada tick (1 segundo simulado).</li>
+        <li>Quem tem timer ≤ 0 age; cooldowns avançam pela Cast Speed.</li>
+        <li>Skills prontas são ordenadas por prioridade; múltiplas no mesmo ciclo têm 1s de intervalo.</li>
+        <li>Ao fim do turno do ator, DOTs ativos causam dano (escalado por tier da fase).</li>
+      </ol>
+
+      <h3 className="text-lg font-semibold text-text-primary mb-3">Elementos de dano</h3>
+      <WikiTable
+        headers={['Elemento', 'Mitigação']}
+        rows={DAMAGE_ELEMENTS.map((e) => [e.label, e.note])}
+      />
+      <InfoCard>
+        <p>
+          Skills de dano usam <code className="text-sm inline-code">damageComponents</code> — cada
+          componente tem <strong>elemento</strong>, <strong>entrega</strong> (melee, projectile, aoe,
+          dot) e <strong>peso</strong> (soma = 1). Veneno foi unificado em{' '}
+          <strong>caos</strong>. O float de dano na UI usa a cor do elemento dominante.
+        </p>
+      </InfoCard>
+
+      <h3 className="text-lg font-semibold text-text-primary mb-3">Poder de skill</h3>
+      <FormulaBlock>{`Herói (ataque básico): ATK efetivo
+
+Herói (demais skills de dano):
+  max(1, floor(basePower + powerPerRank×(rank−1) + atributo×attributeFactor))
+
+Inimigo (demais skills):
+  max(1, floor(basePower + stage))`}</FormulaBlock>
+
+      <h3 className="text-lg font-semibold text-text-primary mb-3">Pipeline de dano (por hit)</h3>
+      <ol className="list-decimal pl-6 mb-4 text-text-secondary space-y-2">
+        <li>Calcula poder bruto da skill.</li>
+        <li>Rola crítico: random &lt; critChance → poder × critDamage.</li>
+        <li>
+          Para cada componente: dano_parcial = poder × peso; mitiga por elemento (ver abaixo); soma
+          os parciais (mín. 1).
+        </li>
+        <li>Camadas defensivas do alvo: esquiva → bloqueio (50% do dano) → redução %.</li>
+        <li>Se a skill tem onHitDot e o hit conectou, aplica DOT elemental no alvo.</li>
+      </ol>
+
+      <h3 className="text-lg font-semibold text-text-primary mb-3">Mitigação por componente</h3>
+      <FormulaBlock>{`Físico:
+  threshold = 14 × stageLevel + 12
+  reduction = armor² / (armor² + threshold × (armor + 0,4 × dano))
+  dano = max(1, floor(dano × (1 − min(0,75, reduction))))
+
+Elemental (fogo, gelo, raio, caos):
+  resistEfetiva = resistElemento + resistAllElemental
+  se resist ≥ 0: dano × (1 − resist/100)
+  se resist < 0:  dano × (1 + |resist|/100)`}</FormulaBlock>
+
+      <h3 className="text-lg font-semibold text-text-primary mb-3">Defesa avançada</h3>
+      <WikiTable
+        headers={['Camada', 'Mecânica', 'Limite']}
+        rows={[
+          ['Esquiva (dodge)', 'Chance de anular o hit inteiro', 'Máx. 50%'],
+          ['Bloqueio (block)', 'Reduz dano do hit para 50%', 'Máx. 50% chance'],
+          ['Redução de dano (DR)', 'Multiplica dano restante por (1 − DR)', 'Máx. 75%'],
+        ]}
+      />
+      <FormulaBlock>{`Herói — fontes de defesa:
+  dodge  += gear + DEX×0,0015 + Esquiva (2,5%/rank se equipada)
+  block  += gear + Escudo de Mana (3%/rank se equipada)
+  DR     += gear + Pele de Ferro (4%/rank se equipada)
+
+Inimigo — por papel:
+  subboss: dodge 2% · block 1%
+  boss:    dodge 4% · block 2%`}</FormulaBlock>
+
+      <h3 className="text-lg font-semibold text-text-primary mb-3">DOT (dano ao longo do tempo)</h3>
+      <p className="text-text-secondary mb-3">
+        Status <code className="text-sm inline-code">dot</code> aplica dano por turno ao fim da ação
+        do combatente afetado. Dano escala com o tier da fase. Skills com DOT: Bola de Fogo, Brasa,
+        Cuspe Venenoso, Ácido.
+      </p>
+      <FormulaBlock>{`DOT por tick = max(1, floor(danoBase × (1 + min(1,5, (tier−1)×0,012))))`}</FormulaBlock>
+
+      <h3 className="text-lg font-semibold text-text-primary mb-3">Resistências</h3>
+      <p className="text-text-secondary mb-3">
+        Heróis somam resistências do gear equipado (armadura: fogo/gelo/raio; acessório: caos ou
+        all-elemental). Inimigos têm resistências inatas por tema (ex.: dragões +fogo, mortos-vivos
+        +caos) + bônus de papel e tier.
+      </p>
+      <FormulaBlock>{`Bônus inato extra por tier global (fase):
+  tier ≤ 10 → 0
+  tier > 10 → min(12, floor((tier − 10) / 15))
+
+Boss: +6 em cada elemental · Subboss: +3 · Tier de poder: +(tier−1)×2 all-elemental`}</FormulaBlock>
+      <p className="text-text-secondary mb-4">
+        A ficha de combate e tooltips exibem o resumo: <em>Resist: Fogo 12% · Caos 10% · …</em>
+      </p>
+
+      <h3 className="text-lg font-semibold text-text-primary mb-3">Stats finais do herói</h3>
+      <FormulaBlock>{`ATK = baseAttack + gearATK + (nível−1)×2 + floor(STR×0,5 + DEX×0,3)
+DEF = baseDefense + gearDEF + (nível−1)×2 + floor(DEX×0,5 + STR×0,2)
+HP  = baseMaxHP   + gearHP  + (nível−1)×10 + STR×2`}</FormulaBlock>
+
+      <h3 className="text-lg font-semibold text-text-primary mb-3">Escala de inimigos (Stage Scaling)</h3>
+      <p className="text-text-secondary mb-3 text-sm">
+        Multiplicadores por tier de fase. A curva de referência ({STAGE_SCALING_CURVE_MAX} pontos) é
+        distribuída nos 500 tiers da campanha. Tabela completa na seção Campanha.
+      </p>
+      <FormulaBlock>{`curveStage = 1 + (tier − 1) / 499 × 169   // interpola entre pontos da curva
+fator = multiplicador ÷ 100 × phaseMultiplier
+
+ATK = floor(10 × fatorAtk × roleStat)
+DEF = floor(4  × fatorAtk × roleStat)   // DEF segue ATK
+HP  = floor(60 × fatorHp  × roleStat)
+Ouro = floor(8  × fatorGold × roleReward × goldMultiplier)
+XP (boss) = floor(15 × fatorExp × roleReward)`}</FormulaBlock>
+
+      <WikiTable
+        headers={['Papel', 'Mult. stats', 'Mult. recompensa']}
+        rows={[
+          ['Comum (trash)', '×1,0', '×1,0'],
+          ['Elite', '×1,35', '×1,25'],
+          ['Boss', '×1,75', '×1,6'],
+        ]}
+      />
+
+      <InfoCard>
+        <p className="mb-2">
+          <strong>Loot por tier:</strong> stats primários do gear escalam com{' '}
+          <code className="text-sm inline-code">lootPrimaryStatScale(tier)</code> — até +35% em
+          fases altas.
+        </p>
+        <p>
+          <strong>Seleção de skill:</strong> cura só dispara abaixo do threshold de HP; maior{' '}
+          <code className="text-sm inline-code">usePriority</code> vence; Ataque Básico é fallback.
+        </p>
+      </InfoCard>
+    </WikiSection>
+  );
+}

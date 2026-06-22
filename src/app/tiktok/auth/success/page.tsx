@@ -10,9 +10,9 @@ function AuthSuccessContent() {
   const authenticated = searchParams.get('authenticated');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="page-shell">
       <div className="max-w-3xl mx-auto">
-        <div className="bg-white rounded-lg shadow-xl p-8">
+        <div className="page-card shadow-xl">
           <div className="flex items-center mb-6">
             <div className="flex-shrink-0">
               <svg className="h-12 w-12 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -20,19 +20,19 @@ function AuthSuccessContent() {
               </svg>
             </div>
             <div className="ml-4">
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-3xl font-bold text-text-primary">
                 Autenticação Bem-Sucedida!
               </h1>
             </div>
           </div>
 
           <div className="mb-6">
-            <p className="text-lg text-gray-700 mb-4">
+            <p className="text-lg text-text-secondary mb-4">
               Você foi autenticado com sucesso no TikTok. O token de acesso foi salvo com segurança em um cookie HTTP-only.
             </p>
             
             {authenticated === 'true' && (
-              <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded">
+              <div className="mt-4 alert-success p-4">
                 <p className="text-sm text-green-800">
                   <strong>✓ Token salvo com sucesso!</strong> Você pode agora acessar as informações do usuário e outros recursos da API.
                 </p>
@@ -40,8 +40,8 @@ function AuthSuccessContent() {
             )}
 
             {scope && scope !== 'none' ? (
-              <div className="mt-4 p-4 bg-gray-50 rounded border border-gray-200">
-                <p className="text-sm font-semibold text-gray-700 mb-3">
+              <div className="mt-4 p-4 bg-surface-hover rounded border border-border">
+                <p className="text-sm font-semibold text-text-secondary mb-3">
                   Escopos retornados pelo TikTok:
                 </p>
                 <div className="space-y-2">
@@ -55,7 +55,7 @@ function AuthSuccessContent() {
                       <div
                         key={idx}
                         className={`flex items-center p-2 rounded ${
-                          isImportant ? 'bg-green-100 border border-green-300' : 'bg-white border border-gray-200'
+                          isImportant ? 'alert-success-subtle' : 'bg-surface border border-border'
                         }`}
                       >
                         {isImportant && (
@@ -63,7 +63,7 @@ function AuthSuccessContent() {
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                           </svg>
                         )}
-                        <code className={`text-sm ${isImportant ? 'text-green-800 font-semibold' : 'text-gray-700'}`}>
+                        <code className={`text-sm ${isImportant ? 'text-green-800 font-semibold' : 'text-text-secondary'}`}>
                           {scopeName}
                         </code>
                         {isImportant && (
@@ -78,12 +78,12 @@ function AuthSuccessContent() {
                 
                 {/* Verificar escopos esperados */}
                 {(!scope.includes('video.upload') || !scope.includes('video.publish')) && (
-                  <div className="mt-4 p-3 bg-yellow-50 border border-yellow-300 rounded">
-                    <p className="text-sm font-semibold text-yellow-800 mb-2">
+                  <div className="alert-warning p-3">
+                    <p className="text-sm font-semibold text-inherit mb-2">
                       ⚠️ Escopos de Upload/Publish não encontrados
                     </p>
                     <p className="text-xs text-yellow-700 mb-2">
-                      Os escopos <code className="bg-yellow-100 px-1 rounded">video.upload</code> e <code className="bg-yellow-100 px-1 rounded">video.publish</code> não foram retornados pelo TikTok.
+                      Os escopos <code className="bg-yellow-200/40 dark:bg-yellow-900/50 px-1 rounded">video.upload</code> e <code className="bg-yellow-200/40 dark:bg-yellow-900/50 px-1 rounded">video.publish</code> não foram retornados pelo TikTok.
                     </p>
                     <p className="text-xs text-yellow-700">
                       Isso pode indicar limitações do ambiente Sandbox ou que os escopos não foram aprovados. Verifique os logs do servidor e o painel do TikTok for Developers.
@@ -92,7 +92,7 @@ function AuthSuccessContent() {
                 )}
               </div>
             ) : (
-              <div className="mt-4 p-4 bg-red-50 rounded border border-red-200">
+              <div className="mt-4 alert-error p-4 border border-red-200">
                 <p className="text-sm font-semibold text-red-800 mb-2">
                   ⚠️ Nenhum escopo retornado
                 </p>
@@ -102,7 +102,7 @@ function AuthSuccessContent() {
               </div>
             )}
 
-            <div className="mt-6 p-4 bg-blue-50 rounded border border-blue-200">
+            <div className="mt-6 alert-info p-4">
               <p className="text-sm text-blue-800">
                 <strong>Próximos passos:</strong>
               </p>
@@ -161,10 +161,10 @@ function AuthSuccessContent() {
 export default function AuthSuccessPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="page-shell">
         <div className="max-w-3xl mx-auto">
-          <div className="bg-white rounded-lg shadow-xl p-8">
-            <p className="text-gray-600">Carregando...</p>
+          <div className="page-card shadow-xl">
+            <p className="text-text-muted">Carregando...</p>
           </div>
         </div>
       </div>

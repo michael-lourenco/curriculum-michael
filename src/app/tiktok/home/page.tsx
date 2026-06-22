@@ -2,22 +2,22 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="page-shell">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-lg shadow-xl p-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+        <div className="page-card shadow-xl">
+          <h1 className="text-4xl font-bold text-text-primary mb-4">
             TikTok API Next.js SDK
           </h1>
-          <p className="text-lg text-gray-600 mb-8">
+          <p className="text-lg text-text-muted mb-8">
             SDK completo em TypeScript para interagir com a API do TikTok.
           </p>
 
           <div className="space-y-6">
             <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 Recursos Disponíveis
               </h2>
-              <ul className="list-disc list-inside space-y-2 text-gray-700">
+              <ul className="list-disc list-inside space-y-2 text-text-secondary">
                 <li>Autenticação OAuth completa</li>
                 <li>Gerenciamento de usuários</li>
                 <li>Listagem e consulta de vídeos</li>
@@ -27,22 +27,22 @@ export default function Home() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 Como Usar
               </h2>
-              <div className="bg-gray-50 rounded-lg p-4">
-                <p className="text-gray-700 mb-4">
+              <div className="bg-surface-hover rounded-lg p-4">
+                <p className="text-text-secondary mb-4">
                   <strong>1. Configurar variáveis de ambiente:</strong>
                 </p>
-                <pre className="bg-gray-800 text-green-400 p-4 rounded overflow-x-auto text-sm">
+                <pre className="formula-block p-4 rounded overflow-x-auto text-sm">
 {`TIKTOK_CLIENT_KEY=your_client_key
 TIKTOK_CLIENT_SECRET=your_client_secret
 TIKTOK_REDIRECT_URI=http://localhost:3000/tiktok`}
                 </pre>
               </div>
 
-              <div className="bg-gray-50 rounded-lg p-4 mt-4">
-                <p className="text-gray-700 mb-4">
+              <div className="bg-surface-hover rounded-lg p-4 mt-4">
+                <p className="text-text-secondary mb-4">
                   <strong>2. Iniciar autenticação:</strong>
                 </p>
                 <div className="space-y-3">
@@ -53,7 +53,7 @@ TIKTOK_REDIRECT_URI=http://localhost:3000/tiktok`}
                     >
                       Autorizar com TikTok (Apenas user.info.basic)
                     </a>
-                    <p className="text-sm text-gray-600 mt-1">
+                    <p className="text-sm text-text-muted mt-1">
                       Escopo básico - recomendado para começar
                     </p>
                   </div>
@@ -64,51 +64,51 @@ TIKTOK_REDIRECT_URI=http://localhost:3000/tiktok`}
                     >
                       Autorizar com TikTok (Escopos completos + postagem)
                     </a>
-                    <p className="text-sm text-gray-600 mt-1">
+                    <p className="text-sm text-text-muted mt-1">
                       Inclui escopos para leitura de perfil, estatísticas e publicação de vídeos
                     </p>
                   </div>
                 </div>
-                <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded">
-                  <p className="text-sm text-yellow-800">
+                <div className="mt-4 p-3 alert-warning">
+                  <p className="text-sm text-inherit">
                     <strong>⚠️ Importante:</strong> Se receber erro de "invalid_scope", você precisa habilitar os escopos no <a href="https://developers.tiktok.com/apps" target="_blank" rel="noopener noreferrer" className="underline">TikTok for Developers</a>. 
-                    Comece testando apenas com <code className="bg-yellow-100 px-1 rounded">user.info.basic</code>.
+                    Comece testando apenas com <code className="bg-yellow-200/40 dark:bg-yellow-900/50 px-1 rounded">user.info.basic</code>.
                   </p>
                 </div>
               </div>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 Ferramentas Rápidas</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Link
                   href="/tiktok/user-info"
-                  className="block p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+                  className="block p-4 bg-surface border border-border rounded-lg shadow-sm hover:shadow-md transition"
                   prefetch={false}
                 >
-                  <h3 className="text-lg font-semibold text-gray-800">Informações do Usuário</h3>
-                  <p className="text-sm text-gray-600 mt-1">
+                  <h3 className="text-lg font-semibold text-text-primary">Informações do Usuário</h3>
+                  <p className="text-sm text-text-muted mt-1">
                     Visualize dados básicos da conta autenticada.
                   </p>
                 </Link>
                 <Link
                   href="/tiktok/publish"
-                  className="block p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+                  className="block p-4 bg-surface border border-border rounded-lg shadow-sm hover:shadow-md transition"
                   prefetch={false}
                 >
-                  <h3 className="text-lg font-semibold text-gray-800">Publicar Vídeo</h3>
-                  <p className="text-sm text-gray-600 mt-1">
+                  <h3 className="text-lg font-semibold text-text-primary">Publicar Vídeo</h3>
+                  <p className="text-sm text-text-muted mt-1">
                     Faça upload direto de vídeos usando video.upload e video.publish.
                   </p>
                 </Link>
                 <Link
                   href="/tiktok/validate"
-                  className="block p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+                  className="block p-4 bg-surface border border-border rounded-lg shadow-sm hover:shadow-md transition"
                   prefetch={false}
                 >
-                  <h3 className="text-lg font-semibold text-gray-800">Validar Token</h3>
-                  <p className="text-sm text-gray-600 mt-1">
+                  <h3 className="text-lg font-semibold text-text-primary">Validar Token</h3>
+                  <p className="text-sm text-text-muted mt-1">
                     Confirme se o access_token está ativo e quais campos estão disponíveis.
                   </p>
                 </Link>
@@ -116,37 +116,37 @@ TIKTOK_REDIRECT_URI=http://localhost:3000/tiktok`}
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 Endpoints da API
               </h2>
               <div className="space-y-2 text-sm">
-                <div className="bg-gray-50 p-3 rounded">
+                <div className="bg-surface-hover p-3 rounded">
                   <code className="text-blue-600">GET /tiktok/api/auth/authorize</code>
-                  <span className="text-gray-600 ml-2">- Iniciar autenticação OAuth</span>
+                  <span className="text-text-muted ml-2">- Iniciar autenticação OAuth</span>
                 </div>
-                <div className="bg-gray-50 p-3 rounded">
+                <div className="bg-surface-hover p-3 rounded">
                   <code className="text-blue-600">GET /tiktok/api/auth/callback</code>
-                  <span className="text-gray-600 ml-2">- Callback de autenticação</span>
+                  <span className="text-text-muted ml-2">- Callback de autenticação</span>
                 </div>
-                <div className="bg-gray-50 p-3 rounded">
+                <div className="bg-surface-hover p-3 rounded">
                   <code className="text-blue-600">GET /tiktok/api/user/info</code>
-                  <span className="text-gray-600 ml-2">- Informações do usuário</span>
+                  <span className="text-text-muted ml-2">- Informações do usuário</span>
                 </div>
-                <div className="bg-gray-50 p-3 rounded">
+                <div className="bg-surface-hover p-3 rounded">
                   <code className="text-blue-600">POST /tiktok/api/videos/list</code>
-                  <span className="text-gray-600 ml-2">- Listar vídeos</span>
+                  <span className="text-text-muted ml-2">- Listar vídeos</span>
                 </div>
-                <div className="bg-gray-50 p-3 rounded">
+                <div className="bg-surface-hover p-3 rounded">
                   <code className="text-blue-600">POST /tiktok/api/videos/publish</code>
-                  <span className="text-gray-600 ml-2">- Publicar vídeo direto</span>
+                  <span className="text-text-muted ml-2">- Publicar vídeo direto</span>
                 </div>
-                <div className="bg-gray-50 p-3 rounded">
+                <div className="bg-surface-hover p-3 rounded">
                   <code className="text-blue-600">POST /tiktok/api/videos/status</code>
-                  <span className="text-gray-600 ml-2">- Consultar status da publicação</span>
+                  <span className="text-text-muted ml-2">- Consultar status da publicação</span>
                 </div>
-                <div className="bg-gray-50 p-3 rounded">
+                <div className="bg-surface-hover p-3 rounded">
                   <code className="text-blue-600">POST /tiktok/webhook</code>
-                  <span className="text-gray-600 ml-2">- Receber webhooks</span>
+                  <span className="text-text-muted ml-2">- Receber webhooks</span>
                 </div>
               </div>
             </section>

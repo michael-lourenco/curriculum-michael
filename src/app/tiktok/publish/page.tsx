@@ -377,19 +377,19 @@ export default function PublishPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-purple-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="page-shell">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-lg shadow-xl p-8">
+        <div className="page-card shadow-xl">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Publicar Vídeo</h1>
-              <p className="text-sm text-gray-500 mt-1">
-                Requer escopos: <code className="bg-gray-100 px-1 rounded">video.upload</code>{' '}
-                e <code className="bg-gray-100 px-1 rounded">video.publish</code>
+              <h1 className="text-3xl font-bold text-text-primary">Publicar Vídeo</h1>
+              <p className="text-sm text-text-muted mt-1">
+                Requer escopos: <code className="bg-surface-hover px-1 rounded">video.upload</code>{' '}
+                e <code className="bg-surface-hover px-1 rounded">video.publish</code>
               </p>
               {creatorName && (
-                <p className="text-sm text-gray-600 mt-1">
-                  Publicando como: <span className="font-medium text-gray-800">{creatorName}</span>
+                <p className="text-sm text-text-muted mt-1">
+                  Publicando como: <span className="font-medium text-text-primary">{creatorName}</span>
                 </p>
               )}
             </div>
@@ -407,13 +407,13 @@ export default function PublishPage() {
             </div>
 
             {creatorLoading && (
-              <div className="p-4 bg-gray-50 border border-gray-200 rounded">
-                <p className="text-sm text-gray-600">Carregando informações do criador...</p>
+              <div className="p-4 bg-surface-hover border border-border rounded">
+                <p className="text-sm text-text-muted">Carregando informações do criador...</p>
               </div>
             )}
 
             {creatorError && (
-              <div className="p-4 bg-red-50 border border-red-200 rounded">
+              <div className="alert-error p-4">
                 <p className="text-sm text-red-700">
                   Não foi possível obter as informações do criador: {creatorError}
                 </p>
@@ -421,42 +421,42 @@ export default function PublishPage() {
             )}
 
             {!creatorCanPost && (
-              <div className="p-4 bg-yellow-50 border border-yellow-200 rounded">
-                <p className="text-sm text-yellow-800">
+              <div className="p-4 alert-warning">
+                <p className="text-sm text-inherit">
                   O criador atingiu o limite de publicações nas últimas 24 horas. Tente novamente mais tarde.
                 </p>
               </div>
             )}
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-text-secondary mb-2">
                 Arquivo de Vídeo (opcional)
               </label>
               <input
                 type="file"
                 accept="video/*"
                 onChange={handleVideoFileChange}
-                className="w-full text-sm text-gray-900 bg-white border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="w-full text-sm text-text-primary bg-surface border border-border rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
               />
               {videoFile && (
-                <p className="mt-2 text-sm text-gray-600">
+                <p className="mt-2 text-sm text-text-muted">
                   Selecionado: <strong>{videoFile.name}</strong> ({Math.round(videoFile.size / 1024)} KB)
                 </p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-text-secondary mb-2">
                 URL do Vídeo
               </label>
               <input
                 type="url"
                 value={videoUrl}
                 onChange={(e) => setVideoUrl(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-900 placeholder:text-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="w-full px-4 py-2 border border-border rounded-md bg-surface text-text-primary placeholder:text-text-muted focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                 placeholder="https://...mp4"
               />
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-1 text-xs text-text-muted">
                 Se enviar um arquivo local, esta URL é opcional e usada apenas como fallback.
               </p>
             </div>
@@ -464,7 +464,7 @@ export default function PublishPage() {
             {videoPreviewUrl && (
               <div className="border rounded-lg overflow-hidden">
                 <video src={videoPreviewUrl} controls className="w-full max-h-64 bg-black" />
-                <div className="p-2 text-xs text-gray-600">
+                <div className="p-2 text-xs text-text-muted">
                   {videoDuration !== null
                     ? `Duração estimada: ${Math.round(videoDuration)} segundos`
                     : 'Duração não disponível'}
@@ -473,32 +473,32 @@ export default function PublishPage() {
             )}
 
             {durationError && (
-              <div className="p-4 bg-red-50 border border-red-200 rounded">
+              <div className="alert-error p-4">
                 <p className="text-sm text-red-700">{durationError}</p>
               </div>
             )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-text-secondary mb-2">
                   Título
                 </label>
                 <input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-900 placeholder:text-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full px-4 py-2 border border-border rounded-md bg-surface text-text-primary placeholder:text-text-muted focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                   placeholder="Título do vídeo"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-text-secondary mb-2">
                   Visibilidade
                 </label>
                 <select
                   value={privacyLevel}
                   onChange={(e) => setPrivacyLevel(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-900 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full px-4 py-2 border border-border rounded-md bg-surface text-text-primary focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                 >
                   <option value="">Selecione um nível de privacidade</option>
                   {(privacyOptions.length > 0 ? privacyOptions : ['PUBLIC', 'FRIENDS', 'SELF_ONLY']).map(
@@ -513,60 +513,60 @@ export default function PublishPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-text-secondary mb-2">
                 Descrição
               </label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-900 placeholder:text-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="w-full px-4 py-2 border border-border rounded-md bg-surface text-text-primary placeholder:text-text-muted focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                 rows={3}
                 placeholder="Descrição do vídeo"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <label className="inline-flex items-center gap-2 text-sm text-gray-700">
+              <label className="inline-flex items-center gap-2 text-sm text-text-secondary">
                 <input
                   type="checkbox"
                   checked={allowDuet}
                   onChange={(e) => setAllowDuet(e.target.checked)}
-                  className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                  className="rounded border-border text-purple-600 focus:ring-purple-500"
                   disabled={!interactionAllowDuet}
                 />
                 Permitir duet
                 {!interactionAllowDuet && (
-                  <span className="text-xs text-gray-500">Desativado nas configurações do criador</span>
+                  <span className="text-xs text-text-muted">Desativado nas configurações do criador</span>
                 )}
               </label>
-              <label className="inline-flex items-center gap-2 text-sm text-gray-700">
+              <label className="inline-flex items-center gap-2 text-sm text-text-secondary">
                 <input
                   type="checkbox"
                   checked={allowComment}
                   onChange={(e) => setAllowComment(e.target.checked)}
-                  className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                  className="rounded border-border text-purple-600 focus:ring-purple-500"
                   disabled={!interactionAllowComment}
                 />
                 Permitir comentários
                 {!interactionAllowComment && (
-                  <span className="text-xs text-gray-500">Desativado nas configurações do criador</span>
+                  <span className="text-xs text-text-muted">Desativado nas configurações do criador</span>
                 )}
               </label>
-              <label className="inline-flex items-center gap-2 text-sm text-gray-700">
+              <label className="inline-flex items-center gap-2 text-sm text-text-secondary">
                 <input
                   type="checkbox"
                   checked={allowStitch}
                   onChange={(e) => setAllowStitch(e.target.checked)}
-                  className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                  className="rounded border-border text-purple-600 focus:ring-purple-500"
                   disabled={!interactionAllowStitch}
                 />
                 Permitir stitch
                 {!interactionAllowStitch && (
-                  <span className="text-xs text-gray-500">Desativado nas configurações do criador</span>
+                  <span className="text-xs text-text-muted">Desativado nas configurações do criador</span>
                 )}
               </label>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-text-secondary mb-2">
                   Cover time (segundos)
                 </label>
                 <input
@@ -574,14 +574,14 @@ export default function PublishPage() {
                   min={0}
                   value={coverTime}
                   onChange={(e) => setCoverTime(e.target.value === '' ? '' : Number(e.target.value))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-900 placeholder:text-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full px-4 py-2 border border-border rounded-md bg-surface text-text-primary placeholder:text-text-muted focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                   placeholder="Opcional"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-text-secondary mb-2">
                 Schedule time (epoch segundos)
               </label>
               <input
@@ -589,10 +589,10 @@ export default function PublishPage() {
                 min={0}
                 value={scheduleTime}
                 onChange={(e) => setScheduleTime(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-900 placeholder:text-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="w-full px-4 py-2 border border-border rounded-md bg-surface text-text-primary placeholder:text-text-muted focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                 placeholder="Opcional"
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-text-muted mt-1">
                 Deixe vazio para publicar imediatamente.
               </p>
             </div>
@@ -610,46 +610,46 @@ export default function PublishPage() {
                       setCommercialBranded(false);
                     }
                   }}
-                  className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                  className="rounded border-border text-purple-600 focus:ring-purple-500"
                 />
-                <label htmlFor="commercialToggle" className="text-sm text-gray-700">
+                <label htmlFor="commercialToggle" className="text-sm text-text-secondary">
                   Este conteúdo promove uma marca ou produto?
                 </label>
               </div>
               {commercialToggle && (
                 <div className="ml-6 space-y-2">
-                  <label className="flex items-center gap-2 text-sm text-gray-700">
+                  <label className="flex items-center gap-2 text-sm text-text-secondary">
                     <input
                       type="checkbox"
                       checked={commercialYourBrand}
                       onChange={(e) => setCommercialYourBrand(e.target.checked)}
-                      className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                      className="rounded border-border text-purple-600 focus:ring-purple-500"
                     />
                     Seu próprio negócio/marca
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-gray-700">
+                  <label className="flex items-center gap-2 text-sm text-text-secondary">
                     <input
                       type="checkbox"
                       checked={commercialBranded}
                       onChange={(e) => setCommercialBranded(e.target.checked)}
-                      className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                      className="rounded border-border text-purple-600 focus:ring-purple-500"
                     />
                     Marca de terceiros (conteúdo pago)
                   </label>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-text-muted">
                     Se selecionar conteúdo patrocinado, certifique-se de usar visibilidade pública ou amigos.
                   </p>
                 </div>
               )}
             </div>
 
-            <div className="p-4 border border-gray-200 rounded bg-gray-50">
-              <label className="flex items-center gap-2 text-sm text-gray-700">
+            <div className="p-4 border border-border rounded bg-surface-hover">
+              <label className="flex items-center gap-2 text-sm text-text-secondary">
                 <input
                   type="checkbox"
                   checked={consent}
                   onChange={(e) => setConsent(e.target.checked)}
-                  className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                  className="rounded border-border text-purple-600 focus:ring-purple-500"
                 />
                 <span>
                   Ao publicar, você concorda com a Music Usage Confirmation do TikTok (e, se aplicável,
@@ -670,21 +670,21 @@ export default function PublishPage() {
                   (!!commercialToggle && !commercialYourBrand && !commercialBranded) ||
                   Boolean(durationError)
                 }
-                className="px-6 py-3 bg-purple-600 text-white font-medium rounded shadow hover:bg-purple-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="px-6 py-3 bg-purple-600 text-white font-medium rounded shadow hover:bg-purple-700 transition disabled:bg-surface-hover disabled:cursor-not-allowed"
               >
                 {loading ? 'Enviando...' : 'Enviar Rascunho'}
               </button>
               <button
                 onClick={handleStatusCheck}
                 disabled={!publishResult?.publish_id}
-                className="px-6 py-3 bg-blue-600 text-white font-medium rounded shadow hover:bg-blue-700 transition disabled:bg-gray-300 disabled:text-gray-500"
+                className="px-6 py-3 bg-blue-600 text-white font-medium rounded shadow hover:bg-blue-700 transition disabled:bg-surface-hover disabled:text-text-muted"
               >
                 Consultar Status
               </button>
               {publishResult?.publish_id && (
-                <div className="text-sm text-gray-600 flex items-center">
-                  <span className="font-medium text-gray-700 mr-2">publish_id:</span>
-                  <code className="bg-gray-100 px-2 py-1 rounded text-xs">
+                <div className="text-sm text-text-muted flex items-center">
+                  <span className="font-medium text-text-secondary mr-2">publish_id:</span>
+                  <code className="bg-surface-hover px-2 py-1 rounded text-xs">
                     {publishResult.publish_id}
                   </code>
                 </div>
@@ -693,7 +693,7 @@ export default function PublishPage() {
                 <button
                   onClick={() => setVideoFile(null)}
                   type="button"
-                  className="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded hover:bg-gray-300 transition"
+                  className="px-4 py-2 bg-surface-hover text-text-secondary font-medium rounded hover:bg-surface transition"
                 >
                   Remover arquivo
                 </button>
@@ -701,13 +701,13 @@ export default function PublishPage() {
             </div>
 
             {error && (
-              <div className="p-4 bg-red-50 border border-red-200 rounded">
+              <div className="alert-error p-4">
                 <p className="text-sm text-red-700">{error}</p>
               </div>
             )}
 
             {successMessage && (
-              <div className="p-4 bg-green-50 border border-green-200 rounded">
+              <div className="alert-success p-4">
                 <p className="text-sm text-green-700">{successMessage}</p>
                 <p className="text-xs text-green-700 mt-2">
                   Dica: peça ao criador para abrir o TikTok, acessar a notificação de upload e finalizar a postagem.
@@ -716,28 +716,28 @@ export default function PublishPage() {
             )}
 
             {autoStatusMessage && (
-              <div className="p-4 bg-blue-50 border border-blue-200 rounded">
+              <div className="alert-info p-4">
                 <p className="text-sm text-blue-700">{autoStatusMessage}</p>
               </div>
             )}
 
             {publishResult && (
-              <details open className="p-4 bg-gray-50 border border-gray-200 rounded">
-                <summary className="cursor-pointer text-sm font-medium text-gray-700 hover:text-gray-900">
+              <details open className="p-4 bg-surface-hover border border-border rounded">
+                <summary className="cursor-pointer text-sm font-medium text-text-secondary hover:text-text-primary">
                   Resultado da publicação
                 </summary>
-                <pre className="mt-2 text-xs bg-white p-3 rounded border overflow-auto max-h-96">
+                <pre className="mt-2 text-xs json-pre overflow-auto max-h-96">
                   {JSON.stringify(publishResult, null, 2)}
                 </pre>
               </details>
             )}
 
             {statusResult && (
-              <details open className="p-4 bg-gray-50 border border-gray-200 rounded">
-                <summary className="cursor-pointer text-sm font-medium text-gray-700 hover:text-gray-900">
+              <details open className="p-4 bg-surface-hover border border-border rounded">
+                <summary className="cursor-pointer text-sm font-medium text-text-secondary hover:text-text-primary">
                   Status atual
                 </summary>
-                <pre className="mt-2 text-xs bg-white p-3 rounded border overflow-auto max-h-96">
+                <pre className="mt-2 text-xs json-pre overflow-auto max-h-96">
                   {JSON.stringify(statusResult, null, 2)}
                 </pre>
               </details>

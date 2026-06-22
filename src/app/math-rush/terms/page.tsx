@@ -12,34 +12,34 @@ const LAST_UPDATED = 'May 4, 2026';
 
 export default function MathRushTermsOfService() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="page-shell">
       <div className="max-w-4xl mx-auto">
         <p className="text-center mb-4">
           <Link
             href="/math-rush/privacy"
-            className="text-blue-600 hover:text-blue-800 underline"
+            className="text-accent hover:text-accent-dark underline"
           >
             Privacy Policy
           </Link>
         </p>
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2 text-center">
+        <div className="page-card">
+          <h1 className="text-4xl font-bold text-text-primary mb-2 text-center">
             Terms of Service
           </h1>
-          <p className="text-center text-gray-600 mb-2">
+          <p className="text-center text-text-muted mb-2">
             <strong>Math Rush: Sphinx Challenge</strong> · Android
           </p>
 
           <div className="prose prose-lg max-w-none">
-            <p className="text-gray-600 mb-6">
+            <p className="text-text-muted mb-6">
               <strong>Last updated:</strong> {LAST_UPDATED}
             </p>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 1. Agreement
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 These Terms of Service (“Terms”) govern your use of{' '}
                 <strong>Math Rush: Sphinx Challenge</strong> (“the Game”), an
                 educational single-player math puzzle distributed on Android
@@ -47,14 +47,14 @@ export default function MathRushTermsOfService() {
                 the Game, you agree to these Terms. If you do not agree, do not use
                 the Game.
               </p>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 Your use of Google Play and optional{' '}
                 <strong>Google Play Games Services</strong> (for example
                 leaderboards) is also subject to Google’s applicable terms and
                 policies, including the{' '}
                 <a
                   href="https://play.google.com/intl/ALL_en/about/play-terms/"
-                  className="text-blue-600 hover:text-blue-800 underline"
+                  className="text-accent hover:text-accent-dark underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -65,10 +65,10 @@ export default function MathRushTermsOfService() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 2. Description of the Game
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 The Game challenges you on an 8×8 board: you combine three numbers
                 using addition, subtraction, multiplication, and division to match
                 values on the grid, score points, manage lives, and play within a
@@ -79,10 +79,10 @@ export default function MathRushTermsOfService() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 3. License
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 Subject to these Terms and the store rules, we grant you a personal,
                 non-exclusive, non-transferable, revocable license to install and
                 use the Game for private, non-commercial entertainment and learning.
@@ -92,11 +92,11 @@ export default function MathRushTermsOfService() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 4. Acceptable use
               </h2>
-              <p className="text-gray-700 mb-4">You agree not to:</p>
-              <ul className="list-disc pl-6 mb-4 text-gray-700">
+              <p className="text-text-secondary mb-4">You agree not to:</p>
+              <ul className="list-disc pl-6 mb-4 text-text-secondary">
                 <li>
                   cheat, exploit bugs, or manipulate scores or leaderboards in an
                   unfair or fraudulent way;
@@ -117,17 +117,17 @@ export default function MathRushTermsOfService() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 5. Google Play Games and online features
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 Leaderboards and related features may be provided through{' '}
                 <strong>Google Play Games Services</strong>. Availability can
                 change by region, device, or Google policy. We are not responsible
                 for outages or changes made by Google. See our{' '}
                 <Link
                   href="/math-rush/privacy"
-                  className="text-blue-600 hover:text-blue-800 underline"
+                  className="text-accent hover:text-accent-dark underline"
                 >
                   Privacy Policy
                 </Link>{' '}
@@ -136,10 +136,10 @@ export default function MathRushTermsOfService() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 6. Updates and changes
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 We may release updates (content, balance, bug fixes, or technical
                 changes). Some updates may be required to continue using the Game.
                 We may also modify these Terms; the “Last updated” date will
@@ -149,10 +149,10 @@ export default function MathRushTermsOfService() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 7. Disclaimer of warranties
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 The Game is provided <strong>“as is”</strong> and{' '}
                 <strong>“as available”</strong> without warranties of any kind, to
                 the fullest extent permitted by law. We do not warrant uninterrupted
@@ -162,10 +162,10 @@ export default function MathRushTermsOfService() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 8. Limitation of liability
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 To the maximum extent permitted by applicable law, we and our
                 licensors shall not be liable for any indirect, incidental, special,
                 consequential, or punitive damages, or for loss of profits, data, or
@@ -175,17 +175,17 @@ export default function MathRushTermsOfService() {
                 Game in the twelve (12) months before the claim (if any such payment
                 exists; many copies are free).
               </p>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 Some jurisdictions do not allow certain limitations; in those cases,
                 our liability is limited to the minimum permitted by law.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 9. Intellectual property
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 The Game, its name, artwork, audio, and related content are protected
                 by intellectual property laws. Google, Android, and Google Play are
                 trademarks of Google LLC. This document does not grant any rights to
@@ -194,10 +194,10 @@ export default function MathRushTermsOfService() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 10. Termination
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 We may suspend or stop providing the Game or any feature. You may stop
                 using the Game at any time by uninstalling it. Provisions that by
                 their nature should survive (for example limitations of liability,
@@ -206,10 +206,10 @@ export default function MathRushTermsOfService() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 11. Governing law
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 These Terms are governed by the laws applicable in your jurisdiction
                 as required by mandatory consumer protection rules, except where
                 Google Play or another mandatory rule specifies otherwise. Courts or
@@ -218,22 +218,22 @@ export default function MathRushTermsOfService() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 12. Contact
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 For questions about these Terms, use the support contact published on
                 the Game’s Google Play Store listing.
               </p>
             </section>
           </div>
 
-          <div className="mt-12 pt-8 border-t border-gray-200 text-center text-gray-500 text-sm">
+          <div className="mt-12 pt-8 border-t border-border text-center text-text-muted text-sm">
             <p>© Math Rush: Sphinx Challenge</p>
             <p className="mt-2">
               <Link
                 href="/math-rush/privacy"
-                className="text-blue-600 hover:text-blue-800 underline"
+                className="text-accent hover:text-accent-dark underline"
               >
                 Privacy Policy
               </Link>

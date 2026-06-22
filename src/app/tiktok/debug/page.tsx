@@ -46,9 +46,9 @@ export default function DebugPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4">
+    <div className="min-h-screen bg-surface-hover py-12 px-4">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-lg shadow p-8">
+        <div className="page-card">
           <h1 className="text-2xl font-bold mb-6">Debug - TikTok Token</h1>
           
           <div className="space-y-6">
@@ -57,7 +57,7 @@ export default function DebugPage() {
               {loading ? (
                 <p>Verificando...</p>
               ) : (
-                <div className="bg-gray-50 p-4 rounded">
+                <div className="bg-surface-hover p-4 rounded">
                   <pre className="text-sm overflow-auto">
                     {JSON.stringify(tokenTest, null, 2)}
                   </pre>
@@ -67,7 +67,7 @@ export default function DebugPage() {
 
             <section>
               <h2 className="text-xl font-semibold mb-3">Informações</h2>
-              <div className="bg-blue-50 p-4 rounded text-sm">
+              <div className="alert-info p-4 text-sm">
                 <p className="mb-2">
                   <strong>Nota:</strong> Cookies HTTP-only não podem ser lidos via JavaScript por segurança.
                 </p>

@@ -11,25 +11,25 @@ const LAST_UPDATED = '7 de junho de 2025';
 
 export default function SideHeroPrivacyPolicy() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="page-shell">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2 text-center">
+        <div className="page-card">
+          <h1 className="text-4xl font-bold text-text-primary mb-2 text-center">
             Política de Privacidade
           </h1>
-          <p className="text-center text-gray-600 mb-2">
+          <p className="text-center text-text-muted mb-2">
             <strong>Side Hero — Idle RPG</strong> · Extensão Chrome
           </p>
 
           <div className="prose prose-lg max-w-none">
-            <p className="text-gray-600 mb-2 text-center">
+            <p className="text-text-muted mb-2 text-center">
               <strong>Desenvolvedor:</strong> Michael Lourenço
             </p>
-            <p className="text-gray-600 mb-6">
+            <p className="text-text-muted mb-6">
               <strong>Última atualização:</strong> {LAST_UPDATED}
             </p>
 
-            <p className="text-gray-700 mb-6">
+            <p className="text-text-secondary mb-6">
               Esta política descreve como a extensão <strong>Side Hero</strong>{' '}
               (“Extensão”) trata informações quando você a instala e utiliza no
               Google Chrome.
@@ -39,8 +39,8 @@ export default function SideHeroPrivacyPolicy() {
               <h2 className="text-2xl font-semibold text-[#e94560] mb-4">
                 1. Resumo
               </h2>
-              <div className="bg-gray-50 rounded-xl p-5 mb-4">
-                <ul className="list-disc pl-6 text-gray-700">
+              <div className="bg-surface-hover rounded-xl p-5 mb-4">
+                <ul className="list-disc pl-6 text-text-secondary">
                   <li>Não coletamos dados pessoais identificáveis.</li>
                   <li>
                     Não vendemos, alugamos ou compartilhamos dados com
@@ -58,22 +58,22 @@ export default function SideHeroPrivacyPolicy() {
               <h2 className="text-2xl font-semibold text-[#e94560] mb-4">
                 2. Dados armazenados localmente
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 A Extensão utiliza o armazenamento local do Chrome (
-                <code className="text-sm bg-gray-100 px-1.5 py-0.5 rounded">
+                <code className="text-sm bg-surface-hover px-1.5 py-0.5 rounded">
                   chrome.storage.local
                 </code>
                 ) para guardar informações necessárias ao funcionamento do
                 jogo, como:
               </p>
-              <ul className="list-disc pl-6 mb-4 text-gray-700">
+              <ul className="list-disc pl-6 mb-4 text-text-secondary">
                 <li>progresso dos heróis, estágio, ouro e inventário;</li>
                 <li>
                   preferências do painel lateral (visível, recolhido, largura);
                 </li>
                 <li>registros recentes de batalha exibidos na interface.</li>
               </ul>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 Esses dados permanecem no seu dispositivo e são sincronizados
                 apenas pelos mecanismos do próprio Chrome, se você tiver
                 sincronização de extensões ativada na sua conta Google.
@@ -84,10 +84,10 @@ export default function SideHeroPrivacyPolicy() {
               <h2 className="text-2xl font-semibold text-[#e94560] mb-4">
                 3. Permissões da Extensão
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 A Extensão solicita as seguintes permissões:
               </p>
-              <ul className="list-disc pl-6 mb-4 text-gray-700">
+              <ul className="list-disc pl-6 mb-4 text-text-secondary">
                 <li>
                   <strong>storage</strong> — salvar o estado do jogo e
                   preferências localmente.
@@ -111,7 +111,7 @@ export default function SideHeroPrivacyPolicy() {
                   o conteúdo não fique coberto pelo jogo.
                 </li>
               </ul>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 A Extensão <strong>não</strong> lê senhas, formulários
                 bancários, e-mails ou conteúdo privado das páginas para enviar a
                 terceiros. O script de conteúdo existe somente para exibir o
@@ -123,7 +123,7 @@ export default function SideHeroPrivacyPolicy() {
               <h2 className="text-2xl font-semibold text-[#e94560] mb-4">
                 4. Dados que não coletamos
               </h2>
-              <ul className="list-disc pl-6 mb-4 text-gray-700">
+              <ul className="list-disc pl-6 mb-4 text-text-secondary">
                 <li>Nome, e-mail, telefone ou endereço.</li>
                 <li>Histórico de navegação enviado a servidores externos.</li>
                 <li>Dados de localização.</li>
@@ -137,7 +137,7 @@ export default function SideHeroPrivacyPolicy() {
               <h2 className="text-2xl font-semibold text-[#e94560] mb-4">
                 5. Serviços de terceiros
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 A Extensão não integra analytics, publicidade ou rastreadores de
                 terceiros. Os sites que você visita continuam sujeitos às
                 políticas de privacidade desses próprios sites.
@@ -148,7 +148,7 @@ export default function SideHeroPrivacyPolicy() {
               <h2 className="text-2xl font-semibold text-[#e94560] mb-4">
                 6. Segurança
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 Empregamos boas práticas de desenvolvimento para manter o código
                 da Extensão organizado e limitado ao necessário para o
                 funcionamento do jogo. Ainda assim, recomendamos manter o
@@ -160,8 +160,8 @@ export default function SideHeroPrivacyPolicy() {
               <h2 className="text-2xl font-semibold text-[#e94560] mb-4">
                 7. Seus direitos e controle
               </h2>
-              <p className="text-gray-700 mb-4">Você pode, a qualquer momento:</p>
-              <ul className="list-disc pl-6 mb-4 text-gray-700">
+              <p className="text-text-secondary mb-4">Você pode, a qualquer momento:</p>
+              <ul className="list-disc pl-6 mb-4 text-text-secondary">
                 <li>
                   desinstalar a Extensão, o que remove os dados locais associados
                   a ela;
@@ -181,7 +181,7 @@ export default function SideHeroPrivacyPolicy() {
               <h2 className="text-2xl font-semibold text-[#e94560] mb-4">
                 8. Crianças
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 A Extensão não é direcionada especificamente a crianças e não
                 coleta intencionalmente dados pessoais de menores.
               </p>
@@ -191,7 +191,7 @@ export default function SideHeroPrivacyPolicy() {
               <h2 className="text-2xl font-semibold text-[#e94560] mb-4">
                 9. Alterações nesta política
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 Podemos atualizar esta página para refletir mudanças na Extensão
                 ou exigências legais. A data da última atualização será revisada
                 no topo do documento.
@@ -202,7 +202,7 @@ export default function SideHeroPrivacyPolicy() {
               <h2 className="text-2xl font-semibold text-[#e94560] mb-4">
                 10. Contato
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 Em caso de dúvidas sobre esta política, entre em contato pelo
                 site{' '}
                 <a
@@ -218,7 +218,7 @@ export default function SideHeroPrivacyPolicy() {
             </section>
           </div>
 
-          <div className="mt-12 pt-8 border-t border-gray-200 text-center text-gray-500 text-sm">
+          <div className="mt-12 pt-8 border-t border-border text-center text-text-muted text-sm">
             <p>© 2025 Michael Lourenço — Side Hero</p>
           </div>
         </div>

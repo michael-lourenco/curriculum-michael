@@ -12,34 +12,34 @@ const LAST_UPDATED = 'May 4, 2026';
 
 export default function MathRushPrivacyPolicy() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="page-shell">
       <div className="max-w-4xl mx-auto">
         <p className="text-center mb-4">
           <Link
             href="/math-rush/terms"
-            className="text-blue-600 hover:text-blue-800 underline"
+            className="text-accent hover:text-accent-dark underline"
           >
             Terms of Service
           </Link>
         </p>
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2 text-center">
+        <div className="page-card">
+          <h1 className="text-4xl font-bold text-text-primary mb-2 text-center">
             Privacy Policy
           </h1>
-          <p className="text-center text-gray-600 mb-2">
+          <p className="text-center text-text-muted mb-2">
             <strong>Math Rush: Sphinx Challenge</strong> · Android
           </p>
 
           <div className="prose prose-lg max-w-none">
-            <p className="text-gray-600 mb-6">
+            <p className="text-text-muted mb-6">
               <strong>Last updated:</strong> {LAST_UPDATED}
             </p>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 1. Introduction
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 This Privacy Policy explains how{' '}
                 <strong>Math Rush: Sphinx Challenge</strong> (“the Game”, “we”,
                 “us”) handles information when you install and play the Android
@@ -48,21 +48,21 @@ export default function MathRushPrivacyPolicy() {
                 subtraction, multiplication, and division on an 8×8 grid to score
                 points against the clock.
               </p>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 By using the Game, you agree to this Policy. If you do not agree,
                 please uninstall the Game and discontinue use.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 2. Information we may process
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 Depending on how you use the Game and which features you enable,
                 the following categories may apply:
               </p>
-              <ul className="list-disc pl-6 mb-4 text-gray-700">
+              <ul className="list-disc pl-6 mb-4 text-text-secondary">
                 <li>
                   <strong>Gameplay and app performance data</strong> — For
                   example scores, session length, feature usage, and crash or
@@ -86,7 +86,7 @@ export default function MathRushPrivacyPolicy() {
                   platform provides.
                 </li>
               </ul>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 We do not require you to provide your real name, email address, or
                 phone number inside the Game to play the core offline experience.
                 Any personal data flows mainly through Google Play, Google Play
@@ -95,20 +95,20 @@ export default function MathRushPrivacyPolicy() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 3. Third-party services (Google)
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 The Game is distributed via <strong>Google Play</strong> and may
                 use <strong>Google Play Games Services</strong> for leaderboards
                 and related social/competitive features offered by Google.
               </p>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 Google’s handling of data is governed by Google’s documents,
                 including the{' '}
                 <a
                   href="https://policies.google.com/privacy"
-                  className="text-blue-600 hover:text-blue-800 underline"
+                  className="text-accent hover:text-accent-dark underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -117,7 +117,7 @@ export default function MathRushPrivacyPolicy() {
                 and, where applicable,{' '}
                 <a
                   href="https://developers.google.com/games/services"
-                  className="text-blue-600 hover:text-blue-800 underline"
+                  className="text-accent hover:text-accent-dark underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -129,13 +129,13 @@ export default function MathRushPrivacyPolicy() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 4. How we use information
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 We use information for legitimate purposes such as:
               </p>
-              <ul className="list-disc pl-6 mb-4 text-gray-700">
+              <ul className="list-disc pl-6 mb-4 text-text-secondary">
                 <li>Providing, maintaining, and improving the Game;</li>
                 <li>
                   Displaying leaderboards and related Play Games features when you
@@ -150,10 +150,10 @@ export default function MathRushPrivacyPolicy() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 5. Sharing
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 We do not sell your personal information. Data may be processed by{' '}
                 <strong>Google</strong> (hosting, distribution, Play Games
                 Services, analytics or crash reporting as configured for the app)
@@ -164,10 +164,10 @@ export default function MathRushPrivacyPolicy() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 6. Retention
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 Retention depends on the systems involved (for example Google Play
                 Games leaderboard data is subject to Google’s retention practices).
                 Locally stored data on your device is under your control and may be
@@ -176,10 +176,10 @@ export default function MathRushPrivacyPolicy() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 7. Children’s privacy
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 The Game is intended for players <strong>13+</strong>. We do not
                 knowingly collect personal information from anyone under 13 except
                 where allowed by law and the platform. If you believe we have
@@ -191,10 +191,10 @@ export default function MathRushPrivacyPolicy() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 8. International users
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 Your information may be processed in countries where Google or its
                 subprocessors operate. Those transfers are subject to Google’s
                 terms and safeguards as described in Google’s privacy documentation.
@@ -202,10 +202,10 @@ export default function MathRushPrivacyPolicy() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 9. Your choices and rights
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 Depending on your region, you may have rights to access, correct,
                 delete, or restrict certain processing of personal data. You can
                 manage many Google-related settings in your Google Account and in
@@ -216,10 +216,10 @@ export default function MathRushPrivacyPolicy() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 10. Changes to this Policy
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 We may update this Privacy Policy from time to time. The “Last
                 updated” date at the top will change when we do. Continued use of
                 the Game after changes constitutes acceptance of the updated
@@ -228,10 +228,10 @@ export default function MathRushPrivacyPolicy() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">
                 11. Contact
               </h2>
-              <p className="text-gray-700 mb-4">
+              <p className="text-text-secondary mb-4">
                 For privacy questions about{' '}
                 <strong>Math Rush: Sphinx Challenge</strong>, contact the developer
                 using the support email or link shown on the app’s Google Play
@@ -240,12 +240,12 @@ export default function MathRushPrivacyPolicy() {
             </section>
           </div>
 
-          <div className="mt-12 pt-8 border-t border-gray-200 text-center text-gray-500 text-sm">
+          <div className="mt-12 pt-8 border-t border-border text-center text-text-muted text-sm">
             <p>© Math Rush: Sphinx Challenge</p>
             <p className="mt-2">
               <Link
                 href="/math-rush/terms"
-                className="text-blue-600 hover:text-blue-800 underline"
+                className="text-accent hover:text-accent-dark underline"
               >
                 Terms of Service
               </Link>
