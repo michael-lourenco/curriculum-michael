@@ -15,8 +15,9 @@ export function CampaignSection() {
   return (
     <WikiSection id="campanha" title="Campanha">
       <p className="text-text-secondary mb-4">
-        A <strong>Campanha do Aprendiz</strong> percorre 10 mapas com 50 fases cada — total de{' '}
-        <strong>500 fases</strong>. O tier global de dificuldade é calculado como{' '}
+        A campanha <strong>Ascensão de Nix</strong> percorre 10 mapas com 50 fases cada — total de{' '}
+        <strong>500 fases</strong> no catálogo. O release base libera os mapas 1–4. O tier global
+        de dificuldade é calculado como{' '}
         <code className="text-sm bg-surface-hover px-1 rounded">
           (mapIndex − 1) × 50 + phaseNumber
         </code>

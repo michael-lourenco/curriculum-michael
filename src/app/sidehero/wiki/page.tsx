@@ -68,7 +68,7 @@ export default function SideHeroWikiPage() {
             <CampaignSection />
 
             <footer className="mt-12 pt-8 border-t border-border text-center text-text-muted text-sm">
-              <p>© 2025 Michael Lourenço — Side Hero</p>
+              <p>© 2026 Michael Lourenço — Side Hero</p>
               <p className="mt-2">
                 <Link
                   href="/sidehero/privacy"

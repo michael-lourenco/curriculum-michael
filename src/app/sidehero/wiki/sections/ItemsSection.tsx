@@ -32,12 +32,13 @@ export function ItemsSection() {
       />
 
       <h3 className="text-lg font-semibold text-text-primary mb-3">Geração de stats primários</h3>
-      <FormulaBlock>{`base = floor((2 + floor(stage/2) + statBump) × lootPrimaryStatScale(tier))
-lootPrimaryStatScale = 1 + min(0,35, (tier−1)×0,003)
+      <FormulaBlock>{`base = floor(gearPrimaryStatBase(itemLevel) × lootPrimaryStatScale(itemLevel) × bump)
+gearPrimaryStatBase(L) = floor(6 + L×3,5 + L²×0,38)
+lootPrimaryStatScale(L) = 1 + L^1,28 × 0,016
 
-Arma:       ATK = floor(base × mult)
-Armadura:   DEF = floor(base × mult)
-Acessório:  HP  = floor(base × mult × 3)`}</FormulaBlock>
+Arma:       ATK = floor(base × multRaridade)
+Armadura:   DEF = floor(base × multRaridade)
+Acessório:  HP  = floor(base × multRaridade × 3)`}</FormulaBlock>
 
       <h3 className="text-lg font-semibold text-text-primary mb-3">Resistências no loot</h3>
       <WikiTable
@@ -59,9 +60,9 @@ Acessório:  HP  = floor(base × mult × 3)`}</FormulaBlock>
       <WikiTable
         headers={['Slot', 'Bônus possíveis']}
         rows={[
-          ['Arma', '+attack speed · +crit chance'],
-          ['Acessório', '+cast speed · +crit chance · +crit damage'],
-          ['Armadura', 'Sem stats secundários ofensivos'],
+          ['Arma', '+attack speed · +crit chance · +dano elemental/% · +CDR'],
+          ['Acessório', '+cast speed · +crit chance · +crit damage · resists'],
+          ['Armadura', 'Resists e defesa avançada em raridades altas'],
         ]}
       />
 
@@ -96,17 +97,32 @@ Acessório:  HP  = floor(base × mult × 3)`}</FormulaBlock>
         </p>
       </InfoCard>
 
-      <h3 className="text-lg font-semibold text-text-primary mb-3">Loja</h3>
+      <h3 className="text-lg font-semibold text-text-primary mb-3">Baú de itens e Forja Divina</h3>
+      <p className="text-text-secondary mb-3">
+        O <strong>baú</strong> (stash) guarda gear extra com capacidade definida pela árvore de
+        melhorias. A <strong>Forja Divina</strong> lista itens do inventário e do baú. Após
+        comprá-la, a árvore de Runas libera o{' '}
+        <a href="#reset-pontos" className="text-[#e94560] hover:underline">
+          Reset de pontos
+        </a>{' '}
+        (devolver pontos ao saldo de Aprimoramento).
+      </p>
       <WikiTable
-        headers={['Slot', 'Raridade', 'Preço base']}
+        headers={['Ação', 'Regra']}
         rows={[
-          ['Arma', 'Common', '25 + (stage−1)×5 ouro'],
-          ['Armadura', 'Rare', '55 + (stage−1)×8 ouro'],
-          ['Acessório', 'Epic', '110 + (stage−1)×12 ouro'],
+          ['Fundir', '9 itens da mesma raridade → 1 da raridade seguinte (mythic não funde)'],
+          ['Destruir', '1 item → ouro; lendários únicos não podem ser destruídos'],
+          ['Limpar seleção', 'Botão no dock remove todos os itens selecionados de uma vez'],
         ]}
       />
-      <p className="text-text-secondary">
-        Renovar loja: <strong>15 + (stage−1)×5</strong> ouro.
+      <FormulaBlock>{`ouroSalvage = floor(BASE[rarity] × (1 + floor(stage/10)×0,15))
+BASE: common 10 · uncommon 25 · rare 60 · epic 150 · legendary 400 · mythic 1000`}</FormulaBlock>
+
+      <h3 className="text-lg font-semibold text-text-primary mb-3">Loja</h3>
+      <p className="text-text-secondary mb-3">
+        A loja oferece <strong>8 ofertas procedurais</strong> por renovação (slot, raridade e preço
+        derivados da economia de referência e do progresso). Renovar consome ouro conforme o
+        estágio e o limite de renovações da árvore de melhorias.
       </p>
     </WikiSection>
   );

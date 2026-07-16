@@ -26,8 +26,8 @@ export function OverviewSection() {
               <strong>Party ativa:</strong> até 3 heróis; reserva ganha 50% do XP de bosses
             </li>
             <li>
-              <strong>Campanha:</strong> 10 mapas × 50 fases = 500 fases na Campanha do
-              Aprendiz
+              <strong>Campanha:</strong> Ascensão de Nix — 10 mapas × 50 fases (500 tiers). Release
+              base libera os 4 primeiros mapas (Stendra → Morthaven).
             </li>
             <li>
               <strong>Progresso:</strong> salvo localmente no navegador (
@@ -42,13 +42,23 @@ export function OverviewSection() {
           headers={['Sistema', 'Descrição']}
           rows={[
             ['Combate idle', 'Batalhas contínuas por timers de ação; avança em segundo plano com upgrade'],
-            ['Campanha', 'Ondas de inimigos por fase; marcos especiais a cada X-50 de cada mapa'],
-            ['Heróis', 'XP, níveis, atributos (STR/DEX/INT), árvore de skills e ascensão no nv. 10+'],
-            ['Equipamento', '3 slots ativos (arma, armadura, acessório); 6 raridades; resistências e defesa no loot'],
-            ['Combate elemental', 'Skills multi-elemento, DOT, float colorido, resistências na ficha'],
+            ['Campanha', 'Mapa-mundo + região; ondas por fase; marcos handcrafted em X-50'],
+            [
+              'Heróis',
+              'XP, níveis, STR/DEX/INT, Aprimoramento único (classe + evolução), ascensões e aba Status',
+            ],
+            ['Equipamento', '3 slots ativos; 6 raridades; resistências, defesa e bônus ofensivos no loot'],
+            ['Combate elemental', 'Skills multi-elemento, DOT mitigado, float colorido, resists na ficha'],
             ['Baús', 'Loot procedural de monstros, bosses e bosses de capítulo'],
-            ['Loja', '3 ofertas fixas (arma comum, armadura rara, acessório épico) com renovação'],
-            ['Upgrades', 'Árvore de melhorias: auto-batalha 2x/3x, auto-abrir baús, auto-equipar, stash'],
+            ['Loja', '8 ofertas procedurais por renovação (economia de referência + raridade)'],
+            ['Baú de itens', 'Stash com capacidade por melhoria; inventário ↔ baú'],
+            ['Forja Divina', 'Fundir 9 itens da mesma raridade → 1 superior; destruir por ouro; limpar seleção'],
+            [
+              'Reset de pontos',
+              'Árvore de Runas (após Forja): devolver Aprimoramento (atributos + skills de classe/evolução) — unitário (−) ou em massa — sem desfazer a classe',
+            ],
+            ['Achievements', 'Progresso persistente separado do save de campanha; first clear 1-1'],
+            ['Upgrades', 'Árvore de melhorias: auto-batalha, baús, stash, forja, reset de pontos, desbloqueio de heróis'],
             ['Repetição', 'Fases já cleared: 50% ouro, 75% XP; baús só na 1ª conclusão'],
           ]}
         />
